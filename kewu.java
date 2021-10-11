@@ -9,5 +9,6 @@ public class kewu{
         good.a=6;
         System.out.println(good.a);
     }
+    
 }
 
