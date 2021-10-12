@@ -2,8 +2,12 @@ public class Person {
     private double salary;
     public String name;
     private int age;
-    public Person(){}
+
+    public Person(){
+        System.out.println("kewua");
+    }
     public Person(double salary, String name, int age) {
+        //this();
         this.salary = salary;
         this.name = name;
         this.age = age;

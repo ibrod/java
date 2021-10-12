@@ -7,8 +7,10 @@ import PG.ah;
 class azhe{
      public int kkkwu;
      static int asd=456;
+        int jkk=7894511;
      void fdsf(String[] args) {
         ah.pf();
+        
         kkkwu=666;
         ah good=new ah();
         kkkwu=6796;
