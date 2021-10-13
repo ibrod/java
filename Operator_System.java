@@ -1,4 +1,4 @@
-import java.net.CacheResponse;
+
 import java.util.*;
 
 class goods {
@@ -53,7 +53,7 @@ class goods {
 class Service {
     goods goods_heap[];
     private double sales_volume = 0;
-    int idx = 0;// 表示商品指针
+    int idx = -1;// 表示商品指针
 
     Service(int cap) {// 初始化商品要提供商品仓库的大小，也就是说可以容纳的商品数量
         sales_volume = 0;
@@ -73,10 +73,21 @@ class Service {
     }
 
     public void add(String name, double price, String info) {// 添加商品
+        idx++;
+        if (idx >= goods_heap.length) {//如果仓库空间不够，则使用类似于C++ vector的方式进行扩容,只是这里拷贝的是地址 , 与C++的vector机制略微有些不同 
+            goods temp[] = new goods[3 * goods_heap.length];
+            for (int i = 0; i < goods_heap.length; i++) {
+                temp[i] = goods_heap[i];
+            }
+            for (int i = goods_heap.length; i < 3 * goods_heap.length; i++) {
+                temp[i] = new goods();
+            }
+            goods_heap=temp;
+        }
+
         goods_heap[idx].name = name;
         goods_heap[idx].price = price;
         goods_heap[idx].info = info;
-        idx++;
     }
 
     public void showGoods(String bl) {
@@ -108,7 +119,7 @@ class Service {
 
     void show_Sales_volume() {
         java.util.Date date = new java.util.Date();
-        System.out.println("当前时间:" + date.getTime());
+        System.out.println("当前时间:" + date);
         System.out.println("营业额为:" + sales_volume);
     }
 
@@ -143,6 +154,7 @@ public class Operator_System {
         System.out.println("你已进入控制台，请输入命令,如需帮助，请输入help按下回车：");
         Scanner sc = new Scanner(System.in);
         while (true) {
+            System.out.print(">>>");
             command = sc.next();
             switch (command) {
                 case "exit":
@@ -158,26 +170,26 @@ public class Operator_System {
                     break;
                 case "show":
                     String name = sc.next();
-                    if(name.equals("all")){
+                    if (name.equals("all")) {
                         sv.showGoods("ALL");
-                    }else if(name.equals("sales_volume")){
+                    } else if (name.equals("sales_volume")) {
                         sv.show_Sales_volume();
-                    }else{
+                    } else {
                         sv.showGoods(name);
                     }
                     break;
                 case "sell":
-                    command=sc.next();
-                    int ts=sc.nextInt();
+                    command = sc.next();
+                    int ts = sc.nextInt();
                     sv.sell(command, ts);
                     break;
                 case "set":
-                    command=sc.next();
-                    int st=sc.nextInt();
+                    command = sc.next();
+                    int st = sc.nextInt();
                     sv.setStatus(command, st);
                     break;
                 case "check":
-                    command=sc.next();
+                    command = sc.next();
                     sv.getStatus(command);
                     break;
                 default:
@@ -188,7 +200,7 @@ public class Operator_System {
     }
 
     static void get_help() {
-        System.out.println("添加商品: add [商品名] [商品描述] [商品价格]");
+        System.out.println("添加商品(描述中的空格请用下划线替代): add [商品名] [商品描述] [商品价格]");
         System.out.println("显示所有商品信息: show all");
         System.out.println("显示某件商品信息：show [商品名]");
         System.out.println("卖出某件商品:sell [商品名] [卖出的数量]");
