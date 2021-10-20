@@ -5,6 +5,7 @@ public class Main {
         help.add("帮助 : help");
         help.add("退出 : exit");
     }
+
     public static void main(String[] args) {
         init();
         String command;
@@ -24,6 +25,7 @@ public class Main {
         }
 
     }
+    
     static void get_help(){
         
     }

@@ -1,8 +1,5 @@
 import java.util.*;
 import PG.ah;
-/*
-    
-*/
 
 class azhe{
      public int kkkwu;
