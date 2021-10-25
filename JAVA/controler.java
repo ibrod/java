@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 class Person {
     protected double salary;
     protected String name;
@@ -152,6 +154,20 @@ class Staff extends Person {
 
 public class controler {
     public static void main(String[] args) {
+        Teacher tc=new Teacher();
+        Staff stf=new Staff();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("请输入职称:");
+        String title=sc.next();
+        tc.setTitle(title);
+        System.out.println("请输入课时");
+        int ts=sc.nextInt();
+        tc.setTeacherint_hours(ts);
+        tc.pay();
 
+        System.out.println("现计算公职人员工资,请输入职称:");
+        title=sc.next();
+        stf.setPosition(title);
+        stf.pay();
     }
 };
