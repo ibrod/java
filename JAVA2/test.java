@@ -9,5 +9,4 @@ public class test {
     public static void show(goods gds){
         gds.get_price();
     }
-
 }
