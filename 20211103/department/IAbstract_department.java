@@ -7,6 +7,6 @@ public interface IAbstract_department{
     void del(String name);
     void rst();
     void editx(String name,int salary,int extra,String addtion);
-    void ads(String name);
-    void showstaff(String name);
+    void ads(String name,int extra);
+    boolean showstaff(String name);
 }

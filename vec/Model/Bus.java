@@ -19,7 +19,6 @@ public class Bus extends MotoVehicle {
 		
 	}
 
-
 	@Override
 	public float calRent(int days) {
 		float price = this.getRantPerDay()*days;
@@ -34,7 +33,4 @@ public class Bus extends MotoVehicle {
 		}
 		return price;
 	}
-
-	
-	
 }

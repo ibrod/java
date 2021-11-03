@@ -17,12 +17,48 @@ public class Trainee_department implements IAbstract_department {
     public void rst(){
         System.out.println("实习部门目前人数为:"+idx);
     }
+    
+    public void ads(String name,int extra){
+        int pos = -1;
+        for (int i = 0; i < idx; i++) {
+            if (trainee[i].getName().equals(name)) {
+                pos = i;
+                break;
+            }
+        }
+
+        if (pos == -1) {
+            System.out.println("查无此人");
+        } else {
+            trainee[pos].setExtra(extra);
+            System.out.println("调整成功!");
+        }
+    }
+
+    public boolean showstaff(String name){
+        int pos = -1;
+        for (int i = 0; i < idx; i++) {
+            if (trainee[i].getName().equals(name)) {
+                pos = i;
+                break;
+            }
+        }
+
+        if (pos == -1) {
+            return false;
+        } else {
+            int i=pos;
+            System.out.println("姓名:" + trainee[i].getName() + " 部门:实习部" + " 年薪:" + trainee[i].getSalary()
+            + " 额外工资(奖金,加班费，额外补贴等):" + trainee[i].getExtra() + " 实习期:" + trainee[i].getPoi());
+        }
+        return true;
+    }
 
 
     public void del(String name){
         int pos=-1;
         for(int i=0;i<idx;i++){
-            if(trainee[idx].getName().equals(name)){
+            if(trainee[i].getName().equals(name)){
                 pos=idx;
                 break;
             }
@@ -44,7 +80,7 @@ public class Trainee_department implements IAbstract_department {
         int pos = -1;
         for (int i = 0; i < idx; i++) {
             if (trainee[idx].getName().equals(name)) {
-                pos = idx;
+                pos = i;
                 break;
             }
         }
@@ -52,9 +88,9 @@ public class Trainee_department implements IAbstract_department {
         if (pos == -1) {
             System.out.println("查无此人,修改失败");
         } else {
-            trainee[idx].setSalary(salary);
-            trainee[idx].setExtra(extra);
-            trainee[idx].setPoi(Integer.parseInt(addtion));
+            trainee[pos].setSalary(salary);
+            trainee[pos].setExtra(extra);
+            trainee[pos].setPoi(Integer.parseInt(addtion));
             System.out.println("修改成功");
         }
     }
