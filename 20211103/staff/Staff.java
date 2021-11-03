@@ -2,11 +2,19 @@ package staff;
 
 public class Staff {
     protected String name;
-    protected int salary;
-    protected int department;// 1表示实习部，2表示开发部，3表示管理部
-
+    protected int salary=0;
+    protected int department=0;// 1表示实习部，2表示开发部，3表示管理部
+    protected int extra=0;//额外工资
     public String getName() {
         return name;
+    }
+
+    public int getExtra() {
+        return extra;
+    }
+
+    public void setExtra(int extra) {
+        this.extra = extra;
     }
 
     public Staff(String name, int department) {
