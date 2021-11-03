@@ -1,9 +1,9 @@
 package staff;
 
 public class Staff {
-    private String name;
-    private int salary;
-    private int department;// 1表示实习部，2表示开发部，3表示管理部
+    protected String name;
+    protected int salary;
+    protected int department;// 1表示实习部，2表示开发部，3表示管理部
 
     public String getName() {
         return name;
