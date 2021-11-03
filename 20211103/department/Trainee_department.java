@@ -58,7 +58,7 @@ public class Trainee_department implements IAbstract_department {
         int pos = -1;
         for (int i = 0; i < idx; i++) {
             if (trainee[i].getName().equals(name)) {
-                pos = idx;
+                pos = i;
                 break;
             }
         }
