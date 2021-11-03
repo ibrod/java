@@ -70,10 +70,17 @@ public class Controler {
                 ram1 = sc.next();
                 show(ram1);
                 break;
+            case "ups":
+                ram1 = sc.next();
+                ups(ram1);
+                break;
+            case "ap":
+                ram1 = sc.next();
+                ap(ram1);
+                break;
             default:
                 System.out.println("输入错误,请重新输入");
             }
-            sc.close();
         }
     }
 
