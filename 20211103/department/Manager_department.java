@@ -17,7 +17,8 @@ public class Manager_department implements IAbstract_department {
     public void rst() {
         System.out.println("管理部门目前人数为:" + idx);
     }
-    public boolean showstaff(String name){
+
+    public boolean showstaff(String name) {
         int pos = -1;
         for (int i = 0; i < idx; i++) {
             if (manager[i].getName().equals(name)) {
@@ -29,14 +30,14 @@ public class Manager_department implements IAbstract_department {
         if (pos == -1) {
             return false;
         } else {
-            int i=pos;
+            int i = pos;
             System.out.println("姓名:" + manager[i].getName() + " 部门:管理部" + " 年薪:" + manager[i].getSalary()
                     + " 额外工资(奖金,加班费，额外补贴等):" + manager[i].getExtra() + " 经理助理：" + manager[i].getSn());
         }
         return true;
     }
 
-    public boolean ap(String name){
+    public boolean ap(String name) {
         int pos = -1;
         for (int i = 0; i < idx; i++) {
             if (manager[i].getName().equals(name)) {
@@ -48,13 +49,13 @@ public class Manager_department implements IAbstract_department {
         if (pos == -1) {
             return false;
         } else {
-            manager[pos].setExtra(manager[pos].getExtra()+100000);
+            manager[pos].setExtra(manager[pos].getExtra() + 100000);
             System.out.println("评优成功,获得奖金(额外工资)数目:10w。");
         }
         return true;
     }
 
-    public boolean ups(String name){
+    public boolean ups(String name) {
         int pos = -1;
         for (int i = 0; i < idx; i++) {
             if (manager[i].getName().equals(name)) {
@@ -66,13 +67,13 @@ public class Manager_department implements IAbstract_department {
         if (pos == -1) {
             return false;
         } else {
-            manager[pos].setSalary(manager[pos].getSalary()*2);
-            System.out.println("晋升成功,薪水提高至以前的2倍。"+"姓名:"+name+" 当前薪水:"+manager[pos].getSalary());
+            manager[pos].setSalary(manager[pos].getSalary() * 2);
+            System.out.println("晋升成功,薪水提高至以前的2倍。" + "姓名:" + name + " 当前薪水:" + manager[pos].getSalary());
         }
         return true;
     }
 
-    public void ads(String name,int extra){
+    public void ads(String name, int extra) {
         int pos = -1;
         for (int i = 0; i < idx; i++) {
             if (manager[i].getName().equals(name)) {

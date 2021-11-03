@@ -73,6 +73,7 @@ public class Controler {
             default:
                 System.out.println("输入错误,请重新输入");
             }
+            sc.close();
         }
     }
 
@@ -111,12 +112,12 @@ public class Controler {
 
     }
 
-    static void ups(String name){
+    static void ups(String name) {
         boolean flag = false;
-        if(((Programmer_department)dep[2]).ups(name)){
+        if (((Programmer_department) dep[2]).ups(name)) {
             flag = true;
         }
-        if(((Manager_department)dep[3]).ups(name)){
+        if (((Manager_department) dep[3]).ups(name)) {
             flag = true;
         }
         if (!flag) {
@@ -124,11 +125,12 @@ public class Controler {
         }
     }
 
-    static void ap(String name){
-        if(!(((Manager_department)dep[3]).ap(name))){
+    static void ap(String name) {
+        if (!(((Manager_department) dep[3]).ap(name))) {
             System.out.println("只有管理人员可以评优");
         }
     }
+
     static void get_help() {
         System.out.println("帮助: help");
         System.out.println("列出所有部门及其部门编号: listdep");
