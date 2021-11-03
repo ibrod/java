@@ -8,5 +8,5 @@ public interface IAbstract_department{
     void rst();
     void editx(String name,int salary,int extra,String addtion);
     void ads(String name);
-    void searchstaff(String name);
+    void showstaff(String name);
 }
