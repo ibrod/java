@@ -1,0 +1,10 @@
+public class Usbfan implements IUSB {
+
+    @Override
+    public void service() {
+        // TODO Auto-generated method stub
+        System.out.println("UsbFan");
+        
+    }
+    
+}
