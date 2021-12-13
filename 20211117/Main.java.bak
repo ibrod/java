@@ -1,6 +1,7 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+<<<<<<< HEAD
 
 public class Main {
     public static String[] wk = new String[7];
@@ -16,5 +17,11 @@ public class Main {
         long mytime = d1.getTime()-d.getTime();
         long myday = mytime/(24*3600*1000);
         System.out.println("我已经活了:" +myday+" 天");
+
+=======
+public class Main{
+    public static void main(String[] args) {
+        
+>>>>>>> 0e7b9e521b1b29b5ce67b2f9b81f1e41aad782d2
     }
 }
