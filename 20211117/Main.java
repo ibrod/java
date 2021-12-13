@@ -1,25 +1,22 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Main {
     public static String[] wk = new String[7];
     public static int[] mt = new int[13];
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         init();
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH) + 1;
-        if (month == 2 && pd(year)) {
-            pfm(cal.get(Calendar.DAY_OF_WEEK), 29);
-        } else {
-            // System.out.println("year"+year);
-            // System.out.println("month"+month);
-            // System.out.println("day"+day);
-            // System.out.println(cal.get(Calendar.DAY_OF_WEEK));
-            //System.out.println(getwek(year, month, 1));
+        Date d = new Date(101,9,20);
+        SimpleDateFormat sdf = new SimpleDateFormat("EE");
+        String str = sdf.format(d);
+        System.out.println("我出生的那天是:"+str);
+        Date d1 = new Date();
+        long mytime = d1.getTime()-d.getTime();
+        long myday = mytime/(24*3600*1000);
+        System.out.println("我已经活了:" +myday+" 天");
 
-            pfm(getwek(year, month, 1), mt[month]);
-        }
     }
 
     public static void init() {
