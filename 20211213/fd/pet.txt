@@ -1,0 +1,4 @@
+Hello!
+PetName:{$name}
+PetAge:{$age}
+PetColor:{$color}

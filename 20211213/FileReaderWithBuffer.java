@@ -5,7 +5,7 @@ public class FileReaderWithBuffer {
     public static void main(String[] args) {
         try {
             // Create a file
-            File file = new File("./fd/test.txt");
+            File file = new File("./test.txt");
             // Create a file reader
             FileReader fr = new FileReader(file);
             // Create a buffer
