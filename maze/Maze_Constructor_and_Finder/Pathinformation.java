@@ -3,11 +3,11 @@ package Maze_Constructor_and_Finder;
 
 public class Pathinformation {
     
-    public Pathinformation(int x, int y, int distance, StringBuffer dir) {
+    public Pathinformation(int x, int y, int distance, StringBuffer path) {
         this.x = x;
         this.y = y;
         this.distance = distance;
-        this.dir = dir;
+        this.path = path;
     }
     
     public Pathinformation(int x, int y, int distance) {
@@ -21,8 +21,8 @@ public class Pathinformation {
         this.y = y;
     }
 
-    int x;
-    int y;
-    int distance;
-    StringBuffer dir;
+    public int x;
+    public int y;
+    public int distance;
+    public StringBuffer path;
 }
