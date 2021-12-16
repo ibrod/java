@@ -8,7 +8,7 @@ public class Generator {
     public static char dr[] = { 'U', 'D', 'L', 'R' };
     public static char blocktype[] = { '┼', '─', '─', '─', '│', '┌', '┐', '┬', '│', '└', '┘', '┴', '│', '├', '┤', '┼' };
 
-    // 用二进制表示法预处理障碍物之间的连接关系，四位数，0表示无连接，1表示有连接，四位数从左到右依次为上下左右的连接情况
+    // 用二进制表示法表示障碍物之间的连接关系，四位数，0表示无连接，1表示有连接，四位数从左到右依次为上下左右的连接情况
     public static StringBuffer[] blank_create(int n, int m, char block, char road) { // create blank map
         StringBuffer[] mp = new StringBuffer[n];
         for (int i = 0; i < n; i++) {
