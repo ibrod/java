@@ -24,7 +24,7 @@ public class Finder {
             for (int i = 0; i < 4; i++) {
                 int nx = temp.x + addx[i];
                 int ny = temp.y + addy[i];
-                if (nx >= 0 && nx < n && ny >= 0 && ny < n && !visited[nx][ny] && mp[nx].charAt(ny) == road) {
+                if (nx >= 0 && nx < n && ny >= 0 && ny < n && !visited[nx][ny] && mp[nx].charAt(ny) != block) {
                     visited[nx][ny] = true;
                     temp.dir.append(dr[i]);
                     q.add(new Pathinformation(nx, ny, temp.distance + 1, temp.dir));

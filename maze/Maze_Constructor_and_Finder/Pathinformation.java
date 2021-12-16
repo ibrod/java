@@ -9,6 +9,18 @@ public class Pathinformation {
         this.distance = distance;
         this.dir = dir;
     }
+    
+    public Pathinformation(int x, int y, int distance) {
+        this.x = x;
+        this.y = y;
+        this.distance = distance;
+    }
+
+    public Pathinformation(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     int x;
     int y;
     int distance;
