@@ -6,7 +6,7 @@ import Maze_Constructor_and_Finder.Tools;
 public class Main {
     public static void main(String[] args) throws Exception {
         Tools.clear_screen();
-        int n = 43;
+        int n = 30;
         int m = 170;
         Generator g = new Generator();
         StringBuffer[] mp = g.dfs_create(n, m);

@@ -81,6 +81,7 @@ public class Finder {
             x=ax;
             y=ay;
             Tools.clear_screen();
+            System.out.println("按任意键进行下一步演示...");
             Tools.pf_map(mp, n, m);
             Tools.pfpasue();
         }
