@@ -47,4 +47,45 @@ public class Finder {
         }
         return null;// not found
     }
+
+    private int convert(char ch){
+        if(ch=='U') return 0;
+        if(ch=='D') return 1;
+        if(ch=='L') return 2;
+        return 3;
+    }
+
+    public void instruct(StringBuffer mp[], int n, int m) throws Exception {
+        int sx = 0, sy = 0, ex = 0, ey = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (mp[i].charAt(j) == '●') {
+                    sx = i;
+                    sy = j;
+                } else if (mp[i].charAt(j) == '$') {
+                    ex = i;
+                    ey = j;
+                }
+            }
+        }
+        Pathinformation p=find(mp,n,m);
+        Tools.clear_screen();
+        int x=sx,y=sy;
+        int ax,ay;
+        for(int k=0;k<p.path.length();k++){
+            ax=x+addx[convert(p.path.charAt(k))];
+            ay=y+addy[convert(p.path.charAt(k))];
+            char ch=mp[x].charAt(y);
+            mp[x].setCharAt(y, mp[ax].charAt(ay));
+            mp[ax].setCharAt(ay, ch);
+            x=ax;
+            y=ay;
+            Tools.clear_screen();
+            Tools.pf_map(mp, n, m);
+            Tools.pfpasue();
+        }
+
+    }
+
+
 }
