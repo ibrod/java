@@ -13,7 +13,7 @@ public class Finder {
 
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
-                if (mp[i].charAt(j) == '●') {
+                if (mp[i].charAt(j) == '@') {
                     sx = i;
                     sy = j;
                 } else if (mp[i].charAt(j) == '$') {
@@ -59,7 +59,7 @@ public class Finder {
         int sx = 0, sy = 0, ex = 0, ey = 0;
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
-                if (mp[i].charAt(j) == '●') {
+                if (mp[i].charAt(j) == '@') {
                     sx = i;
                     sy = j;
                 } else if (mp[i].charAt(j) == '$') {
@@ -72,7 +72,7 @@ public class Finder {
         Tools.clear_screen();
         int x=sx,y=sy;
         int ax,ay;
-        for(int k=0;k<p.path.length();k++){
+        for(int k=0;k<p.path.length()-1;k++){
             ax=x+addx[convert(p.path.charAt(k))];
             ay=y+addy[convert(p.path.charAt(k))];
             char ch=mp[x].charAt(y);
@@ -85,8 +85,12 @@ public class Finder {
             Tools.pf_map(mp, n, m);
             Tools.pfpasue();
         }
-
+        instruct_end();
     }
-
-
+    public void instruct_end(){
+        Tools.clear_screen();
+        System.out.println("演示结束，学会了吗？");
+        System.out.println("按任意键继续...");
+        Tools.pfpasue();
+    }
 }

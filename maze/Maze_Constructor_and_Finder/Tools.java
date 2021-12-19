@@ -19,8 +19,13 @@ public class Tools {
         }
     }
 
+    public static void win(){
+        System.out.println("恭喜你，挑战成功!");
+        System.out.println("按任意键继续...");
+        pfpasue();
+    }
+
     public static void pfpasue() {
-        //System.out.println("Press any key to continue...");
         try {
             new ProcessBuilder("cmd", "/c", "pause>nul").inheritIO().start().waitFor();
         } catch (Exception e) {}

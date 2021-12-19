@@ -221,7 +221,7 @@ public class Generator {
                 }
             }
         }
-        mp[sx].setCharAt(sy, '●');
+        mp[sx].setCharAt(sy, '@');
         mp[ex].setCharAt(ey, '$');
         return mp;
     }
