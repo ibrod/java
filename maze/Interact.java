@@ -12,7 +12,7 @@ public class Interact {
     // 上下左右
     public static char dr[] = { 'U', 'D', 'L', 'R' };
 
-    public void interactive_interface() throws Exception {
+    public void interactive_interface() {
         while (true) {
             Tools.clear_screen();
             System.out.println("欢迎来到走迷宫游戏！");
@@ -25,17 +25,26 @@ public class Interact {
             System.out.print(">>>");
             Scanner sc = new Scanner(System.in);
             String input = sc.next();
-            if (input.equals("1")) {
-                normal_mode();
-            } else if (input.equals("2")) {
-                random_mode();
-            } else if (input.equals("3")) {
-                custom_mode();
-            } else if (input.equals("4")) {
-                sc.close();
-                return;
-            } else {
-                System.out.println("输入错误，请重新输入！");
+            try {
+                if (input.equals("1")) {
+                    normal_mode();
+                } else if (input.equals("2")) {
+                    random_mode();
+                } else if (input.equals("3")) {
+                    custom_mode();
+                } else if (input.equals("4")) {
+                    sc.close();
+                    return;
+                } else {
+                    System.out.println("输入错误，请重新输入！");
+                    System.out.println("按任意键继续...");
+                    //sc.close();
+                    Tools.pfpasue();
+                    interactive_interface();
+                    return;
+                }
+            } catch (Exception e) {
+                System.out.println("发生错误");
                 System.out.println("按任意键继续...");
                 sc.close();
                 Tools.pfpasue();
