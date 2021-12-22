@@ -15,8 +15,7 @@ public class Interact {
     public void interactive_interface() {
         while (true) {
             Tools.clear_screen();
-            System.out.println("欢迎来到走迷宫游戏！");
-            System.out.println("请将当前终端窗口全屏。该游戏使用了部分DOS命令,故对Windows以外的其他平台兼容性不是很好,请使用Windows平台进行该游戏哦！");
+            System.out.println("请将当前终端窗口全屏。该游戏使用了部分DOS命令,故对Windows以外的其他平台兼容性不是很好,请使用Windows平台进行该游戏哦！(建议使用cmder(非常建议),vscode内置终端或者Windows terminal(并非cmd),其他终端不保证有很好的兼容性)");
             System.out.println("请选择游戏模式(输入一个数字(1~4)，然后按回车键):");
             System.out.println("1.指定模式");
             System.out.println("2.随机模式");
