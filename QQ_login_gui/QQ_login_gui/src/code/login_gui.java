@@ -6,6 +6,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 
 public class Login_gui extends Application {
     @Override
@@ -16,6 +17,9 @@ public class Login_gui extends Application {
         label.setStyle("-fx-font-size: 20px; -fx-text-fill: red;");
         label.setTranslateX(-50);
         label.setTranslateY(-50);
+        root.setBackground(new Background(arg0));
+        Image image=new Image("file:src\\loginFrame\\bk.jpg");
+        
         // label.setTranslateZ(50);
         //以上是调整坐标的方法
         label.setText("This label has been changed.");
@@ -29,8 +33,8 @@ public class Login_gui extends Application {
         root.getChildren().add(label);
         root.getChildren().add(circle);
         //create a scene
-        Scene scene = new Scene(root,400,200);
-        stage.setTitle("whatever");
+        Scene scene = new Scene(root,450,350);
+        stage.setTitle("QQ Gui");
         stage.setScene(scene);
         stage.show();
         } catch(Exception e) {
