@@ -3,7 +3,7 @@ import javafx.application.Application;
 import javafx.geometry.Point3D;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.Label;
@@ -24,7 +24,7 @@ public class Gui extends Application {
         // label.setScaleY(0.5);
         // label.setScaleZ(0.5);
         //以上是缩放
-
+        // label.relocate(100, 1);
         Circle circle=new Circle(5,5,5,Color.RED);
         circle.setStroke(Color.BLACK);
         root.getChildren().add(label);
