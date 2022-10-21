@@ -1,10 +1,13 @@
 package code;
 
+import java.beans.EventHandler;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -62,6 +65,24 @@ public class Login_gui extends Application {
             login.setPrefSize(240, 29);
             login.setStyle("-fx-background-color: #00BFFF; -fx-text-fill: #FFFFFF;");
             login.setFont(new javafx.scene.text.Font(15));
+            login.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if(qqnumber.getText().equals("ABC") && password.getText().equals("123456")) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("登录成功");
+                        alert.setHeaderText("登录成功");
+                        alert.setContentText("登录成功");
+                        alert.showAndWait();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("登录失败");
+                        alert.setHeaderText("登录失败");
+                        alert.setContentText("登录失败,密码错误!");
+                        alert.showAndWait();
+                    }
+                }
+            });
 
             //创建一个Pane
             Pane pane = new Pane();
@@ -78,9 +99,6 @@ public class Login_gui extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    public void lc() {
-        start();
     }
     public static void main(String[] args) {
         launch(args);
