@@ -79,6 +79,9 @@ public class Login_gui extends Application {
             e.printStackTrace();
         }
     }
+    public void lc() {
+        start();
+    }
     public static void main(String[] args) {
         launch(args);
     }
