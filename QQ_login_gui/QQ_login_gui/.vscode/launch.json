@@ -6,6 +6,14 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "code.App",
+            "projectName": "QQ_login_gui_5443a5aa",
+            "vmArgs": "--module-path C:\\Users\\e3e64\\Downloads\\javafx-sdk-18.0.2\\lib --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
             "name": "Launch Login_gui",
             "request": "launch",
             "mainClass": "code.Login_gui",
@@ -20,19 +28,5 @@
             "projectName": "QQ_login_gui_5443a5aa",
             "vmArgs": "--module-path C:\\Users\\e3e64\\Downloads\\javafx-sdk-18.0.2\\lib --add-modules javafx.controls,javafx.fxml"
         }
-        // {
-        //     "type": "java",
-        //     "name": "Launch Gui",
-        //     "request": "launch",
-        //     "mainClass": "hellofx.Gui",
-        //     "vmArgs": "--module-path C:\\Users\\e3e64\\Downloads\\javafx-sdk-18.0.2\\lib --add-modules javafx.controls,javafx.fxml"
-        // },
-        // {
-        //     "type": "java",
-        //     "name": "Launch App",
-        //     "request": "launch",
-        //     "mainClass": "hellofx.App",
-        //     "vmArgs": "--module-path C:\\Users\\e3e64\\Downloads\\javafx-sdk-18.0.2\\lib --add-modules javafx.controls,javafx.fxml"
-        // }
     ]
 }
