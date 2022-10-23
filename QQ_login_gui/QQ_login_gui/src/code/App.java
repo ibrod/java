@@ -1,4 +1,10 @@
 package code;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Vector;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.PathTransition;
@@ -8,6 +14,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -19,28 +26,74 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+interface Mysql_controler_DAO2 {
+    public boolean read_data(Vector<Food> arr_food);
+}
+
+class APP_DAO_IMPL implements Mysql_controler_DAO2 {
+    String url = "jdbc:mysql://xiangjie.mysql.rds.aliyuncs.com:3306/restaurant?useSSL=false";
+    String user = "java_lab";
+    String password2 = "Hnist_jk20_2bj";
+    Connection conn;
+    @Override
+    public boolean read_data(Vector<Food> arr_food) {
+        // 1.注册驱动
+        try {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");// 新版本的加载方式
+            } catch (ClassNotFoundException e) {
+                Class.forName("com.mysql.jdbc.Driver");// 旧版本的加载方式
+            }
+        } catch (Exception ee) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库连接失败");
+            alert.setHeaderText("数据库连接失败");
+            alert.setContentText("本数据库使用的是远端数据库，请检查你的互联网连接是否成功!");
+            alert.showAndWait();
+            return false;
+        }
+        try {
+            // 2.获取连接
+            conn = DriverManager.getConnection(url, user, password2);
+            // 3.获取操作数据库的预处理对象
+            PreparedStatement pstm = conn.prepareStatement("select * from menu");
+            // 4.执行SQL语句
+            ResultSet rs = pstm.executeQuery();
+            // 5.遍历结果集
+            while (rs.next()) {
+                Food food = new Food(rs.getInt("id"), rs.getString("name"), rs.getFloat("price"));
+                arr_food.add(food);
+            }
+            // 6.释放资源
+            if (rs != null) {
+                rs.close();
+            }
+            return true;
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库操作失败");
+            alert.setHeaderText("数据库操作失败");
+            alert.setContentText("请检查互联网连接是否正常，或者数据输入是否合法!");
+            alert.showAndWait();
+            return false;
+         } }
+}
 
 public class App extends Application {
 
     ObservableList<String> ob = FXCollections.observableArrayList();// 列表FXCollections
     ObservableList<Food> ob2 = FXCollections.observableArrayList();// 表格FXCollections
 
-    public void init() {// 重写Application的init方法,初始化数据
+    public void init() {// 重写init方法，用于初始化数据
         try {
-            ob.add("鱼香肉丝饭 16元");
-            ob.add("香菇滑鸡饭 18元");
-            ob.add("黑椒牛排饭 20元");
-            ob.add("梅菜扣肉饭 17元");
-            ob.add("糖醋里脊饭 19元");
-            ob.add("红烧排骨饭 17元");
-            ob.add("台式卤肉饭 15元");
-            ob2.add(new Food(1, "鱼香肉丝饭", 16));
-            ob2.add(new Food(2, "香菇滑鸡饭", 18));
-            ob2.add(new Food(3, "黑椒牛排饭", 20));
-            ob2.add(new Food(4, "梅菜扣肉饭", 17));
-            ob2.add(new Food(5, "糖醋里脊饭", 19));
-            ob2.add(new Food(6, "红烧排骨饭", 17));
-            ob2.add(new Food(7, "台式卤肉饭", 15));
+            APP_DAO_IMPL app_dao_impl = new APP_DAO_IMPL();
+            Vector<Food> arr_food = new Vector<Food>();
+            if (app_dao_impl.read_data(arr_food)) {
+                for (int i = 0; i < arr_food.size(); i++) {
+                    ob2.add(arr_food.get(i));
+                    ob.add(arr_food.get(i).getName() + "  " + String.valueOf(arr_food.get(i).getPrice()) + "元");
+                }
+            }
         } catch (Exception e) {
             throw (e);
         }
@@ -51,25 +104,24 @@ public class App extends Application {
         Label welcome = new Label("欢迎使用本系统");
         welcome.relocate(150, 5);
         welcome.setStyle("-fx-font-size: 15px; -fx-text-fill: red;");
-        
-        //创建一个过渡对象
+
+        // 创建一个过渡对象
         FadeTransition ft = new FadeTransition(Duration.millis(500), welcome);
         ft.setFromValue(1.0);
         ft.setToValue(0.0);
         ft.setCycleCount(Animation.INDEFINITE);
         ft.setAutoReverse(true);
         ft.play();
-        
-        //创建移动路径
-        PathTransition pt = new PathTransition(Duration.millis(2000),new Line(-30,5,150,5), welcome);
+
+        // 创建移动路径
+        PathTransition pt = new PathTransition(Duration.millis(2000), new Line(-30, 5, 150, 5), welcome);
         pt.setCycleCount(Animation.INDEFINITE);
         pt.setAutoReverse(true);
         pt.play();
 
-
         // 底部文字显示
         Label label = new Label("已选菜品:");
-        label.relocate(100, 220);
+        label.relocate(80, 220);
         // 列表视图
         ListView<String> list = new ListView<String>();
         list.setPrefSize(400, 190);
@@ -142,9 +194,9 @@ public class App extends Application {
         stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         stage.show();
     }
-    //  public static void main(String[] args) {
-    //     launch(args);
-    // }
-  
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
 }

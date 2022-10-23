@@ -1,4 +1,5 @@
 package code;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,46 +20,55 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 interface Mysql_controler_DAO {
-    public boolean connect(String name, String password);
+    public int connect(String username, String password);
 }
 
-class Dao_impl implements Mysql_controler_DAO {
-    String url = "jdbc:mysql://ag.thod.top:3306/java_test?useSSL=false";
-    String user = "java_test";
+class QQLOGIN_DAO_IMPL implements Mysql_controler_DAO {
+    String url = "jdbc:mysql://xiangjie.mysql.rds.aliyuncs.com:3306/qqdb?useSSL=false";
+    String user = "java_lab";
     String password2 = "Hnist_jk20_2bj";
     @Override
-    public boolean connect(String name, String password) {
-        // 1.注册驱动
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");// 新版本的加载方式
-        } catch (ClassNotFoundException e) {
+    public int connect(String username, String password) {
+        try { // 1.注册驱动
             try {
+                Class.forName("com.mysql.cj.jdbc.Driver");// 新版本的加载方式
+            } catch (ClassNotFoundException e) {
                 Class.forName("com.mysql.jdbc.Driver");// 旧版本的加载方式
-            } catch (Exception ee) {
-                ee.printStackTrace();
             }
+        } catch (Exception ee) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库连接失败");
+            alert.setHeaderText("数据库连接失败");
+            alert.setContentText("本数据库使用的是远端数据库，请检查你的互联网连接是否成功!");
+            alert.showAndWait();
+            return -1;
         }
         try {
             // 2.获取连接
             Connection conn = DriverManager.getConnection(url, user, password2);
             // 3.获取操作数据库的预处理对象
-            PreparedStatement pstm = conn.prepareStatement("select * from QQDB where account=? and password=?");
-            pstm.setString(1, name);
+            PreparedStatement pstm = conn.prepareStatement("select * from users where username=? and password=?");
+            pstm.setString(1, username);
             pstm.setString(2, password);
             // 4.执行SQL语句
             ResultSet rs = pstm.executeQuery();
             // 5.遍历结果集
             if (rs.next()) {
-                return true;
+                return 1;
             }
             // 6.释放资源
             if (rs != null) {
                 rs.close();
             }
+            return 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库操作失败");
+            alert.setHeaderText("数据库操作失败");
+            alert.setContentText("请检查互联网连接是否正常，或者数据输入是否合法!");
+            alert.showAndWait();
+            return -1;
         }
-        return false;
     }
 }
 
@@ -114,8 +124,9 @@ public class Login_gui extends Application {
             login.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    Mysql_controler_DAO dao = new Dao_impl();
-                    if (dao.connect(qqnumber.getText(), password.getText())) {
+                    Mysql_controler_DAO dao = new QQLOGIN_DAO_IMPL();
+                    int val=dao.connect(qqnumber.getText(), password.getText());
+                    if (val==1) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("登录成功");
                         alert.setHeaderText("登录成功");
@@ -128,7 +139,7 @@ public class Login_gui extends Application {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    } else {
+                    } else if(val==0){
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("登录失败");
                         alert.setHeaderText("登录失败");
@@ -160,5 +171,3 @@ public class Login_gui extends Application {
         launch(args);
     }
 }
-
-
