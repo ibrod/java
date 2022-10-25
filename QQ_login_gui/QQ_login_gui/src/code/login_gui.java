@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -23,10 +26,13 @@ interface Mysql_controler_DAO {
     public int connect(String username, String password);
 }
 
+
+
 class QQLOGIN_DAO_IMPL implements Mysql_controler_DAO {
     String url = "jdbc:mysql://xiangjie.mysql.rds.aliyuncs.com:3306/qqdb?useSSL=false";
     String user = "java_lab";
     String password2 = "Hnist_jk20_2bj";
+
     @Override
     public int connect(String username, String password) {
         try { // 1.注册驱动
@@ -125,8 +131,8 @@ public class Login_gui extends Application {
                 @Override
                 public void handle(ActionEvent event) {
                     Mysql_controler_DAO dao = new QQLOGIN_DAO_IMPL();
-                    int val=dao.connect(qqnumber.getText(), password.getText());
-                    if (val==1) {
+                    int val = dao.connect(qqnumber.getText(), password.getText());
+                    if (val == 1) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("登录成功");
                         alert.setHeaderText("登录成功");
@@ -139,7 +145,7 @@ public class Login_gui extends Application {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    } else if(val==0){
+                    } else if (val == 0) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("登录失败");
                         alert.setHeaderText("登录失败");

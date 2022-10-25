@@ -1,18 +1,23 @@
 package code;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -30,11 +35,37 @@ interface Mysql_controler_DAO2 {
     public boolean read_data(Vector<Food> arr_food);
 }
 
+class Clock implements Runnable {
+
+    Label label;
+
+    Clock(Label label) {
+        this.label = label;
+    }
+
+    @Override
+    public void run() {
+        // 设置时间
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        while (true) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            label.setText((String.valueOf(df.format(System.currentTimeMillis()))));
+            // System.out.println(String.valueOf(df.format(System.currentTimeMillis())));
+        }
+    }
+
+}
+
 class APP_DAO_IMPL implements Mysql_controler_DAO2 {
     String url = "jdbc:mysql://xiangjie.mysql.rds.aliyuncs.com:3306/restaurant?useSSL=false";
     String user = "java_lab";
     String password2 = "Hnist_jk20_2bj";
     Connection conn;
+
     @Override
     public boolean read_data(Vector<Food> arr_food) {
         // 1.注册驱动
@@ -76,7 +107,8 @@ class APP_DAO_IMPL implements Mysql_controler_DAO2 {
             alert.setContentText("请检查互联网连接是否正常，或者数据输入是否合法!");
             alert.showAndWait();
             return false;
-         } }
+        }
+    }
 }
 
 public class App extends Application {
@@ -143,7 +175,6 @@ public class App extends Application {
         TableView<Food> table = new TableView<Food>();
         table.setPrefSize(400, 190);
         table.relocate(0, 50);
-
         // 表头
         TableColumn<Food, String> column1 = new TableColumn<Food, String>("序号");
         column1.setCellValueFactory(new PropertyValueFactory<Food, String>("order"));
@@ -186,17 +217,37 @@ public class App extends Application {
             label.setVisible(false);
         });
 
+        //显示时间的控件
+        Label time = new Label();
+        time.relocate(300, 20);
+        time.setPrefSize(100, 30);
+        time.setStyle("-fx-font-size: 10px; -fx-text-fill: red;");
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                time.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            }
+        }), new KeyFrame(Duration.seconds(1)));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+
         Pane pane = new Pane();// 新建pane
-        pane.getChildren().addAll(show_listButton, show_tableButton, list, table, label, welcome);// 将控件加入pane
+        pane.getChildren().addAll(show_listButton, show_tableButton, list, table, label, welcome,time);// 将控件加入pane
 
         stage.setScene(new Scene(pane, 400, 240));
         stage.setTitle("实验二 计科20-2BJ 向杰");
         stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         stage.show();
+        // TimerTask t2 = new TimerTask() {
+        //     public void run() {
+        //         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //         welcome.setText((String.valueOf(df.format(System.currentTimeMillis()))));
+        //     }
+        // };
+        // Timer timer = new Timer();
+        // timer.schedule(t2, 0, 1000);
+    }   
+    public static void main(String[] args) {
+        launch(args);
     }
-
-    // public static void main(String[] args) {
-    //     launch(args);
-    // }
-
 }
