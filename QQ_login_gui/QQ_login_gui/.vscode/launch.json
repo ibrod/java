@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Sms",
+            "request": "launch",
+            "mainClass": "code.Sms",
+            "projectName": "QQ_login_gui_5443a5aa"
+        },
+        {
+            "type": "java",
             "name": "Launch test",
             "request": "launch",
             "mainClass": "code.test",
