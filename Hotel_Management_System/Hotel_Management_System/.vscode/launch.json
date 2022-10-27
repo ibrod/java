@@ -6,11 +6,26 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "Main.Main",
+            "projectName": "Hotel_Management_System_a347466c"
+        },
+        {
+            "type": "java",
+            "name": "Launch HostLogin",
+            "request": "launch",
+            "mainClass": "GUI.Host.HostLogin",
+            "projectName": "Hotel_Management_System_a347466c",
+            "vmArgs": "--module-path C:\\Users\\e3e64\\Downloads\\javafx-sdk-18.0.2\\lib --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
             "name": "Launch FX_PanelSelector",
             "request": "launch",
             "mainClass": "GUI.Selector.FX_PanelSelector",
             "projectName": "Hotel_Management_System_a347466c",
             "vmArgs": "--module-path C:\\Users\\e3e64\\Downloads\\javafx-sdk-18.0.2\\lib --add-modules javafx.controls,javafx.fxml"
-        },
+        }
     ]
 }
