@@ -26,20 +26,34 @@ class Refresh_Control_Panel_Obj implements Runnable {
     Text room_booked;
     Text customer_num;
     Text admin_num;
+    Control_Panel_Dao control_panel_dao;
+    Control_Panel_Obj control_panel_obj;
+
+    Refresh_Control_Panel_Obj(Text room_num, Text room_booked, Text customer_num, Text admin_num) {
+        this.room_num = room_num;
+        this.room_booked = room_booked;
+        this.customer_num = customer_num;
+        this.admin_num = admin_num;
+        control_panel_dao = new Control_Panel_Dao_Impl();
+    }
 
     @Override
     public void run() {
-        //每分钟刷新一次
+        // 每三秒刷新一次
         while (true) {
+            control_panel_obj = control_panel_dao.query();
+            room_num.setText("剩余房间数：" + control_panel_obj.getSurplus());
+            room_booked.setText("已被预定房间数：" + control_panel_obj.getOccupied());
+            customer_num.setText("用户账号总数：" + control_panel_obj.getUser_num());
+            admin_num.setText("管理员账号总数：" + control_panel_obj.getAdmin_num());
+            //System.out.println("刷新了一次");
             try {
-                Thread.sleep(60000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Control_Panel_Dao control_panel_dao = new Control_Panel_Dao_Impl();
-            Control_Panel_Obj control_panel_obj = control_panel_dao.query();
         }
-        
+
     }
 
 }
@@ -99,6 +113,37 @@ public class Control_Panel extends Application {
             }
         });
 
+        // 剩余房间数
+        Text room_num = new Text();
+        room_num.relocate(230, 80);
+        room_num.setStyle(
+                "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");
+
+        // 已被预定房间数
+        Text room_booked = new Text();
+        room_booked.relocate(230, 140);
+        room_booked.setStyle(
+                "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");
+
+        // 用户总数
+        Text customer_num = new Text();
+        customer_num.relocate(230, 200);
+        customer_num.setStyle(
+                "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");
+
+        // 管理员账号总数
+        Text admin_num = new Text();
+        admin_num.relocate(230, 260);
+        admin_num.setStyle(
+                "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");
+
+        // 开启守护线程
+        Refresh_Control_Panel_Obj refresh_control_panel_obj = new Refresh_Control_Panel_Obj(room_num, room_booked,
+                customer_num, admin_num);
+        Thread thread = new Thread(refresh_control_panel_obj);
+        thread.setDaemon(true);
+        thread.start();
+
         // 返回按钮
         Button back = new Button("返回");
         back.relocate(40, 260);
@@ -107,45 +152,20 @@ public class Control_Panel extends Application {
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                HostLogin hostLogin=new HostLogin();
+                HostLogin hostLogin = new HostLogin();
                 try {
                     hostLogin.start(new Stage());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                thread.stop();
                 stage.close();
             }
         });
 
-        Control_Panel_Dao control_Panel_Dao = new Control_Panel_Dao_Impl();
-        Control_Panel_Obj control_Panel_Obj = control_Panel_Dao.query();
-
-        // 剩余房间数
-        Text room_num = new Text("剩余房间数：" + control_Panel_Obj.getSurplus());
-        room_num.relocate(230, 80);
-        room_num.setStyle(
-                "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");
-
-        // 已被预定房间数
-        Text room_booked = new Text("已被预定房间数："+control_Panel_Obj.getOccupied());
-        room_booked.relocate(230, 140);
-        room_booked.setStyle(
-                "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");
-
-        //用户总数
-        Text customer_num = new Text("用户账号总数："+control_Panel_Obj.getUser_num());
-        customer_num.relocate(230, 200);
-        customer_num.setStyle(
-                "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");
-        
-        //管理员账号总数
-        Text admin_num = new Text("管理员账号总数："+control_Panel_Obj.getAdmin_num());
-        admin_num.relocate(230, 260);
-        admin_num.setStyle(
-                "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");
-
         Pane pane = new Pane();// 新建pane
-        pane.getChildren().addAll(time, room_manage, customer_manage, admin_manage, back, room_num, room_booked, customer_num, admin_num);// 将控件添加到pane中
+        pane.getChildren().addAll(time, room_manage, customer_manage, admin_manage, back, room_num, room_booked,
+                customer_num, admin_num);// 将控件添加到pane中
         stage.setScene(new Scene(pane, 460, 350));// 设置场景
         stage.setTitle("酒店管理面板");
         stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
