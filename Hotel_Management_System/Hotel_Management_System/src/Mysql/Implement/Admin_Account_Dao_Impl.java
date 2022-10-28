@@ -9,42 +9,7 @@ import Mysql.Mysql_Obj.Admin_Account;
 import javafx.scene.control.Alert;
 import Tools.SHA.EncryptSha256Util;
 
-public class Admin_Account_Dao_Impl implements Admin_Account_Dao { 
-    String url;
-    String user;
-    String password;
-    Connection conn;
-
-    public Admin_Account_Dao_Impl() {
-        url = "jdbc:mysql://xiangjie.mysql.rds.aliyuncs.com:3306/hotel_management_system?useSSL=false";
-        user = "hotel_admin";
-        password = "Jk20_2bj_java";
-        init();
-    }
-
-    @Override
-    public boolean init() {
-        try {
-            // 1.注册驱动
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");// 新版本的加载方式
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                Class.forName("com.mysql.jdbc.Driver");// 旧版本的加载方式
-            }
-            // 2.获取连接
-            conn = DriverManager.getConnection(url, user, password);
-        } catch (Exception ee) {
-            ee.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("数据库连接失败");
-            alert.setHeaderText("数据库连接失败");
-            alert.setContentText("本数据库使用的是远端数据库，请检查你的互联网连接是否成功!");
-            alert.showAndWait();
-            return false;
-        }
-        return true;
-    }
+public class Admin_Account_Dao_Impl extends Implement_Parent implements Admin_Account_Dao { 
 
     @Override
     public Admin_Account query(int idx) {
@@ -158,4 +123,5 @@ public class Admin_Account_Dao_Impl implements Admin_Account_Dao {
         }
         return 0;
     }
+
 }

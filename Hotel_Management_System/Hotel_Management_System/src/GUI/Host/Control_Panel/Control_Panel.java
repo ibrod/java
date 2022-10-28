@@ -69,7 +69,7 @@ public class Control_Panel extends Application {
         Label time = new Label();
         time.relocate(40, 20);
         time.setStyle(
-                "-fx-font-size: 15px; -fx-text-fill: red; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0,0.8), 4, 0, 10, 10);");
+                "-fx-font-size: 15px; -fx-text-fill: red;");
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0), new EventHandler<ActionEvent>() {
             @Override
