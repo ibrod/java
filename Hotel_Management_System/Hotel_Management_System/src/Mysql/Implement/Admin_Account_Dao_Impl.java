@@ -77,7 +77,7 @@ public class Admin_Account_Dao_Impl implements Admin_Account_Dao {
             // 3.获取操作数据库的预处理对象
             PreparedStatement pstm = conn.prepareStatement("insert into admin(user_name,password) values(?,?)");
             pstm.setString(1, Admin_Account.username);
-            pstm.setString(1, Admin_Account.password);
+            pstm.setString(2, Admin_Account.password);
             // 4.执行SQL语句
             int count = pstm.executeUpdate();
             if (count > 0) {

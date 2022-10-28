@@ -1,9 +1,5 @@
 package GUI.Host.Control_Panel.Admin_Panel;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import Mysql.Mysql_Obj.Admin_Account;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -18,6 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import Mysql.Dao.Admin_Account_Dao;
 import Mysql.Implement.Admin_Account_Dao_Impl;
+
+import GUI.Host.Control_Panel.Control_Panel;
 
 public class Admin_Panel extends Application {
     int idx;
@@ -49,6 +47,12 @@ public class Admin_Panel extends Application {
         name_text.relocate(100, 100);
         password_text.relocate(100, 150);
 
+        id_text.setPrefWidth(300);
+        name_text.setPrefWidth(300);
+        password_text.setPrefWidth(300);
+
+        id_text.setDisable(true);
+
         Button first = new Button("第一条");
         Button previous = new Button("上一条");
         Button next = new Button("下一条");
@@ -56,7 +60,7 @@ public class Admin_Panel extends Application {
         Button add = new Button("插入");
         Button delete = new Button("删除");
         Button update = new Button("修改");
-        Button refresh = new Button("刷新");
+        Button back = new Button("返回");
 
         // 绑定事件
         first.setOnAction(new EventHandler<ActionEvent>() {
@@ -163,14 +167,12 @@ public class Admin_Panel extends Application {
             }
         });
 
-        refresh.setOnAction(new EventHandler<ActionEvent>() {
+        back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Admin_Account = dao.query(idx);
-                id_text.setText(String.valueOf(Admin_Account.getId()));
-                name_text.setText(Admin_Account.getUsername());
-                Admin_Account.setPassword("");
-                maxidx = dao.count();
+                Control_Panel control_panel = new Control_Panel();
+                control_panel.start(new Stage());
+                stage.close();
             }
         });
 
@@ -181,13 +183,12 @@ public class Admin_Panel extends Application {
         add.relocate(50, 250);
         delete.relocate(150, 250);
         update.relocate(250, 250);
-        refresh.relocate(350, 250);
+        back.relocate(350, 250);
 
 
         Pane pane = new Pane();// 新建pane
-        pane.getChildren().addAll(id, name, password, id_text, name_text, password_text, first, previous, next, last, add, delete, update, refresh);// 将控件添加到pane中
-
-        stage.setScene(new Scene(pane, 450, 370));
+        pane.getChildren().addAll(id, name, password, id_text, name_text, password_text, first, previous, next, last, add, delete, update, back);// 将控件添加到pane中
+        stage.setScene(new Scene(pane, 450, 300));
         stage.setTitle("管理员账户管理");
         stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         stage.show();
