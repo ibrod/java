@@ -1,5 +1,5 @@
 package Main;
-
+import Tools.Sms_Tool.Sms;
 public class Main {
 
     public static void change(StringBuffer x){
@@ -10,5 +10,6 @@ public class Main {
         StringBuffer x=new StringBuffer("111");
         change(x);
         System.out.println(x);
+        //Sms.send_sms("18207439548");
     }
 }

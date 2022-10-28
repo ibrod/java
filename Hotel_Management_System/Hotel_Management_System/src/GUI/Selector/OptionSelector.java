@@ -1,4 +1,5 @@
 package GUI.Selector;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -8,19 +9,22 @@ public abstract class OptionSelector {
         String options1;
         String options2;
         String title;
-        public OptionSelector(String title, String options1, String options2) {
+        Stage stage;
+
+        public OptionSelector(String title, String options1, String options2, Stage stage) {
                 this.title = title;
                 this.options1 = options1;
                 this.options2 = options2;
+                this.stage=stage;
         }
 
-        //选项1点击事件
+        // 选项1点击事件
         public abstract void option1Click();
 
-        //选项2点击事件
+        // 选项2点击事件
         public abstract void option2Click();
 
-        public void start_selecting(Stage stage) {
+        public void start_selecting() {
                 Button btn_host = new Button(options1);
                 btn_host.relocate(50, 50);
                 btn_host.setPrefSize(150, 150);
@@ -32,7 +36,7 @@ public abstract class OptionSelector {
                                 "-fx-font-size: 20px; -fx-text-fill: #ffffff; -fx-background-color: #0066ff; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
                 // 设置鼠标悬停时的样式,出现边框
                 btn_host.setOnMouseEntered(event -> btn_host.setStyle(
-                                "-fx-font-size: 20px; -fx-text-fill: #ff0000; -fx-background-color: #99ccff; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-border-color: #000000; -fx-border-width: 2px;"));
+                                "-fx-font-size: 20px; -fx-text-fill: #ff0000; -fx-background-color: #99ccff; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 10, 10); -fx-border-color: #000000; -fx-border-width: 2px;"));
                 // 设置鼠标离开时的样式,去除边框
                 btn_host.setOnMouseExited(event -> btn_host.setStyle(
                                 "-fx-font-size: 20px; -fx-text-fill: #ffffff; -fx-background-color: #0066ff; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);"));
@@ -51,7 +55,7 @@ public abstract class OptionSelector {
                                 "-fx-font-size: 20px; -fx-text-fill: #ffffff; -fx-background-color: #0066ff; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
                 // 设置鼠标悬停时的样式,出现边框
                 btn_guest.setOnMouseEntered(event -> btn_guest.setStyle(
-                                "-fx-font-size: 20px; -fx-text-fill: #ff0000; -fx-background-color: #99ccff; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-border-color: #000000; -fx-border-width: 2px;"));
+                                "-fx-font-size: 20px; -fx-text-fill: #ff0000; -fx-background-color: #99ccff; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 10, 10); -fx-border-color: #000000; -fx-border-width: 2px;"));
                 // 设置鼠标离开时的样式,去除边框
                 btn_guest.setOnMouseExited(event -> btn_guest.setStyle(
                                 "-fx-font-size: 20px; -fx-text-fill: #ffffff; -fx-background-color: #0066ff; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);"));

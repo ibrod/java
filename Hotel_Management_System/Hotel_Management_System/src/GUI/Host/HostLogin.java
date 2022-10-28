@@ -11,6 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import GUI.Selector.FX_PanelSelector;
+import Mysql.Dao.Host_Login_Dao;
+import Mysql.Implement.Host_Login_Impl;
 import Tools.Graphical_CAPTCHA.Get_Picture;
 
 public class HostLogin extends Application {
@@ -65,11 +68,36 @@ public class HostLogin extends Application {
         // 登录按钮
         Button login = new Button("登录");
         login.relocate(100, 180);
-        login.setPrefWidth(300);
+        login.setPrefWidth(180);
         login.setOnAction(event -> {
             if (verify_code_input.getText().equals(verify_code_text)) {
                 // 图片验证码正确
-
+                Host_Login_Dao host_login_dao = new Host_Login_Impl();
+                int result = host_login_dao.login(username_input.getText(), password_input.getText());
+                if (result == 1) {
+                    // 登录成功
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("登录成功");
+                    alert.setHeaderText("登录成功");
+                    alert.setContentText("登录成功");
+                    alert.showAndWait();
+                    Control_Panel control_panel = new Control_Panel();
+                    try {
+                        control_panel.start(new Stage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    stage.close();
+                } else if(result==0) {
+                    // 登录失败
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("登录失败");
+                    alert.setHeaderText("登录失败");
+                    alert.setContentText("用户名或密码错误");
+                    alert.showAndWait();
+                    refresh_verify_code();
+                    imageView.setImage(new Image(verify_code_pic_path));
+                }
             } else {
                 // 图片验证码错误
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -77,17 +105,32 @@ public class HostLogin extends Application {
                 alert.setHeaderText("图片验证码错误");
                 alert.setContentText("请重新输入");
                 alert.showAndWait();
+                refresh_verify_code();
+                imageView.setImage(new Image(verify_code_pic_path));
             }
+        });
+
+        //返回按钮
+        Button back = new Button("返回");
+        back.relocate(300, 180);
+        back.setPrefWidth(100);
+        back.setOnAction(event -> {
+            FX_PanelSelector panelSelector = new FX_PanelSelector();
+            try {
+                panelSelector.start(new Stage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            stage.close();
         });
 
         Pane pane = new Pane();// 新建pane
         pane.getChildren().addAll(username, password, username_input, password_input, verify_code, verify_code_input,
-                imageView, login);// 将控件添加到pane中
+                imageView, login, back);// 将控件添加到pane中
         stage.setScene(new Scene(pane, 460, 220));
         stage.setTitle("店家登录界面");
         stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         stage.show();
-
     }
 
     public static void main(String[] args) {
