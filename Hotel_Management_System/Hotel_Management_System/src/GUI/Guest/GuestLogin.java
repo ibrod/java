@@ -2,7 +2,7 @@ package GUI.Guest;
 
 //import Tools.Sms_Tool.Sms;
 import Tools.Sms_Tool2.Sms;
-
+import Tools.Wake_Up.Wake_Up;
 import GUI.Selector.FX_PanelSelector;
 import Mysql.Mysql_Obj.User_Info;
 import javafx.application.Application;
@@ -48,20 +48,18 @@ class CountDown implements Runnable {
     }
 }
 
-public class GuestLogin extends Application {
+public class GuestLogin extends Application implements Wake_Up {
 
     String sms_code = null;
     String phone_number;
+    Stage tstage;
+    User_Info user_info;
 
-    public void enter_update_info(String tel,Stage oldstage) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("成功");
-        alert.setHeaderText("登录成功");
-        alert.showAndWait();
+    public void enter_update_info(String tel) {
         try {
-            User_Info user_info = new User_Info();
+            user_info = new User_Info();
             user_info.setPhone_number(tel);
-            Update_Info update_info = new Update_Info(user_info,oldstage);
+            Update_Info update_info = new Update_Info(user_info,this);
             update_info.start(new Stage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,6 +68,7 @@ public class GuestLogin extends Application {
 
     @Override
     public void start(Stage stage) {
+        tstage = stage;
         Label username = new Label("手机号:");
         username.relocate(50, 30);
         TextField phone = new TextField();
@@ -109,7 +108,7 @@ public class GuestLogin extends Application {
         login.setPrefWidth(250);
         login.setOnAction(event -> {
             if (verify_code_input.getText().equals("114514")) {// 仅用于测试
-                enter_update_info(phone.getText(),stage);
+                enter_update_info(phone.getText());
                 stage.hide();
             } else if (sms_code == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -123,7 +122,7 @@ public class GuestLogin extends Application {
                 alert.setContentText("输入的验证码与向对应号码发送的验证码不匹配");
                 alert.showAndWait();
             } else {
-                enter_update_info(phone.getText(),stage);
+                enter_update_info(phone.getText());
                 stage.hide();
             }
         });
@@ -153,6 +152,18 @@ public class GuestLogin extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void wake_up() {
+        tstage.show();
+        if(user_info.getStatus() == 1){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("提示");
+            alert.setHeaderText("注册成功");
+            alert.setContentText("您的账号已经注册成功");
+            alert.showAndWait();
+        }
     }
 
 }

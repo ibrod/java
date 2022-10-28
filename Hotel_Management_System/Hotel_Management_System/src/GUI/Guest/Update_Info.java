@@ -1,8 +1,8 @@
 package GUI.Guest;
 
 import java.security.AllPermission;
-
 import Mysql.Mysql_Obj.User_Info;
+import Tools.Wake_Up.Wake_Up;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -14,15 +14,15 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Update_Info extends Application {
+public class Update_Info extends Application{
 
     User_Info user_info = new User_Info("", "", "", "", "");
-    Stage old_stage;
+    Wake_Up wake_Up;
   
 
-    public Update_Info(User_Info user_info, Stage old_stage) {
+    public Update_Info(User_Info user_info, Wake_Up wake_Up) {
         this.user_info = user_info;
-        this.old_stage = old_stage;
+        this.wake_Up = wake_Up;
     }
 
     public Update_Info() {
@@ -32,13 +32,13 @@ public class Update_Info extends Application {
         this.user_info = user_info;
     }
 
-    public void setOld_stage(Stage old_stage) {
-        this.old_stage = old_stage;
+    public void setWake_Up(Wake_Up wake_Up) {
+        this.wake_Up = wake_Up;
     }
 
     @Override
     public void start(Stage stage) {
-        Label phone = new Label("手机号:" + user_info.getPhone_number());
+        Label phone = new Label("手机号:");
         phone.relocate(50, 30);
         Label name = new Label("姓名:");
         name.relocate(50, 80);
@@ -49,7 +49,7 @@ public class Update_Info extends Application {
         Label email = new Label("邮箱:");
         email.relocate(50, 180);
 
-        TextField phone_input = new TextField();
+        TextField phone_input = new TextField(user_info.getPhone_number());
         phone_input.relocate(120, 30);
         phone_input.setPrefWidth(300);
         phone_input.setDisable(true);
@@ -106,6 +106,8 @@ public class Update_Info extends Application {
                 alert.setContentText("您的信息已更新成功");
                 alert.showAndWait();
                 stage.close();
+                user_info.setStatus(1);
+                wake_Up.wake_up();
             }
         });
 
@@ -116,8 +118,8 @@ public class Update_Info extends Application {
 
         // 绑定事件
         back.setOnAction(e -> {
-            old_stage.show();
             stage.close();
+            wake_Up.wake_up();
         });
 
         Pane pane = new Pane();// 新建pane
