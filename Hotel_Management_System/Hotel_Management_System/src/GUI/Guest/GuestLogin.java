@@ -4,6 +4,7 @@ package GUI.Guest;
 import Tools.Sms_Tool2.Sms;
 
 import GUI.Selector.FX_PanelSelector;
+import Mysql.Mysql_Obj.User_Info;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -45,13 +46,27 @@ class CountDown implements Runnable {
         text.setVisible(false);
         button.setVisible(true);
     }
-
 }
 
 public class GuestLogin extends Application {
 
     String sms_code = null;
     String phone_number;
+
+    public void enter_update_info(String tel,Stage oldstage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("成功");
+        alert.setHeaderText("登录成功");
+        alert.showAndWait();
+        try {
+            User_Info user_info = new User_Info();
+            user_info.setPhone_number(tel);
+            Update_Info update_info = new Update_Info(user_info,oldstage);
+            update_info.start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void start(Stage stage) {
@@ -94,10 +109,8 @@ public class GuestLogin extends Application {
         login.setPrefWidth(250);
         login.setOnAction(event -> {
             if (verify_code_input.getText().equals("114514")) {// 仅用于测试
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("成功");
-                alert.setHeaderText("登录成功");
-                alert.showAndWait();
+                enter_update_info(phone.getText(),stage);
+                stage.hide();
             } else if (sms_code == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("错误");
@@ -110,10 +123,8 @@ public class GuestLogin extends Application {
                 alert.setContentText("输入的验证码与向对应号码发送的验证码不匹配");
                 alert.showAndWait();
             } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("成功");
-                alert.setHeaderText("登录成功");
-                alert.showAndWait();
+                enter_update_info(phone.getText(),stage);
+                stage.hide();
             }
         });
 
