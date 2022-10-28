@@ -82,7 +82,7 @@ public class Control_Panel extends Application {
 
         // 房间管理按钮
         Button room_manage = new Button("房间管理");
-        room_manage.relocate(40, 80);
+        room_manage.relocate(40, 140);
         room_manage.setPrefWidth(100);
         room_manage.setPrefHeight(30);
         room_manage.setOnAction(new EventHandler<ActionEvent>() {
@@ -94,7 +94,7 @@ public class Control_Panel extends Application {
 
         // 客户管理按钮
         Button customer_manage = new Button("客户管理");
-        customer_manage.relocate(40, 140);
+        customer_manage.relocate(40, 80);
         customer_manage.setPrefWidth(100);
         customer_manage.setPrefHeight(30);
         customer_manage.setOnAction(new EventHandler<ActionEvent>() {

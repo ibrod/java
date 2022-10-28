@@ -1,5 +1,8 @@
 package GUI.Host;
 
+import Tools.Graphical_CAPTCHA.Get_Picture;
+// import Tools.Graphical_CAPTCHA2.Get_Picture;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -15,7 +18,6 @@ import GUI.Host.Control_Panel.Control_Panel;
 import GUI.Selector.FX_PanelSelector;
 import Mysql.Dao.Host_Login_Dao;
 import Mysql.Implement.Host_Login_Impl;
-import Tools.Graphical_CAPTCHA.Get_Picture;
 
 public class HostLogin extends Application {
     String verify_code_pic_path;

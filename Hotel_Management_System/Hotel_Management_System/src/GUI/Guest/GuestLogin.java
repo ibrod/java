@@ -1,7 +1,9 @@
 package GUI.Guest;
 
+//import Tools.Sms_Tool.Sms;
+import Tools.Sms_Tool2.Sms;
+
 import GUI.Selector.FX_PanelSelector;
-import Tools.Sms_Tool.Sms;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -91,7 +93,7 @@ public class GuestLogin extends Application {
         login.relocate(50, 120);
         login.setPrefWidth(250);
         login.setOnAction(event -> {
-            if (verify_code_input.getText().equals("1316489465")) {// 仅用于测试
+            if (verify_code_input.getText().equals("114514")) {// 仅用于测试
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("成功");
                 alert.setHeaderText("登录成功");
