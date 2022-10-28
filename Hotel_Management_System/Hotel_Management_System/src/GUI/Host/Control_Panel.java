@@ -2,6 +2,9 @@ package GUI.Host;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import Mysql.Dao.Control_Panel_Dao;
+import Mysql.Implement.Control_Panel_Dao_Impl;
+import Mysql.Mysql_Obj.Control_Panel_Obj;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,8 +16,33 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+class Refresh_Control_Panel_Obj implements Runnable {
+
+    Text room_num;
+    Text room_booked;
+    Text customer_num;
+    Text admin_num;
+
+    @Override
+    public void run() {
+        //每分钟刷新一次
+        while (true) {
+            try {
+                Thread.sleep(60000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Control_Panel_Dao control_panel_dao = new Control_Panel_Dao_Impl();
+            Control_Panel_Obj control_panel_obj = control_panel_dao.query();
+        }
+        
+    }
+
+}
 
 public class Control_Panel extends Application {
 
@@ -89,26 +117,29 @@ public class Control_Panel extends Application {
             }
         });
 
+        Control_Panel_Dao control_Panel_Dao = new Control_Panel_Dao_Impl();
+        Control_Panel_Obj control_Panel_Obj = control_Panel_Dao.query();
+
         // 剩余房间数
-        Label room_num = new Label("剩余房间数：");
+        Text room_num = new Text("剩余房间数：" + control_Panel_Obj.getSurplus());
         room_num.relocate(230, 80);
         room_num.setStyle(
                 "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");
 
         // 已被预定房间数
-        Label room_booked = new Label("已被预定房间数：");
+        Text room_booked = new Text("已被预定房间数："+control_Panel_Obj.getOccupied());
         room_booked.relocate(230, 140);
         room_booked.setStyle(
                 "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");
 
         //用户总数
-        Label customer_num = new Label("用户账号总数：");
+        Text customer_num = new Text("用户账号总数："+control_Panel_Obj.getUser_num());
         customer_num.relocate(230, 200);
         customer_num.setStyle(
                 "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");
         
         //管理员账号总数
-        Label admin_num = new Label("管理员账号总数：");
+        Text admin_num = new Text("管理员账号总数："+control_Panel_Obj.getAdmin_num());
         admin_num.relocate(230, 260);
         admin_num.setStyle(
                 "-fx-font-size: 15px; -fx-text-fill: black; -fx-effect: dropshadow(three-pass-box, rgba(115, 115, 115,0.8), 5, 0, 10, 10);");

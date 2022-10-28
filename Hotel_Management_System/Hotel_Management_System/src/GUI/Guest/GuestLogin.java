@@ -116,7 +116,7 @@ public class GuestLogin extends Application {
             }
         });
 
-        //返回按钮
+        // 返回按钮
         Button back = new Button("返回");
         back.relocate(320, 120);
         back.setPrefWidth(80);
@@ -125,7 +125,6 @@ public class GuestLogin extends Application {
             try {
                 panelSelector.start(new Stage());
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             stage.close();
