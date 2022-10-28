@@ -1,7 +1,9 @@
-package GUI.Host;
+package GUI.Host.Control_Panel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import GUI.Host.HostLogin;
 import Mysql.Dao.Control_Panel_Dao;
 import Mysql.Implement.Control_Panel_Dao_Impl;
 import Mysql.Mysql_Obj.Control_Panel_Obj;

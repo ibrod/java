@@ -8,6 +8,21 @@
             "type": "java",
             "name": "Launch Control_Panel",
             "request": "launch",
+            "mainClass": "GUI.Host.Control_Panel.Control_Panel",
+            "projectName": "Hotel_Management_System_a347466c"
+        },
+        {
+            "type": "java",
+            "name": "Launch Admin_Panel",
+            "request": "launch",
+            "mainClass": "GUI.Host.Control_Panel.Admin_Panel.Admin_Panel",
+            "projectName": "Hotel_Management_System_a347466c",
+            "vmArgs": "--module-path C:\\Users\\e3e64\\Downloads\\javafx-sdk-18.0.2\\lib --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch Control_Panel",
+            "request": "launch",
             "mainClass": "GUI.Host.Control_Panel",
             "projectName": "Hotel_Management_System_a347466c",
             "vmArgs": "--module-path C:\\Users\\e3e64\\Downloads\\javafx-sdk-18.0.2\\lib --add-modules javafx.controls,javafx.fxml"

@@ -27,7 +27,6 @@ class CountDown implements Runnable {
         // 设置按钮为不可用状态
         button.setText("重新发送");
         button.setVisible(false);
-
     }
 
     @Override
