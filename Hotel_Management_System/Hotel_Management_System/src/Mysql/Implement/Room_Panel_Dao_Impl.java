@@ -49,19 +49,22 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
     @Override
     public int add_data() {
         try {
-            PreparedStatement pstm = conn.prepareStatement("insert into room() values()");
+            int id=-1;
+            PreparedStatement pstm = conn.prepareStatement("insert into room() values()",
+                    PreparedStatement.RETURN_GENERATED_KEYS);
 
             pstm.executeUpdate();
 
-            pstm = conn.prepareStatement("select last_insert_id()");
+            ResultSet rs = pstm.getGeneratedKeys();
 
-            pstm.executeUpdate();
-            int id = pstm.getResultSet().getInt(1);
-
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
             pstm.close();
             return id;
 
         } catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("数据库操作失败");
             alert.setHeaderText("数据库操作失败");
@@ -96,7 +99,8 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
     @Override
     public boolean update_data(Room room) {
         try {
-            PreparedStatement pstm = conn.prepareStatement("update room set room_number=?,room_type=?,room_discount=?,room_deposit=?,room_capacity=?,room_price=?,room_status=?,room_principal=?,room_description=? where room_id=?");
+            PreparedStatement pstm = conn.prepareStatement(
+                    "update room set room_number=?,room_type=?,room_discount=?,room_deposit=?,room_capacity=?,room_price=?,room_status=?,room_principal=?,room_description=? where room_id=?");
             pstm.setInt(1, room.getRoom_number());
             pstm.setString(2, room.getRoom_type());
             pstm.setDouble(3, room.getRoom_discount());
@@ -107,12 +111,12 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
             pstm.setString(8, room.getRoom_principal());
             pstm.setString(9, room.getRoom_description());
             pstm.setInt(10, room.getRoom_id());
-        
-            int count=pstm.executeUpdate();
+
+            int count = pstm.executeUpdate();
 
             pstm.close();
 
-            if(count==1)
+            if (count == 1)
                 return true;
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -125,17 +129,17 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
     }
 
     @Override
-    public boolean update_data(int room_id,String field,String value) {
+    public boolean update_data(int room_id, String field, String value) {
         try {
-            PreparedStatement pstm = conn.prepareStatement("update room set "+field+"=? where room_id=?");
-            pstm.setString(1,value);
-            pstm.setInt(2,room_id);
-        
-            int count=pstm.executeUpdate();
+            PreparedStatement pstm = conn.prepareStatement("update room set " + field + "=? where room_id=?");
+            pstm.setString(1, value);
+            pstm.setInt(2, room_id);
+
+            int count = pstm.executeUpdate();
 
             pstm.close();
 
-            if(count==1)
+            if (count == 1)
                 return true;
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
