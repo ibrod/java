@@ -186,6 +186,32 @@ public class App extends Application {
         table.setItems(ob2);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);// 自适应列宽
 
+        table.getSelectionModel().selectedItemProperty()
+                .addListener((ChangeListener<? super Food>) new ChangeListener<Food>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Food> arg0, Food old_str, Food new_str) {
+                        // getSelectedIndex方法可获得选中项的序号，getSelectedItem方法可获得选中项的对象
+                        String desc = String.format("您点了第%d项，快餐名称是%s，价格是%f",
+                                table.getSelectionModel().getSelectedIndex(),
+                                table.getSelectionModel().getSelectedItem().getName().toString(),
+                                table.getSelectionModel().getSelectedItem().getPrice());
+                        label.setText(desc); // 在标签上显示当前选中的文本项
+                        System.out.println(desc);
+                    }
+                });
+
+        // table.getSelectionModel().selectedItemProperty()
+        // .addListener((ChangeListener<? super String>) new ChangeListener<String>() {
+        //     @Override
+        //     public void changed(ObservableValue<? extends String> arg0, String old_str, String new_str) {
+        //         // getSelectedIndex方法可获得选中项的序号，getSelectedItem方法可获得选中项的对象
+        //         String desc = String.format("您点了第%d项，快餐名称是%s",
+        //                 list.getSelectionModel().getSelectedIndex(),
+        //                 list.getSelectionModel().getSelectedItem().toString());
+        //         label.setText(desc); // 在标签上显示当前选中的文本项
+        //     }
+        // });
+
         column1.setVisible(false);
         column2.setVisible(false);
         column3.setVisible(false);

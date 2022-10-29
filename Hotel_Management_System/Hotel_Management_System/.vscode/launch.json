@@ -6,6 +6,14 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Room_Panel",
+            "request": "launch",
+            "mainClass": "GUI.Host.Control_Panel.Room_Panel.Room_Panel",
+            "projectName": "Hotel_Management_System_a347466c",
+            "vmArgs": "--module-path C:\\Users\\e3e64\\Downloads\\javafx-sdk-18.0.2\\lib --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
             "name": "Launch Update_Info",
             "request": "launch",
             "mainClass": "GUI.Guest.Update_Info",

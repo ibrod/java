@@ -4,6 +4,8 @@ package GUI.Guest;
 import Tools.Sms_Tool2.Sms;
 import Tools.Wake_Up.Wake_Up;
 import GUI.Selector.FX_PanelSelector;
+import Mysql.Dao.User_Info_Manage_Dao;
+import Mysql.Implement.User_Info_Manage_Dao_Impl;
 import Mysql.Mysql_Obj.User_Info;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -54,12 +56,19 @@ public class GuestLogin extends Application implements Wake_Up {
     String phone_number;
     Stage tstage;
     User_Info user_info;
+    User_Info_Manage_Dao user_info_manage_dao = new User_Info_Manage_Dao_Impl();
 
     public void enter_update_info(String tel) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("提示");
+        alert.setHeaderText("新用户");
+        alert.setContentText("您的信息不完整，请完善信息");
+        alert.showAndWait();
         try {
             user_info = new User_Info();
             user_info.setPhone_number(tel);
-            Update_Info update_info = new Update_Info(user_info,this);
+            user_info_manage_dao.insert_by_phone(tel);
+            Update_Info update_info = new Update_Info(user_info, this);
             update_info.start(new Stage());
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,6 +83,16 @@ public class GuestLogin extends Application implements Wake_Up {
         TextField phone = new TextField();
         phone.relocate(100, 30);
         phone.setPrefWidth(300);
+        // 设置最多只能输入15位数字
+        phone.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                phone.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+            if (phone.getText().length() > 15) {
+                String s = phone.getText().substring(0, 15);
+                phone.setText(s);
+            }
+        });
 
         // 验证码
         Label verify_code = new Label("短信验证码:");
@@ -108,8 +127,18 @@ public class GuestLogin extends Application implements Wake_Up {
         login.setPrefWidth(250);
         login.setOnAction(event -> {
             if (verify_code_input.getText().equals("114514")) {// 仅用于测试
-                enter_update_info(phone.getText());
-                stage.hide();
+                User_Info return_value = user_info_manage_dao.get_user_info(phone.getText());
+                if (return_value == null) {
+                    enter_update_info(phone.getText());
+                    stage.hide();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("提示");
+                    alert.setHeaderText("登录成功");
+                    alert.setContentText("欢迎回来，" + return_value.getName());
+                    alert.showAndWait();
+                    stage.close();
+                }
             } else if (sms_code == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("错误");
@@ -122,8 +151,18 @@ public class GuestLogin extends Application implements Wake_Up {
                 alert.setContentText("输入的验证码与向对应号码发送的验证码不匹配");
                 alert.showAndWait();
             } else {
-                enter_update_info(phone.getText());
-                stage.hide();
+                User_Info return_value = user_info_manage_dao.get_user_info(phone_number);
+                if (return_value == null) {
+                    enter_update_info(phone_number);
+                    stage.hide();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("提示");
+                    alert.setHeaderText("登录成功");
+                    alert.setContentText("欢迎回来，" + return_value.getName());
+                    alert.showAndWait();
+                    stage.close();
+                }
             }
         });
 
@@ -157,7 +196,7 @@ public class GuestLogin extends Application implements Wake_Up {
     @Override
     public void wake_up() {
         tstage.show();
-        if(user_info.getStatus() == 1){
+        if (user_info.getStatus() == 1) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("提示");
             alert.setHeaderText("注册成功");

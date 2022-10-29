@@ -1,6 +1,9 @@
 package GUI.Guest;
 
 import java.security.AllPermission;
+
+import Mysql.Dao.User_Info_Manage_Dao;
+import Mysql.Implement.User_Info_Manage_Dao_Impl;
 import Mysql.Mysql_Obj.User_Info;
 import Tools.Wake_Up.Wake_Up;
 import javafx.application.Application;
@@ -53,12 +56,20 @@ public class Update_Info extends Application{
         phone_input.relocate(120, 30);
         phone_input.setPrefWidth(300);
         phone_input.setDisable(true);
+
         TextField name_input = new TextField();
         name_input.relocate(120, 80);
         name_input.setPrefWidth(300);
         TextField id_input = new TextField();
         id_input.relocate(120, 130);
         id_input.setPrefWidth(300);
+        //设置最多只能输入18位
+        id_input.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 18) {
+                id_input.setText(oldValue);
+            }
+        });
+
         TextField email_input = new TextField();
         email_input.relocate(120, 180);
         email_input.setPrefWidth(300);
@@ -100,6 +111,8 @@ public class Update_Info extends Application{
                 user_info.setGender(group.getSelectedToggle().getUserData().toString());
                 user_info.setId(id_input.getText());
                 user_info.setEmail(email_input.getText());
+                User_Info_Manage_Dao user_Info_Manage_Dao = new User_Info_Manage_Dao_Impl();
+                user_Info_Manage_Dao.update(user_info);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
                 alert.setHeaderText("更新成功");

@@ -31,27 +31,22 @@ public class Admin_Panel extends Application {
 
     public void start(Stage stage) {
         init_APP();
-        Label id = new Label("编号");
         Label name = new Label("用户名");
         Label password = new Label("密码");
 
-        TextField id_text = new TextField();
         TextField name_text = new TextField();
         PasswordField password_text = new PasswordField();
 
-        id.relocate(50, 50);
-        name.relocate(50, 100);
-        password.relocate(50, 150);
+        name.relocate(50, 50);
+        password.relocate(50, 100);
 
-        id_text.relocate(100, 50);
-        name_text.relocate(100, 100);
-        password_text.relocate(100, 150);
 
-        id_text.setPrefWidth(300);
+        name_text.relocate(100, 50);
+        password_text.relocate(100, 100);
+
         name_text.setPrefWidth(300);
         password_text.setPrefWidth(300);
 
-        id_text.setDisable(true);
 
         Button first = new Button("第一条");
         Button previous = new Button("上一条");
@@ -69,7 +64,7 @@ public class Admin_Panel extends Application {
                 maxidx = dao.count();
                 idx = 0;
                 Admin_Account = dao.query(idx);
-                id_text.setText(String.valueOf(Admin_Account.getId()));
+           
                 name_text.setText(Admin_Account.getUsername());
                 Admin_Account.setPassword("");
             }
@@ -82,7 +77,7 @@ public class Admin_Panel extends Application {
                 if (idx > 0) {
                     idx--;
                     Admin_Account = dao.query(idx);
-                    id_text.setText(String.valueOf(Admin_Account.getId()));
+            
                     name_text.setText(Admin_Account.getUsername());
                     Admin_Account.setPassword("");
                 }
@@ -96,7 +91,7 @@ public class Admin_Panel extends Application {
                 if (idx < maxidx - 1) {
                     idx++;
                     Admin_Account = dao.query(idx);
-                    id_text.setText(String.valueOf(Admin_Account.getId()));
+                   
                     name_text.setText(Admin_Account.getUsername());
                     Admin_Account.setPassword("");
                 }
@@ -109,7 +104,7 @@ public class Admin_Panel extends Application {
                 maxidx = dao.count();
                 idx = maxidx - 1;
                 Admin_Account = dao.query(idx);
-                id_text.setText(String.valueOf(Admin_Account.getId()));
+              
                 name_text.setText(Admin_Account.getUsername());
                 Admin_Account.setPassword("");
             }
@@ -144,7 +139,7 @@ public class Admin_Panel extends Application {
                     maxidx = dao.count();
                     idx %= maxidx;
                     Admin_Account = dao.query(idx);
-                    id_text.setText(String.valueOf(Admin_Account.getId()));
+                   
                     name_text.setText(Admin_Account.getUsername());
                     Admin_Account.setPassword("");
                 }
@@ -176,19 +171,19 @@ public class Admin_Panel extends Application {
             }
         });
 
-        first.relocate(50, 200);
-        previous.relocate(150, 200);
-        next.relocate(250, 200);
-        last.relocate(350, 200);
-        add.relocate(50, 250);
-        delete.relocate(150, 250);
-        update.relocate(250, 250);
-        back.relocate(350, 250);
+        first.relocate(50, 150);
+        previous.relocate(150, 150);
+        next.relocate(250, 150);
+        last.relocate(350, 150);
+        add.relocate(50, 200);
+        delete.relocate(150, 200);
+        update.relocate(250, 200);
+        back.relocate(350, 200);
 
 
         Pane pane = new Pane();// 新建pane
-        pane.getChildren().addAll(id, name, password, id_text, name_text, password_text, first, previous, next, last, add, delete, update, back);// 将控件添加到pane中
-        stage.setScene(new Scene(pane, 450, 300));
+        pane.getChildren().addAll(name, password,name_text, password_text, first, previous, next, last, add, delete, update, back);// 将控件添加到pane中
+        stage.setScene(new Scene(pane, 450, 250));
         stage.setTitle("管理员账户管理");
         stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         stage.show();

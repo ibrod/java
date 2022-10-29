@@ -30,7 +30,6 @@ class PanelSelector extends OptionSelector {
     }
 }
 
-
 public class FX_PanelSelector extends Application {
 
     @Override

@@ -19,12 +19,11 @@ public class Control_Panel_Dao_Impl extends Implement_Parent implements Control_
             rs.next();
             int total = rs.getInt(1);
 
-            // 查询有多少房间被占用
-            pstm = conn.prepareStatement("select count(*) from room where guest_id>0");
+            // 查询有多少房间被入住
+            pstm = conn.prepareStatement("select count(*) from check_in");
             rs = pstm.executeQuery();
             rs.next();
             int occupied = rs.getInt(1);
-            int surplus = total - occupied;
 
             // 查询有多少用户
             pstm = conn.prepareStatement("select count(*) from user");
@@ -38,7 +37,15 @@ public class Control_Panel_Dao_Impl extends Implement_Parent implements Control_
             rs.next();
             int admin_num = rs.getInt(1);
 
-            return new Control_Panel_Obj(surplus, occupied, user_num, admin_num);
+            // 查询有多少预定
+            pstm = conn.prepareStatement("select count(*) from reservation");
+            rs = pstm.executeQuery();
+            rs.next();
+            int reservation = rs.getInt(1);
+
+            int surplus = total - occupied - reservation;
+
+            return new Control_Panel_Obj(surplus, occupied, user_num, admin_num, reservation);
 
         } catch (Exception e) {
             e.printStackTrace();
