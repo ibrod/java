@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import GUI.Host.Control_Panel.Admin_Panel.Admin_Panel;
+import GUI.Host.Control_Panel.Room_Panel.Room_Panel;
 
 class Refresh_Control_Panel_Obj implements Runnable {
 
@@ -91,7 +92,7 @@ public class Control_Panel extends Application {
         room_manage.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // new Room_Manage().start(new Stage());
+                 new Room_Panel().start(new Stage());
             }
         });
 
