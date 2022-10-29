@@ -3,17 +3,17 @@ package Mysql.Mysql_Obj;
 public class Room {
     int room_id;
     int room_number;
-    int room_type;//房间类型,1标准间,2大床房,3豪华套房
+    String room_type;
     double room_discount;
     double room_deposit;//押金
     int room_capacity;
     double room_price;
-    int room_status;// 房间状态码0空闲1预定2入住3到期4清扫5维修
+    String room_status;
     String room_principal;// 房间负责人
     String room_description;// 房间描述
     
-    public Room(int room_id, int room_number, int room_type, double room_discount, double room_deposit,
-            int room_capacity, double room_price, int room_status, String room_principal, String room_description) {
+    public Room(int room_id, int room_number, String room_type, double room_discount, double room_deposit,
+            int room_capacity, double room_price, String room_status, String room_principal, String room_description) {
         this.room_id = room_id;
         this.room_number = room_number;
         this.room_type = room_type;
@@ -26,8 +26,8 @@ public class Room {
         this.room_description = room_description;
     }
     
-    public Room(int room_number, int room_type, double room_discount, double room_deposit, int room_capacity,
-            double room_price, int room_status, String room_principal, String room_description) {
+    public Room(int room_number, String room_type, double room_discount, double room_deposit, int room_capacity,
+            double room_price, String room_status, String room_principal, String room_description) {
         this.room_number = room_number;
         this.room_type = room_type;
         this.room_discount = room_discount;
@@ -53,11 +53,11 @@ public class Room {
     public void setRoom_number(int room_number) {
         this.room_number = room_number;
     }
-    public int getRoom_type() {
+    public String getRoom_type() {
         return room_type;
     }
-    public void setRoom_type(int room_type) {
-        this.room_type = room_type;
+    public void setRoom_type(String room_type) {
+        this.room_type =  room_type;
     }
     public double getRoom_discount() {
         return room_discount;
@@ -83,10 +83,10 @@ public class Room {
     public void setRoom_price(double room_price) {
         this.room_price = room_price;
     }
-    public int getRoom_status() {
-        return room_status;
+    public String getRoom_status() {
+        return  room_status;
     }
-    public void setRoom_status(int room_status) {
+    public void setRoom_status(String room_status) {
         this.room_status = room_status;
     }
     public String getRoom_principal() {

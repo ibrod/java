@@ -79,10 +79,43 @@ public class Room_Panel extends Application {
         TableColumn<Room, String> description = new TableColumn<Room, String>("描述");
         description.setCellValueFactory(new PropertyValueFactory<Room, String>("room_description"));
 
-
         table.getColumns().addAll(id, number, type, discount, deposit, capacity, price, status, principal, description);
         table.setItems(ob);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);// 自适应列宽
+
+
+        // 添加按钮
+        Button add = new Button("添加");
+        add.relocate(0, 0);
+        add.setPrefSize(100, 50);
+        add.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                // Room_Add room_Add = new Room_Add();
+                // room_Add.start(new Stage());
+            }
+        });
+
+        // 删除按钮
+        Button delete = new Button("删除");
+        delete.relocate(100, 0);
+        delete.setPrefSize(100, 50);
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                // Room_Delete room_Delete = new Room_Delete();
+                // room_Delete.start(new Stage());
+            }
+        });
+
+        // 修改按钮
+        Button update = new Button("修改");
+        update.relocate(200, 0);
+        update.setPrefSize(100, 50);
+        update.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                // Room_Update room_Update = new Room_Update();
+                // room_Update.start(new Stage());
+            }
+        });
 
         table.getSelectionModel().selectedItemProperty()
                 .addListener((ChangeListener<? super Room>) new ChangeListener<Room>() {
@@ -98,33 +131,13 @@ public class Room_Panel extends Application {
                     }
                 });
 
-        // table.getSelectionModel().selectedItemProperty()
-        // .addListener((ChangeListener<? super String>) new ChangeListener<String>() {
-        //     @Override
-        //     public void changed(ObservableValue<? extends String> arg0, String old_str, String new_str) {
-        //         // getSelectedIndex方法可获得选中项的序号，getSelectedItem方法可获得选中项的对象
-        //         String desc = String.format("您点了第%d项，快餐名称是%s",
-        //                 list.getSelectionModel().getSelectedIndex(),
-        //                 list.getSelectionModel().getSelectedItem().toString());
-        //         label.setText(desc); // 在标签上显示当前选中的文本项
-        //     }
-        // });
-
         Pane pane = new Pane();// 新建pane
         pane.getChildren().addAll(table);// 将表格视图添加到pane中
 
         stage.setScene(new Scene(pane, 1200, 700));
-        stage.setTitle("实验二 计科20-2BJ 向杰");
+        stage.setTitle("房间管理面板");
         stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         stage.show();
-        // TimerTask t2 = new TimerTask() {
-        //     public void run() {
-        //         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //         welcome.setText((String.valueOf(df.format(System.currentTimeMillis()))));
-        //     }
-        // };
-        // Timer timer = new Timer();
-        // timer.schedule(t2, 0, 1000);
     }   
     public static void main(String[] args) {
         launch(args);

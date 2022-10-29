@@ -20,18 +20,19 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
                 Room room = new Room(
                         rs.getInt("room_id"),
                         rs.getInt("room_number"),
-                        rs.getInt("room_type"),
+                        rs.getString("room_type"),
                         rs.getDouble("room_discount"),
                         rs.getDouble("room_deposit"),
                         rs.getInt("room_capacity"),
                         rs.getDouble("room_price"),
-                        rs.getInt("room_status"),
+                        rs.getString("room_status"),
                         rs.getString("room_principal"),
                         rs.getString("room_description"));
                 arr_Room.add(room);
             }
             // 6.释放资源
             if (rs != null) {
+                pstm.close();
                 rs.close();
             }
             return true;
@@ -43,6 +44,84 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
             alert.showAndWait();
             return false;
         }
+    }
+
+    @Override
+    public int add_data() {
+        try {
+            PreparedStatement pstm = conn.prepareStatement("insert into room() values()");
+
+            pstm.executeUpdate();
+
+            pstm = conn.prepareStatement("select last_insert_id()");
+
+            pstm.executeUpdate();
+            int id = pstm.getResultSet().getInt(1);
+
+            pstm.close();
+            return id;
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库操作失败");
+            alert.setHeaderText("数据库操作失败");
+            alert.setContentText("请检查互联网连接是否正常，或者数据输入是否合法!");
+            alert.showAndWait();
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean delete_data(int room_id) {
+
+        try {
+            PreparedStatement pstm = conn.prepareStatement("delete from room where room_id=?");
+            pstm.setInt(1, room_id);
+
+            int count = pstm.executeUpdate();
+            pstm.close();
+
+            if (count == 1)
+                return true;
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库操作失败");
+            alert.setHeaderText("数据库操作失败");
+            alert.setContentText("请检查互联网连接是否正常，或者数据输入是否合法!");
+            alert.showAndWait();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean update_data(Room room) {
+        try {
+            PreparedStatement pstm = conn.prepareStatement("update room set room_number=?,room_type=?,room_discount=?,room_deposit=?,room_capacity=?,room_price=?,room_status=?,room_principal=?,room_description=? where room_id=?");
+            pstm.setInt(1, room.getRoom_number());
+            pstm.setString(2, room.getRoom_type());
+            pstm.setDouble(3, room.getRoom_discount());
+            pstm.setDouble(4, room.getRoom_deposit());
+            pstm.setInt(5, room.getRoom_capacity());
+            pstm.setDouble(6, room.getRoom_price());
+            pstm.setString(7, room.getRoom_status());
+            pstm.setString(8, room.getRoom_principal());
+            pstm.setString(9, room.getRoom_description());
+            pstm.setInt(10, room.getRoom_id());
+        
+            int count=pstm.executeUpdate();
+
+            pstm.close();
+
+            if(count==1)
+                return true;
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库操作失败");
+            alert.setHeaderText("数据库操作失败");
+            alert.setContentText("请检查互联网连接是否正常，或者数据输入是否合法!");
+            alert.showAndWait();
+        }
+        return false;
     }
 
 }

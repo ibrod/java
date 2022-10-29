@@ -55,7 +55,6 @@ public class Admin_Account_Dao_Impl extends Implement_Parent implements Admin_Ac
             alert.setContentText("请检查互联网连接是否正常，或者数据输入是否合法!");
             alert.showAndWait();
         }
-
         return false;
     }
 

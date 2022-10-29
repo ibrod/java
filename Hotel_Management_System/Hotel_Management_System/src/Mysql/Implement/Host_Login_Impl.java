@@ -26,9 +26,7 @@ public class Host_Login_Impl extends Implement_Parent implements Host_Login_Dao 
             // 5.关闭资源
             rs.close();
             pstm.close();
-            conn.close();
             return bl == true ? 1 : 0;
-
         } catch (Exception ee) {
             ee.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
