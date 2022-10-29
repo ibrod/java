@@ -124,4 +124,27 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
         return false;
     }
 
+    @Override
+    public boolean update_data(int room_id,String field,String value) {
+        try {
+            PreparedStatement pstm = conn.prepareStatement("update room set "+field+"=? where room_id=?");
+            pstm.setString(1,value);
+            pstm.setInt(2,room_id);
+        
+            int count=pstm.executeUpdate();
+
+            pstm.close();
+
+            if(count==1)
+                return true;
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库操作失败");
+            alert.setHeaderText("数据库操作失败");
+            alert.setContentText("请检查互联网连接是否正常，或者数据输入是否合法!");
+            alert.showAndWait();
+        }
+        return false;
+    }
+
 }
