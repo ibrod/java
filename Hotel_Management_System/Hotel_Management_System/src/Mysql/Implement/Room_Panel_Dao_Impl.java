@@ -12,7 +12,7 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
     public boolean read_data(Vector<Room> arr_Room) {
         try {
             // 3.获取操作数据库的预处理对象
-            PreparedStatement pstm = conn.prepareStatement("select * from menu");
+            PreparedStatement pstm = conn.prepareStatement("select * from room");
             // 4.执行SQL语句
             ResultSet rs = pstm.executeQuery();
             // 5.遍历结果集
@@ -20,7 +20,7 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
                 Room room = new Room(
                         rs.getInt("room_id"),
                         rs.getInt("room_number"),
-                        rs.getString("room_type"),
+                        rs.getInt("room_type"),
                         rs.getDouble("room_discount"),
                         rs.getDouble("room_deposit"),
                         rs.getInt("room_capacity"),

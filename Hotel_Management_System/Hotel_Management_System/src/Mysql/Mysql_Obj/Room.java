@@ -3,7 +3,7 @@ package Mysql.Mysql_Obj;
 public class Room {
     int room_id;
     int room_number;
-    String room_type;
+    int room_type;//房间类型,1标准间,2大床房,3豪华套房
     double room_discount;
     double room_deposit;//押金
     int room_capacity;
@@ -12,7 +12,7 @@ public class Room {
     String room_principal;// 房间负责人
     String room_description;// 房间描述
     
-    public Room(int room_id, int room_number, String room_type, double room_discount, double room_deposit,
+    public Room(int room_id, int room_number, int room_type, double room_discount, double room_deposit,
             int room_capacity, double room_price, int room_status, String room_principal, String room_description) {
         this.room_id = room_id;
         this.room_number = room_number;
@@ -26,7 +26,7 @@ public class Room {
         this.room_description = room_description;
     }
     
-    public Room(int room_number, String room_type, double room_discount, double room_deposit, int room_capacity,
+    public Room(int room_number, int room_type, double room_discount, double room_deposit, int room_capacity,
             double room_price, int room_status, String room_principal, String room_description) {
         this.room_number = room_number;
         this.room_type = room_type;
@@ -53,10 +53,10 @@ public class Room {
     public void setRoom_number(int room_number) {
         this.room_number = room_number;
     }
-    public String getRoom_type() {
+    public int getRoom_type() {
         return room_type;
     }
-    public void setRoom_type(String room_type) {
+    public void setRoom_type(int room_type) {
         this.room_type = room_type;
     }
     public double getRoom_discount() {

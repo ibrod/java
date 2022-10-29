@@ -10,11 +10,6 @@ import java.util.Vector;
 import Mysql.Dao.Room_Panel_Dao;
 import Mysql.Implement.Room_Panel_Dao_Impl;
 import Mysql.Mysql_Obj.Room;
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -36,7 +31,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Room_Panel extends Application {
-    ObservableList<Room> ob2 = FXCollections.observableArrayList();// 表格FXCollections
+    ObservableList<Room> ob = FXCollections.observableArrayList();// 表格FXCollections
 
     Room_Panel_Dao room_Panel_Dao;
     Vector<Room> arr_Room;
@@ -44,13 +39,13 @@ public class Room_Panel extends Application {
 
     public void init() {// 重写init方法，用于初始化数据
         try {
-            room_Panel_Dao=new Room_Panel_Dao_Impl();
-            arr_Room = new Vector<Room>();
-            if (room_Panel_Dao.read_data(arr_Room)) {
+             room_Panel_Dao=new Room_Panel_Dao_Impl();
+             arr_Room = new Vector<Room>();
+             if (room_Panel_Dao.read_data(arr_Room)) {
                 for (int i = 0; i < arr_Room.size(); i++) {
-                    ob2.add(arr_Room.get(i));
+                    ob.add(arr_Room.get(i));
                 }
-            }
+             }
         } catch (Exception e) {
             throw (e);
         }
@@ -60,17 +55,33 @@ public class Room_Panel extends Application {
 
         // 表格视图
         TableView<Room> table = new TableView<Room>();
-        table.setPrefSize(400, 190);
+        table.setPrefSize(1200, 650);
         table.relocate(0, 50);
         // 表头
-        TableColumn<Room, String> column1 = new TableColumn<Room, String>("序号");
-        column1.setCellValueFactory(new PropertyValueFactory<Room, String>("order"));
-        TableColumn<Room, String> column2 = new TableColumn<Room, String>("菜名");
-        column2.setCellValueFactory(new PropertyValueFactory<Room, String>("name"));
-        TableColumn<Room, String> column3 = new TableColumn<Room, String>("价格");
-        column3.setCellValueFactory(new PropertyValueFactory<Room, String>("price"));
-        table.getColumns().addAll(column1, column2, column3);// 绑定表头
-        table.setItems(ob2);
+        TableColumn<Room, String> id = new TableColumn<Room, String>("id");
+        id.setCellValueFactory(new PropertyValueFactory<Room, String>("room_id"));
+        TableColumn<Room, String> number = new TableColumn<Room, String>("房间号");
+        number.setCellValueFactory(new PropertyValueFactory<Room, String>("room_number"));
+        TableColumn<Room, String> type = new TableColumn<Room, String>("类型");
+        type.setCellValueFactory(new PropertyValueFactory<Room, String>("room_type"));
+        TableColumn<Room, String> discount = new TableColumn<Room, String>("折扣");
+        discount.setCellValueFactory(new PropertyValueFactory<Room, String>("room_discount"));
+        TableColumn<Room, String> deposit = new TableColumn<Room, String>("押金");
+        deposit.setCellValueFactory(new PropertyValueFactory<Room, String>("room_deposit"));
+        TableColumn<Room, String> capacity = new TableColumn<Room, String>("容量");
+        capacity.setCellValueFactory(new PropertyValueFactory<Room, String>("room_capacity"));
+        TableColumn<Room, String> price = new TableColumn<Room, String>("价格");
+        price.setCellValueFactory(new PropertyValueFactory<Room, String>("room_price"));
+        TableColumn<Room, String> status = new TableColumn<Room, String>("状态");
+        status.setCellValueFactory(new PropertyValueFactory<Room, String>("room_status"));
+        TableColumn<Room, String> principal = new TableColumn<Room, String>("负责人");
+        principal.setCellValueFactory(new PropertyValueFactory<Room, String>("room_principal"));
+        TableColumn<Room, String> description = new TableColumn<Room, String>("描述");
+        description.setCellValueFactory(new PropertyValueFactory<Room, String>("room_description"));
+
+
+        table.getColumns().addAll(id, number, type, discount, deposit, capacity, price, status, principal, description);
+        table.setItems(ob);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);// 自适应列宽
 
         table.getSelectionModel().selectedItemProperty()
@@ -102,7 +113,7 @@ public class Room_Panel extends Application {
         Pane pane = new Pane();// 新建pane
         pane.getChildren().addAll(table);// 将表格视图添加到pane中
 
-        stage.setScene(new Scene(pane, 400, 240));
+        stage.setScene(new Scene(pane, 1200, 700));
         stage.setTitle("实验二 计科20-2BJ 向杰");
         stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         stage.show();
