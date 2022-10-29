@@ -22,11 +22,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.AccessibleAttribute;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeTableCell;
@@ -36,6 +38,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
@@ -69,6 +72,7 @@ public class Room_Panel extends Application {
         TableView<Room> table = new TableView<Room>();
         table.setPrefSize(1200, 650);
         table.relocate(0, 50);
+        
         // 表头
         TableColumn<Room, String> id = new TableColumn<Room, String>("id");
         id.setCellValueFactory(new PropertyValueFactory<Room, String>("room_id"));
