@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
 
@@ -214,6 +215,39 @@ public class Room_Panel extends Application {
                 // room_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
                 else
                     table.refresh();
+            }
+        });
+
+        //使用自定义排序
+        // id.setComparator(new Comparator<String>() {
+        //     @Override
+        //     public int compare(String o1, String o2) {
+        //         return Integer.valueOf(o1).compareTo(Integer.valueOf(o2));
+        //     }
+        // });
+
+        discount.setComparator(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return Double.valueOf(o1).compareTo(Double.valueOf(o2));
+            }
+        });
+        deposit.setComparator(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return Double.valueOf(o1).compareTo(Double.valueOf(o2));
+            }
+        });
+        capacity.setComparator(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return Integer.valueOf(o1).compareTo(Integer.valueOf(o2));
+            }
+        });
+        price.setComparator(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return Double.valueOf(o1).compareTo(Double.valueOf(o2));
             }
         });
 

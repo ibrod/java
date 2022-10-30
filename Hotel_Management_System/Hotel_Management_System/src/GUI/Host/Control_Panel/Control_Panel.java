@@ -159,7 +159,7 @@ public class Control_Panel extends Application {
         });
 
         // 开启服务器模式按钮
-        Button server_bButton = new Button("开启服务器模式");
+        Button server_bButton = new Button("开启服务模式");
         server_bButton.relocate(40, 260);
         server_bButton.setPrefWidth(100);
         server_bButton.setPrefHeight(30);

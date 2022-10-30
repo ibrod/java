@@ -156,7 +156,7 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
             boolean type, boolean discount, boolean deposit, boolean capacity,
             boolean price, boolean status, boolean principal, boolean description) {
         try {
-            System.out.println(sql_command);
+            //System.out.println(sql_command);
             // 3.获取操作数据库的预处理对象
             PreparedStatement pstm = conn.prepareStatement(sql_command);
 
