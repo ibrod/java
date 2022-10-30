@@ -40,6 +40,15 @@ public class Room {
     }
 
     public Room() {
+        this.room_number = 0;
+        this.room_type = "";
+        this.room_discount = 1;
+        this.room_deposit = 0;
+        this.room_capacity = 0;
+        this.room_price = 0;
+        this.room_status = "";
+        this.room_principal = "";
+        this.room_description = "";
     }
     public int getRoom_id() {
         return room_id;

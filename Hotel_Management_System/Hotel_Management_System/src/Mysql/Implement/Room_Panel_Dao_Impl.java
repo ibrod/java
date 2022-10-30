@@ -154,6 +154,7 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
     @Override
     public boolean select_data(Vector<Room> arr_Room, String sql_command) {
         try {
+            System.out.println(sql_command);
             // 3.获取操作数据库的预处理对象
             PreparedStatement pstm = conn.prepareStatement(sql_command);
             // 4.执行SQL语句
@@ -180,6 +181,7 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
             }
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("数据库操作失败");
             alert.setHeaderText("数据库操作失败");
@@ -188,5 +190,5 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
             return false;
         }
     }
-    
+
 }

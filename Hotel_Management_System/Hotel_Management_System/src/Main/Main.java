@@ -12,7 +12,7 @@ public class Main {
         // System.out.println(x);
         //Sms.send_sms("18207439548");
         String s="";
-        System.out.println(s.equals(""));
+        System.out.println(Double.valueOf(s));
         
     }
 }
