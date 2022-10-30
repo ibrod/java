@@ -7,9 +7,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        StringBuffer x=new StringBuffer("111");
-        change(x);
-        System.out.println(x);
+        // StringBuffer x=new StringBuffer("111");
+        // change(x);
+        // System.out.println(x);
         //Sms.send_sms("18207439548");
+        String s="";
+        System.out.println(s.equals(""));
+        
     }
 }

@@ -27,10 +27,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableView.TableViewSelectionModel;
@@ -66,13 +68,62 @@ public class Room_Panel extends Application {
         }
     }
 
+    public void select(String id, String number, String type, String discount, String deposit, String capacity,
+            String price, String status, String principal, String description) {
+        try {
+            arr_Room.clear();
+
+            String sql_command = "select * from room where 1=1";
+            if (!id.equals("")) {
+                sql_command += " and id = " + id;
+            }
+            if (!number.equals("")) {
+                sql_command += " and number = " + number;
+            }
+            if (!type.equals("")) {
+                sql_command += " and type = " + type;
+            }
+            if (!discount.equals("")) {
+                sql_command += " and discount = " + discount;
+            }
+            if (!deposit.equals("")) {
+                sql_command += " and deposit = " + deposit;
+            }
+            if (!capacity.equals("")) {
+                sql_command += " and capacity = " + capacity;
+            }
+            if (!price.equals("")) {
+                sql_command += " and price = " + price;
+            }
+            if (!status.equals("")) {
+                sql_command += " and status = " + status;
+            }
+            if (!principal.equals("")) {
+                sql_command += " and principal = " + principal;
+            }
+            if (!description.equals("")) {
+                sql_command += " and description = " + description;
+            }
+
+            if (room_Panel_Dao.select_data(arr_Room, sql_command)) {
+                ob.clear();
+                for (int i = 0; i < arr_Room.size(); i++) {
+                    ob.add(arr_Room.get(i));
+                }
+            }
+        } catch (Exception e) {
+            throw (e);
+        }
+
+    }
+
     public void start(Stage stage) {
 
         // 表格视图
         TableView<Room> table = new TableView<Room>();
         table.setPrefSize(1200, 650);
         table.relocate(0, 50);
-        
+
         // 表头
         TableColumn<Room, String> id = new TableColumn<Room, String>("id");
         id.setCellValueFactory(new PropertyValueFactory<Room, String>("room_id"));
@@ -258,7 +309,10 @@ public class Room_Panel extends Application {
                 r.setRoom_id(room_Panel_Dao.add_data());
                 ob.add(r);
                 table.refresh();
-                table.getSelectionModel().select(r);
+                int row = ob.size() - 1;
+                table.requestFocus();
+                table.getSelectionModel().select(row);
+                table.getSelectionModel().focus(row);
             }
         });
 
@@ -268,11 +322,11 @@ public class Room_Panel extends Application {
         delete.setPrefSize(100, 50);
         delete.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                if(table.getSelectionModel().getSelectedItem()!=null){
+                if (table.getSelectionModel().getSelectedItem() != null) {
                     room_Panel_Dao.delete_data(table.getSelectionModel().getSelectedItem().getRoom_id());
                     ob.remove(table.getSelectionModel().getSelectedItem());
                     table.refresh();
-                }else{
+                } else {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("提示");
                     alert.setHeaderText(null);
@@ -298,37 +352,145 @@ public class Room_Panel extends Application {
             }
         });
 
-        // 返回按钮
-        Button back = new Button("返回");
-        back.relocate(300, 0);
-        back.setPrefSize(100, 50);
-        back.setOnAction(new EventHandler<ActionEvent>() {
+        // // 返回按钮
+        // Button back = new Button("返回");
+        // back.relocate(300, 0);
+        // back.setPrefSize(100, 50);
+        // back.setOnAction(new EventHandler<ActionEvent>() {
+        // public void handle(ActionEvent event) {
+        // stage.close();
+        // }
+        // });
+
+        // id_label
+        Label id_label = new Label("id");
+        id_label.relocate(420, 5);
+
+        // id_text
+        TextField id_Text = new TextField();
+        id_Text.relocate(460, 0);
+        id_Text.setPrefWidth(80);
+
+        // number_Label
+        Label number_Label = new Label("房间号");
+        number_Label.relocate(420, 30);
+
+        // number_Label
+        TextField number_Text = new TextField();
+        number_Text.relocate(460, 25);
+        number_Text.setPrefWidth(80);
+
+        // type_label
+        Label type_Label = new Label("类型");
+        type_Label.relocate(545, 5);
+
+        // type_text
+        TextField type_Text = new TextField();
+        type_Text.relocate(585, 0);
+        type_Text.setPrefWidth(80);
+
+        // discount_label
+        Label discount_Label = new Label("折扣");
+        discount_Label.relocate(545, 30);
+
+        // discount_text
+        TextField discount_Text = new TextField();
+        discount_Text.relocate(585, 25);
+        discount_Text.setPrefWidth(80);
+
+        // deposit_labe
+        Label deposit_Label = new Label("押金");
+        deposit_Label.relocate(670, 5);
+
+        // deposit_text
+        TextField deposit_Text = new TextField();
+        deposit_Text.relocate(710, 0);
+        deposit_Text.setPrefWidth(80);
+
+        // capacity_label
+        Label capacity_Label = new Label("容量");
+        capacity_Label.relocate(670, 30);
+
+        // capacity_text
+        TextField capacity_Text = new TextField();
+        capacity_Text.relocate(710, 25);
+        capacity_Text.setPrefWidth(80);
+
+        // price_label
+        Label price_Label = new Label("价格");
+        price_Label.relocate(795, 5);
+
+        // price_text
+        TextField price_Text = new TextField();
+        price_Text.relocate(835, 0);
+        price_Text.setPrefWidth(80);
+
+        // status_label
+        Label status_Label = new Label("状态");
+        status_Label.relocate(795, 30);
+
+        // status_text
+        TextField status_Text = new TextField();
+        status_Text.relocate(835, 25);
+        status_Text.setPrefWidth(80);
+
+        // principal_label
+        Label principal_Label = new Label("负责人");
+        principal_Label.relocate(920, 5);
+
+        // principal_text
+        TextField principal_Text = new TextField();
+        principal_Text.relocate(960, 0);
+        principal_Text.setPrefWidth(200);
+
+        // description_label
+        Label description_Label = new Label("描述");
+        description_Label.relocate(920, 30);
+
+        // description_text
+        TextField description_Text = new TextField();
+        description_Text.relocate(960, 25);
+        description_Text.setPrefWidth(200);
+
+        // 搜索按钮
+        Button search = new Button("搜索");
+        search.relocate(300, 0);
+        search.setPrefSize(100, 50);
+        search.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                stage.close();
+                select(id_Text.getText(), number_Text.getText(), type_Text.getText(), discount_Text.getText(),
+                        deposit_Text.getText(), capacity_Text.getText(), price_Text.getText(), status_Text.getText(),
+                        principal_Text.getText(), description_Text.getText());
+                table.refresh();
             }
         });
 
-        //使用指导
-        Label label = new Label("(Tips:单击单元格可选中,双击单元格可编辑,编辑后按回车键确认并保存)");
-        label.relocate(500,15);
-        label.setStyle("-fx-font-size: 20px; -fx-text-fill: #ff0000;");
+        // // 使用指导
+        // Label label = new Label("(Tips:单击单元格可选中,双击单元格可编辑,编辑后按回车键确认并保存)");
+        // label.relocate(500, 15);
+        // label.setStyle("-fx-font-size: 20px; -fx-text-fill: #ff0000;");
 
         // table.getSelectionModel().selectedItemProperty()
-        //         .addListener((ChangeListener<? super Room>) new ChangeListener<Room>() {
-        //             @Override
-        //             public void changed(ObservableValue<? extends Room> arg0, Room old_str, Room new_str) {
-        //                 // getSelectedIndex方法可获得选中项的序号，getSelectedItem方法可获得选中项的对象
-        //                 // String desc = String.format(
-        //                 // table.getSelectionModel().getSelectedIndex(),
-        //                 // table.getSelectionModel().getSelectedItem().getRoom_capacity(),
-        //                 // table.getSelectionModel().getSelectedItem().getRoom_number());
-        //                 // label.setText(desc); // 在标签上显示当前选中的文本项
-        //                 System.out.println(table.getSelectionModel().getSelectedItem().getRoom_number());
-        //             }
-        //         });
+        // .addListener((ChangeListener<? super Room>) new ChangeListener<Room>() {
+        // @Override
+        // public void changed(ObservableValue<? extends Room> arg0, Room old_str, Room
+        // new_str) {
+        // // getSelectedIndex方法可获得选中项的序号，getSelectedItem方法可获得选中项的对象
+        // // String desc = String.format(
+        // // table.getSelectionModel().getSelectedIndex(),
+        // // table.getSelectionModel().getSelectedItem().getRoom_capacity(),
+        // // table.getSelectionModel().getSelectedItem().getRoom_number());
+        // // label.setText(desc); // 在标签上显示当前选中的文本项
+        // System.out.println(table.getSelectionModel().getSelectedItem().getRoom_number());
+        // }
+        // });
 
         Pane pane = new Pane();// 新建pane
-        pane.getChildren().addAll(table, add, delete, back, refresh, label);// 将tableview添加到pane中
+        pane.getChildren().addAll(table, add, delete, refresh, search, id_label, id_Text, number_Label, number_Text,
+                type_Label,
+                type_Text, discount_Label, discount_Text, deposit_Label, deposit_Text, capacity_Label, capacity_Text,
+                price_Label, price_Text, status_Label, status_Text, principal_Label, principal_Text, description_Label,
+                description_Text);// 将控件添加到pane中
 
         stage.setScene(new Scene(pane, 1200, 700));
         stage.setTitle("房间管理面板");
