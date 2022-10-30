@@ -133,8 +133,9 @@ public class Room_Panel extends Application {
                 }
             }
         } catch (Exception e) {
-            
-            throw (e);
+            Alert alert=new Alert(AlertType.ERROR);
+            alert.setTitle("错误");
+            alert.setContentText("输入的数据有误,请检查数据输入是否规范");
         }
 
     }
@@ -358,21 +359,21 @@ public class Room_Panel extends Application {
             }
         });
 
-        // 刷新按钮
-        Button refresh = new Button("刷新");
-        refresh.relocate(200, 0);
-        refresh.setPrefSize(100, 50);
-        refresh.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                ob.clear();
-                arr_Room.clear();
-                if (room_Panel_Dao.read_data(arr_Room)) {
-                    for (int i = 0; i < arr_Room.size(); i++) {
-                        ob.add(arr_Room.get(i));
-                    }
-                }
-            }
-        });
+        // // 刷新按钮
+        // Button refresh = new Button("刷新");
+        // refresh.relocate(200, 0);
+        // refresh.setPrefSize(100, 50);
+        // refresh.setOnAction(new EventHandler<ActionEvent>() {
+        //     public void handle(ActionEvent event) {
+        //         ob.clear();
+        //         arr_Room.clear();
+        //         if (room_Panel_Dao.read_data(arr_Room)) {
+        //             for (int i = 0; i < arr_Room.size(); i++) {
+        //                 ob.add(arr_Room.get(i));
+        //             }
+        //         }
+        //     }
+        // });
 
         // // 返回按钮
         // Button back = new Button("返回");
@@ -474,8 +475,27 @@ public class Room_Panel extends Application {
         description_Text.relocate(960, 25);
         description_Text.setPrefWidth(200);
 
-        // 搜索按钮
-        Button search = new Button("搜索");
+        //清空按钮
+        Button clear = new Button("清空");
+        clear.relocate(200, 0);
+        clear.setPrefSize(100, 50);
+        clear.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                id_Text.setText("");
+                number_Text.setText("");
+                type_Text.setText("");
+                discount_Text.setText("");
+                deposit_Text.setText("");
+                capacity_Text.setText("");
+                price_Text.setText("");
+                status_Text.setText("");
+                principal_Text.setText("");
+                description_Text.setText("");
+            }
+        });
+
+        // 搜索/刷新按钮
+        Button search = new Button("搜索/刷新");
         search.relocate(300, 0);
         search.setPrefSize(100, 50);
         search.setOnAction(new EventHandler<ActionEvent>() {
@@ -508,11 +528,11 @@ public class Room_Panel extends Application {
         // });
 
         Pane pane = new Pane();// 新建pane
-        pane.getChildren().addAll(table, add, delete, refresh, search, id_label, id_Text, number_Label, number_Text,
+        pane.getChildren().addAll(table, add, delete, search, id_label, id_Text, number_Label, number_Text,
                 type_Label,
                 type_Text, discount_Label, discount_Text, deposit_Label, deposit_Text, capacity_Label, capacity_Text,
                 price_Label, price_Text, status_Label, status_Text, principal_Label, principal_Text, description_Label,
-                description_Text);// 将控件添加到pane中
+                description_Text,clear);// 将控件添加到pane中
 
         stage.setScene(new Scene(pane, 1200, 700));
         stage.setTitle("房间管理面板");
