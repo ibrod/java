@@ -152,11 +152,55 @@ public class Room_Panel_Dao_Impl extends Implement_Parent implements Room_Panel_
     }
 
     @Override
-    public boolean select_data(Vector<Room> arr_Room, String sql_command) {
+    public boolean select_data(Vector<Room> arr_Room, String sql_command, Room value, boolean id, boolean number,
+            boolean type, boolean discount, boolean deposit, boolean capacity,
+            boolean price, boolean status, boolean principal, boolean description) {
         try {
             System.out.println(sql_command);
             // 3.获取操作数据库的预处理对象
             PreparedStatement pstm = conn.prepareStatement(sql_command);
+
+            int cnt = 1;
+            if (id) {
+                pstm.setInt(cnt, value.getRoom_id());
+                cnt++;
+            }
+            if (number) {
+                pstm.setInt(cnt, value.getRoom_number());
+                cnt++;
+            }
+            if (type) {
+                pstm.setString(cnt, value.getRoom_type());
+                cnt++;
+            }
+            if (discount) {
+                pstm.setDouble(cnt, value.getRoom_discount());
+                cnt++;
+            }
+            if (deposit) {
+                pstm.setDouble(cnt, value.getRoom_deposit());
+                cnt++;
+            }
+            if (capacity) {
+                pstm.setInt(cnt, value.getRoom_capacity());
+                cnt++;
+            }
+            if (price) {
+                pstm.setDouble(cnt, value.getRoom_price());
+                cnt++;
+            }
+            if (status) {
+                pstm.setString(cnt, value.getRoom_status());
+                cnt++;
+            }
+            if (principal) {
+                pstm.setString(cnt, value.getRoom_principal());
+                cnt++;
+            }
+            if (description) {
+                pstm.setString(cnt, value.getRoom_description());
+            }
+
             // 4.执行SQL语句
             ResultSet rs = pstm.executeQuery();
             // 5.遍历结果集
