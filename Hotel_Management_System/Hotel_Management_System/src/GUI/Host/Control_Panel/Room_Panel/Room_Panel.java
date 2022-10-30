@@ -72,46 +72,68 @@ public class Room_Panel extends Application {
             String price, String status, String principal, String description) {
         try {
             arr_Room.clear();
-
+            Room r=new Room();
             String sql_command = "select * from room where 1=1";
+            boolean[] br = { false, false, false, false, false, false, false, false, false, false, false, false };
             if (!id.equals("")) {
-                sql_command += " and room_id = " + id;
+                sql_command += " and room_id = ?";
+                r.setRoom_id(Integer.parseInt(id));
+                br[0]=true;
             }
             if (!number.equals("")) {
-                sql_command += " and room_number = " + number;
+                sql_command += " and room_number = ?";
+                r.setRoom_number(Integer.parseInt(number));
+                br[1]=true;
             }
             if (!type.equals("")) {
-                sql_command += " and room_type = '" + type+"'";
+                sql_command += " and room_type = ?";
+                r.setRoom_type(type);
+                br[2]=true;
             }
             if (!discount.equals("")) {
-                sql_command += " and room_discount = " + discount;
+                sql_command += " and room_discount = ?";
+                r.setRoom_discount(Double.parseDouble(discount));
+                br[3]=true;
             }
             if (!deposit.equals("")) {
-                sql_command += " and room_deposit = " + deposit;
+                sql_command += " and room_deposit = ?";
+                r.setRoom_deposit(Double.parseDouble(deposit));
+                br[4]=true;
             }
             if (!capacity.equals("")) {
-                sql_command += " and room_capacity = " + capacity;
+                sql_command += " and room_capacity = ?";
+                r.setRoom_capacity(Integer.parseInt(capacity));
+                br[5]=true;
             }
             if (!price.equals("")) {
-                sql_command += " and room_price = " + price;
+                sql_command += " and room_price = ?";
+                r.setRoom_price(Double.parseDouble(price));
+                br[6]=true;
             }
             if (!status.equals("")) {
-                sql_command += " and room_status = '" + status+"'";
+                sql_command += " and room_status = ?";
+                r.setRoom_status(status);
+                br[7]=true;
             }
             if (!principal.equals("")) {
-                sql_command += " and room_principal = '" + principal+"'";
+                sql_command += " and room_principal = ?";
+                r.setRoom_principal(principal);
+                br[8]=true;
             }
             if (!description.equals("")) {
-                sql_command += " and room_description = '" + description+"'";
+                sql_command += " and room_description = ?";
+                r.setRoom_description(description);
+                br[9]=true;
             }
 
-            if (room_Panel_Dao.select_data(arr_Room, sql_command)) {
+            if (room_Panel_Dao.select_data(arr_Room, sql_command,r,br[0],br[1],br[2],br[3],br[4],br[5],br[6],br[7],br[8],br[9])) {
                 ob.clear();
                 for (int i = 0; i < arr_Room.size(); i++) {
                     ob.add(arr_Room.get(i));
                 }
             }
         } catch (Exception e) {
+        
             throw (e);
         }
 
