@@ -91,14 +91,14 @@ public class User_Manage_Panel extends Application {
                 br[3]=true;
             }
             if (!id_card.equals("")) {
-                r.setPhone_number(id_card);
+                r.setId_card(id_card);
                 br[4]=true;
             }
             if (!email.equals("")) {
-                r.setId_card(email);
+                r.setEmail(email);
                 br[5]=true;
             }
-           
+            System.out.println(br[0]+" "+br[1]+" "+br[2]+" "+br[3]+" "+br[4]+" "+br[5]);
             if (User_Info_Panel_Dao.select_data(arr_User_Info,r,br)) {
                 ob.clear();
                 for (int i = 0; i < arr_User_Info.size(); i++) {
@@ -277,7 +277,7 @@ public class User_Manage_Panel extends Application {
         id_Text.setPrefWidth(80);
 
         // name_Label
-        Label name_Label = new Label("房间号");
+        Label name_Label = new Label("姓名");
         name_Label.relocate(420, 30);
 
         // name_text
@@ -286,40 +286,40 @@ public class User_Manage_Panel extends Application {
         name_text.setPrefWidth(80);
 
         //gender_lable
-        Label gender_lable = new Label("类型");
+        Label gender_lable = new Label("性别");
         gender_lable.relocate(545, 5);
 
         //gender_text
         TextField gender_text = new TextField();
         gender_text.relocate(585, 0);
-        gender_text.setPrefWidth(80);
+        gender_text.setPrefWidth(200);
 
         // phone_label
-        Label phone_label = new Label("折扣");
+        Label phone_label = new Label("手机号");
         phone_label.relocate(545, 30);
 
         // phone_text
         TextField phone_text = new TextField();
         phone_text.relocate(585, 25);
-        phone_text.setPrefWidth(80);
+        phone_text.setPrefWidth(200);
 
         // id_card_label
-        Label id_card_label = new Label("押金");
-        id_card_label.relocate(670, 5);
+        Label id_card_label = new Label("身份证号");
+        id_card_label.relocate(800, 5);
 
         // id_card_text
         TextField id_card_text = new TextField();
-        id_card_text.relocate(710, 0);
-        id_card_text.setPrefWidth(80);
+        id_card_text.relocate(850, 0);
+        id_card_text.setPrefWidth(200);
 
         // email_label
-        Label email_label = new Label("容量");
-        email_label.relocate(670, 30);
+        Label email_label = new Label("邮箱");
+        email_label.relocate(800, 30);
 
         // email_text
         TextField email_text = new TextField();
-        email_text.relocate(710, 25);
-        email_text.setPrefWidth(80);
+        email_text.relocate(850, 25);
+        email_text.setPrefWidth(200);
 
         //清空按钮
         Button clear = new Button("清空");
@@ -342,30 +342,10 @@ public class User_Manage_Panel extends Application {
         search.setPrefSize(100, 50);
         search.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                select(id.getText(), name.getText(), gender.getText(), phone_number.getText(), Id_card.getText(), email.getText());
+                select(id_Text.getText(), name_text.getText(), gender_text.getText(), phone_text.getText(), id_card_text.getText(), email_text.getText());
                 table.refresh();
             }
         });
-
-        // // 使用指导
-        // Label label = new Label("(Tips:单击单元格可选中,双击单元格可编辑,编辑后按回车键确认并保存)");
-        // label.relocate(500, 15);
-        // label.setStyle("-fx-font-size: 20px; -fx-text-fill: #ff0000;");
-
-        // table.getSelectionModel().selectedItemProperty()
-        // .addListener((ChangeListener<? super User_Info>) new ChangeListener<User_Info>() {
-        // @Override
-        // public void changed(ObservableValue<? extends User_Info> arg0, User_Info old_str, User_Info
-        // new_str) {
-        // // getSelectedIndex方法可获得选中项的序号，getSelectedItem方法可获得选中项的对象
-        // // String desc = String.format(
-        // // table.getSelectionModel().getSelectedIndex(),
-        // // table.getSelectionModel().getSelectedItem().getUser_Info_capacity(),
-        // // table.getSelectionModel().getSelectedItem().getUser_Info_number());
-        // // label.setText(desc); // 在标签上显示当前选中的文本项
-        // System.out.println(table.getSelectionModel().getSelectedItem().getUser_Info_number());
-        // }
-        // });
 
         Pane pane = new Pane();// 新建pane
         pane.getChildren().addAll(table, add, delete, search, id_label, id_Text,clear, name_Label, name_text,gender_lable,gender_text,phone_label,phone_text,id_card_label,id_card_text,email_label,email_text);// 将控件添加到pane中

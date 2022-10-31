@@ -138,40 +138,48 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
 
             String sql_command = "select * from user where 1=1";
             if (is_added[0]) {
-                sql_command += " and name=?";
+                sql_command+=" and user_id=?";
             }
             if (is_added[1]) {
-                sql_command += " and gender=?";
+                sql_command += " and name=?";
             }
             if (is_added[2]) {
-                sql_command += " and phone=?";
+                sql_command += " and gender=?";
             }
             if (is_added[3]) {
-                sql_command += " and id_card=?";
+                sql_command += " and phone=?";
             }
             if (is_added[4]) {
+                sql_command += " and id_card=?";
+            }
+            if (is_added[5]) {
                 sql_command += " and email=?";
             }
+            System.out.println(sql_command);
             PreparedStatement pstm = conn.prepareStatement(sql_command);
 
             int cnt = 1;
             if (is_added[0]) {
-                pstm.setString(cnt, value.getName());
+                pstm.setInt(cnt, value.getUser_id());
                 cnt++;
             }
             if (is_added[1]) {
-                pstm.setString(cnt, value.getGender());
+                pstm.setString(cnt, value.getName());
                 cnt++;
             }
             if (is_added[2]) {
-                pstm.setString(cnt, value.getPhone_number());
+                pstm.setString(cnt, value.getGender());
                 cnt++;
             }
             if (is_added[3]) {
-                pstm.setString(cnt, value.getId_card());
+                pstm.setString(cnt, value.getPhone_number());
                 cnt++;
             }
             if (is_added[4]) {
+                pstm.setString(cnt, value.getId_card());
+                cnt++;
+            }
+            if (is_added[5]) {
                 pstm.setString(cnt, value.getEmail());
                 cnt++;
             }
