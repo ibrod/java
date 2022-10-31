@@ -112,7 +112,7 @@ public class Update_Info extends Application{
                 user_info.setId(id_input.getText());
                 user_info.setEmail(email_input.getText());
                 User_Info_Manage_Dao user_Info_Manage_Dao = new User_Info_Manage_Dao_Impl();
-                user_Info_Manage_Dao.update(user_info);
+                user_Info_Manage_Dao.update_by_phone(user_info);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
                 alert.setHeaderText("更新成功");

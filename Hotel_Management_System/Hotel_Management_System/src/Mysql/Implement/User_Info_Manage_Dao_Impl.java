@@ -2,9 +2,11 @@ package Mysql.Implement;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Vector;
 
 import Mysql.Dao.User_Info_Manage_Dao;
 import Mysql.Mysql_Obj.User_Info;
+import javafx.scene.control.Alert;
 
 public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_Info_Manage_Dao {
 
@@ -28,7 +30,7 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
     }
 
     @Override
-    public boolean update(User_Info user_Info) {
+    public boolean update_by_phone(User_Info user_Info) {
         try {
             PreparedStatement pstm = conn
                     .prepareStatement("update user set gender=?,name=?,id_card=?,email=? where phone=?");
@@ -61,5 +63,57 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public boolean delete_by_id(int id) {
+        try {
+            PreparedStatement pstm = conn.prepareStatement("delete from user where id=?");
+            pstm.setInt(1, id);
+            int count = pstm.executeUpdate();
+            if (count > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("错误");
+            alert.setHeaderText("删除失败");
+            alert.setContentText("请检查数据库连接");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean update_by_id(int id, User_Info user_Info,boolean is_add[]) {
+        
+        return false;
+    }
+
+    @Override
+    public int insert_by_id(){
+        try {
+            int id = -1;
+            PreparedStatement pstm = conn.prepareStatement("insert into user() values()",
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+
+            pstm.executeUpdate();
+
+            ResultSet rs = pstm.getGeneratedKeys();
+
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            pstm.close();
+            return id;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库操作失败");
+            alert.setHeaderText("数据库操作失败");
+            alert.setContentText("请检查互联网连接是否正常，或者数据输入是否合法!");
+            alert.showAndWait();
+        }
+        return -1;
     }
 }
