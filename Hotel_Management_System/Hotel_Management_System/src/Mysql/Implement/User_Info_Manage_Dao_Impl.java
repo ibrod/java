@@ -36,7 +36,7 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
                     .prepareStatement("update user set gender=?,name=?,id_card=?,email=? where phone=?");
             pstm.setString(1, user_Info.getGender());
             pstm.setString(2, user_Info.getName());
-            pstm.setString(3, user_Info.getId());
+            pstm.setString(3, user_Info.getId_card());
             pstm.setString(4, user_Info.getEmail());
             pstm.setString(5, user_Info.getPhone_number());
             int count = pstm.executeUpdate();
@@ -84,13 +84,26 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
     }
 
     @Override
-    public boolean update_by_id(int id, User_Info user_Info,boolean is_add[]) {
-        
+    public boolean update_by_id(int id, String field, String value) {
+        try {
+            PreparedStatement pstm = conn.prepareStatement("update user set " + field + "=? where id=?");
+            pstm.setString(1, value);
+            pstm.setInt(2, id);
+            int count = pstm.executeUpdate();
+            if (count > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("错误");
+            alert.setHeaderText("更新失败");
+            alert.setContentText("请检查数据库连接");
+        }
         return false;
     }
 
     @Override
-    public int insert_by_id(){
+    public int insert_by_id() {
         try {
             int id = -1;
             PreparedStatement pstm = conn.prepareStatement("insert into user() values()",
@@ -115,5 +128,82 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
             alert.showAndWait();
         }
         return -1;
+    }
+
+    @Override
+    public boolean select_data(Vector<User_Info> arr_User, User_Info value, boolean[] is_added) {
+        try {
+            // System.out.println(sql_command);
+            // 3.获取操作数据库的预处理对象
+
+            String sql_command = "select * from user where 1=1";
+            if (is_added[0]) {
+                sql_command += " and name=?";
+            }
+            if (is_added[1]) {
+                sql_command += " and gender=?";
+            }
+            if (is_added[2]) {
+                sql_command += " and phone=?";
+            }
+            if (is_added[3]) {
+                sql_command += " and id_card=?";
+            }
+            if (is_added[4]) {
+                sql_command += " and email=?";
+            }
+            PreparedStatement pstm = conn.prepareStatement(sql_command);
+
+            int cnt = 1;
+            if (is_added[0]) {
+                pstm.setString(cnt,value.getName());
+                cnt++;
+            }
+            if (is_added[1]) {
+                pstm.setString(cnt, value.getGender());
+                cnt++;
+            }
+            if (is_added[2]) {
+                pstm.setString(cnt, value.getPhone_number());
+                cnt++;
+            }
+            if (is_added[3]) {
+                pstm.setString(cnt, value.getId_card());
+                cnt++;
+            }
+            if (is_added[4]) {
+                pstm.setString(cnt, value.getEmail());
+                cnt++;
+            }
+
+            // 4.执行SQL语句
+            ResultSet rs = pstm.executeQuery();
+            // 5.遍历结果集
+            while (rs.next()) {
+                User_Info user_Info = new User_Info(
+                        rs.getInt("user_id"),
+                        rs.getString("name"),
+                        rs.getString("gender"),
+                        rs.getString("phone"),
+                        rs.getString("id_card"),
+                        rs.getString("email")
+                     );
+                arr_User.add(user_Info);
+            }
+            // 6.释放资源
+            if (rs != null) {
+                pstm.close();
+                rs.close();
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库操作失败");
+            alert.setHeaderText("数据库操作失败");
+            alert.setContentText("请检查互联网连接是否正常!");
+            alert.showAndWait();
+        }
+        return false;
     }
 }
