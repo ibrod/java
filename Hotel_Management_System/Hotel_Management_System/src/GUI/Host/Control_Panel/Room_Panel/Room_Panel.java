@@ -173,7 +173,6 @@ public class Room_Panel extends Application {
         table.getColumns().addAll(id, number, type, discount, deposit, capacity, price, status, principal, description);
         table.setItems(ob);
 
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);// 自适应列宽
         table.setEditable(true);
 
         number.setCellValueFactory(
@@ -217,6 +216,8 @@ public class Room_Panel extends Application {
                     table.refresh();
             }
         });
+
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);// 自适应列宽
 
         //使用自定义排序
         // id.setComparator(new Comparator<String>() {
@@ -570,7 +571,23 @@ public class Room_Panel extends Application {
 
         stage.setScene(new Scene(pane, 1200, 700));
         stage.setTitle("房间管理面板");
-        stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
+       // stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
+        //添加窗体大小改变的监听事件
+        stage.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth,
+                    Number newSceneWidth) {
+                table.setPrefWidth((double) newSceneWidth-15);
+            }
+        });
+        stage.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight,
+                    Number newSceneHeight) {
+                table.setPrefHeight((double) newSceneHeight - 85);
+            }
+        });
+
         stage.show();
     }
 
