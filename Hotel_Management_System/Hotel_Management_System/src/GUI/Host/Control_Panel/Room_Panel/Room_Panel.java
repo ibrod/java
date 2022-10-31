@@ -178,30 +178,39 @@ public class Room_Panel extends Application {
         number.setCellValueFactory(
                 cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_number())));
         number.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
+        // number.setPrefWidth(100);
 
         type.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
+        type.setPrefWidth(100);
 
         discount.setCellValueFactory(
                 cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_discount())));
         discount.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
+        // discount.setPrefWidth(100);
 
         deposit.setCellValueFactory(
                 cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_deposit())));
         deposit.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
+        // deposit.setPrefWidth(100);
 
         capacity.setCellValueFactory(
                 cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_capacity())));
         capacity.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
+        // capacity.setPrefWidth(100);
 
         price.setCellValueFactory(
                 cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_price())));
         price.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
+        // price.setPrefWidth(100);
 
         status.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
+        // status.setPrefWidth(100);
 
         principal.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
+        // principal.setPrefWidth(100);
 
         description.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
+
 
         number.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Room, String>>() {
             @Override

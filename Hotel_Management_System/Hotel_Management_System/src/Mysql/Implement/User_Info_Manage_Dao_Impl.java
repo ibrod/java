@@ -68,7 +68,7 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
     @Override
     public boolean delete_by_id(int id) {
         try {
-            PreparedStatement pstm = conn.prepareStatement("delete from user where id=?");
+            PreparedStatement pstm = conn.prepareStatement("delete from user where user_id=?");
             pstm.setInt(1, id);
             int count = pstm.executeUpdate();
             if (count > 0) {
@@ -86,7 +86,7 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
     @Override
     public boolean update_by_id(int id, String field, String value) {
         try {
-            PreparedStatement pstm = conn.prepareStatement("update user set " + field + "=? where id=?");
+            PreparedStatement pstm = conn.prepareStatement("update user set " + field + "=? where user_id=?");
             pstm.setString(1, value);
             pstm.setInt(2, id);
             int count = pstm.executeUpdate();
@@ -156,7 +156,7 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
 
             int cnt = 1;
             if (is_added[0]) {
-                pstm.setString(cnt,value.getName());
+                pstm.setString(cnt, value.getName());
                 cnt++;
             }
             if (is_added[1]) {
@@ -186,8 +186,7 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
                         rs.getString("gender"),
                         rs.getString("phone"),
                         rs.getString("id_card"),
-                        rs.getString("email")
-                     );
+                        rs.getString("email"));
                 arr_User.add(user_Info);
             }
             // 6.释放资源
@@ -206,4 +205,41 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
         }
         return false;
     }
+
+    @Override
+    public boolean read_data(Vector<User_Info> arr_User_Info) {
+        try {
+            // 3.获取操作数据库的预处理对象
+            PreparedStatement pstm = conn.prepareStatement("select * from user");
+            // 4.执行SQL语句
+            ResultSet rs = pstm.executeQuery();
+            // 5.遍历结果集
+            while (rs.next()) {
+                User_Info user_Info = new User_Info(
+                        rs.getInt("user_id"),
+                        rs.getString("name"),
+                        rs.getString("gender"),
+                        rs.getString("phone"),
+                        rs.getString("id_card"),
+                        rs.getString("email"));
+                arr_User_Info.add(user_Info);
+            }
+
+            // 6.释放资源
+            if (rs != null) {
+                pstm.close();
+                rs.close();
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库操作失败");
+            alert.setHeaderText("数据库操作失败");
+            alert.setContentText("请检查互联网连接是否正常!");
+            alert.showAndWait();
+            return false;
+        }
+    }
+
 }

@@ -12,4 +12,5 @@ public interface User_Info_Manage_Dao {
     public int insert_by_id();
     public boolean delete_by_id(int id);
     public boolean select_data(Vector<User_Info> arr_User,User_Info value,boolean[] is_added);
+    public boolean read_data(Vector<User_Info> arr_User_Info);
 }

@@ -10,9 +10,6 @@ public class User_Info {
     int status;
 
 
-    
-
-
     public User_Info(int user_id, String name, String gender, String phone_number, String id_card, String email) {
         this.user_id = user_id;
         this.name = name;
