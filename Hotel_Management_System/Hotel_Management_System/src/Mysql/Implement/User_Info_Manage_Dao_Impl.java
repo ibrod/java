@@ -155,7 +155,7 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
             if (is_added[5]) {
                 sql_command += " and email=?";
             }
-            System.out.println(sql_command);
+            //System.out.println(sql_command);
             PreparedStatement pstm = conn.prepareStatement(sql_command);
 
             int cnt = 1;

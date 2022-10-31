@@ -98,7 +98,7 @@ public class User_Manage_Panel extends Application {
                 r.setEmail(email);
                 br[5]=true;
             }
-            System.out.println(br[0]+" "+br[1]+" "+br[2]+" "+br[3]+" "+br[4]+" "+br[5]);
+            //System.out.println(br[0]+" "+br[1]+" "+br[2]+" "+br[3]+" "+br[4]+" "+br[5]);
             if (User_Info_Panel_Dao.select_data(arr_User_Info,r,br)) {
                 ob.clear();
                 for (int i = 0; i < arr_User_Info.size(); i++) {
