@@ -111,6 +111,7 @@ public class Update_Info extends Application{
                 user_info.setGender(group.getSelectedToggle().getUserData().toString());
                 user_info.setId_card(id_input.getText());
                 user_info.setEmail(email_input.getText());
+                user_info.setType("普通");
                 User_Info_Manage_Dao user_Info_Manage_Dao = new User_Info_Manage_Dao_Impl();
                 user_Info_Manage_Dao.update_by_phone(user_info);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -30,15 +30,35 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
     }
 
     @Override
+    public User_Info get_user_info_send_by_user(String phone) {
+        try {
+            PreparedStatement pstm = conn.prepareStatement("select * from user where phone=? and type!='临时'");
+            pstm.setString(1, phone);
+
+            ResultSet rs = pstm.executeQuery();
+
+            if (rs.next()) {
+                User_Info user_info = new User_Info(rs.getString("phone"), rs.getString("gender"), rs.getString("name"),
+                        rs.getString("id_card"), rs.getString("email"));
+                return user_info;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public boolean update_by_phone(User_Info user_Info) {
         try {
             PreparedStatement pstm = conn
-                    .prepareStatement("update user set gender=?,name=?,id_card=?,email=? where phone=?");
+                    .prepareStatement("update user set gender=?,name=?,id_card=?,email=? where phone=? and type!='临时'");
             pstm.setString(1, user_Info.getGender());
             pstm.setString(2, user_Info.getName());
             pstm.setString(3, user_Info.getId_card());
             pstm.setString(4, user_Info.getEmail());
             pstm.setString(5, user_Info.getPhone_number());
+
             int count = pstm.executeUpdate();
             if (count > 0) {
                 return true;
@@ -52,8 +72,9 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
     @Override
     public boolean insert_by_phone(String phone) {
         try {
+            // System.out.println(phone);
             PreparedStatement pstm = conn
-                    .prepareStatement("insert into user(phone) values(?)");
+                    .prepareStatement("insert into user(phone,type) values(?,'普通')");
             pstm.setString(1, phone);
             int count = pstm.executeUpdate();
             if (count > 0) {
@@ -138,7 +159,7 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
 
             String sql_command = "select * from user where 1=1";
             if (is_added[0]) {
-                sql_command+=" and user_id=?";
+                sql_command += " and user_id=?";
             }
             if (is_added[1]) {
                 sql_command += " and name=?";
@@ -155,7 +176,11 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
             if (is_added[5]) {
                 sql_command += " and email=?";
             }
-            //System.out.println(sql_command);
+            if (is_added[6]) {
+                sql_command += " and type=?";
+            }
+
+            // System.out.println(sql_command);
             PreparedStatement pstm = conn.prepareStatement(sql_command);
 
             int cnt = 1;
@@ -183,6 +208,10 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
                 pstm.setString(cnt, value.getEmail());
                 cnt++;
             }
+            if (is_added[6]) {
+                pstm.setString(cnt, value.getType());
+                cnt++;
+            }
 
             // 4.执行SQL语句
             ResultSet rs = pstm.executeQuery();
@@ -194,7 +223,8 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
                         rs.getString("gender"),
                         rs.getString("phone"),
                         rs.getString("id_card"),
-                        rs.getString("email"));
+                        rs.getString("email"),
+                        rs.getString("type"));
                 arr_User.add(user_Info);
             }
             // 6.释放资源
@@ -229,7 +259,9 @@ public class User_Info_Manage_Dao_Impl extends Implement_Parent implements User_
                         rs.getString("gender"),
                         rs.getString("phone"),
                         rs.getString("id_card"),
-                        rs.getString("email"));
+                        rs.getString("email"),
+                        rs.getString("type")
+                        );
                 arr_User_Info.add(user_Info);
             }
 

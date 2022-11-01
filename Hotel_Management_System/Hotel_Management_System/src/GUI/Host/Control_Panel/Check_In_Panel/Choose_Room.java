@@ -1,4 +1,5 @@
 package GUI.Host.Control_Panel.Check_In_Panel;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -71,68 +72,69 @@ public class Choose_Room extends Application {
             String price, String status, String principal, String description) {
         try {
             arr_Room.clear();
-            Room r=new Room();
+            Room r = new Room();
             String sql_command = "select * from room where 1=1";
             boolean[] br = { false, false, false, false, false, false, false, false, false, false, false, false };
             if (!id.equals("")) {
                 sql_command += " and room_id = ?";
                 r.setRoom_id(Integer.parseInt(id));
-                br[0]=true;
+                br[0] = true;
             }
             if (!number.equals("")) {
                 sql_command += " and room_number = ?";
                 r.setRoom_number(Integer.parseInt(number));
-                br[1]=true;
+                br[1] = true;
             }
             if (!type.equals("")) {
                 sql_command += " and room_type = ?";
                 r.setRoom_type(type);
-                br[2]=true;
+                br[2] = true;
             }
             if (!discount.equals("")) {
                 sql_command += " and room_discount = ?";
                 r.setRoom_discount(Double.parseDouble(discount));
-                br[3]=true;
+                br[3] = true;
             }
             if (!deposit.equals("")) {
                 sql_command += " and room_deposit = ?";
                 r.setRoom_deposit(Double.parseDouble(deposit));
-                br[4]=true;
+                br[4] = true;
             }
             if (!capacity.equals("")) {
                 sql_command += " and room_capacity = ?";
                 r.setRoom_capacity(Integer.parseInt(capacity));
-                br[5]=true;
+                br[5] = true;
             }
             if (!price.equals("")) {
                 sql_command += " and room_price = ?";
                 r.setRoom_price(Double.parseDouble(price));
-                br[6]=true;
+                br[6] = true;
             }
             if (!status.equals("")) {
                 sql_command += " and room_status = ?";
                 r.setRoom_status(status);
-                br[7]=true;
+                br[7] = true;
             }
             if (!principal.equals("")) {
                 sql_command += " and room_principal = ?";
                 r.setRoom_principal(principal);
-                br[8]=true;
+                br[8] = true;
             }
             if (!description.equals("")) {
                 sql_command += " and room_description = ?";
                 r.setRoom_description(description);
-                br[9]=true;
+                br[9] = true;
             }
 
-            if (room_Panel_Dao.select_data(arr_Room, sql_command,r,br[0],br[1],br[2],br[3],br[4],br[5],br[6],br[7],br[8],br[9])) {
+            if (room_Panel_Dao.select_data(arr_Room, sql_command, r, br[0], br[1], br[2], br[3], br[4], br[5], br[6],
+                    br[7], br[8], br[9])) {
                 ob.clear();
                 for (int i = 0; i < arr_Room.size(); i++) {
                     ob.add(arr_Room.get(i));
                 }
             }
         } catch (Exception e) {
-            Alert alert=new Alert(AlertType.ERROR);
+            Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("错误");
             alert.setContentText("输入的数据有误,请检查数据输入是否规范");
         }
@@ -170,234 +172,36 @@ public class Choose_Room extends Application {
 
         table.getColumns().addAll(id, number, type, discount, deposit, capacity, price, status, principal, description);
         table.setItems(ob);
+        // 自适应
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        table.setEditable(true);
-
-        number.setCellValueFactory(
-                cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_number())));
-        number.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
-        // number.setPrefWidth(100);
-
-        type.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
-        type.setPrefWidth(100);
-
-        discount.setCellValueFactory(
-                cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_discount())));
-        discount.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
-        // discount.setPrefWidth(100);
-
-        deposit.setCellValueFactory(
-                cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_deposit())));
-        deposit.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
-        // deposit.setPrefWidth(100);
-
-        capacity.setCellValueFactory(
-                cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_capacity())));
-        capacity.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
-        // capacity.setPrefWidth(100);
-
-        price.setCellValueFactory(
-                cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_price())));
-        price.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
-        // price.setPrefWidth(100);
-
-        status.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
-        // status.setPrefWidth(100);
-
-        principal.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
-        // principal.setPrefWidth(100);
-
-        description.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
-
-
-        number.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Room, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Room, String> t) {
-                if (room_Panel_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getRoom_id(), "room_number",
-                        t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setRoom_number(Integer.valueOf(t.getNewValue()));
-                // room_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                else
-                    table.refresh();
-            }
-        });
-
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);// 自适应列宽
-
-        //使用自定义排序
-        // id.setComparator(new Comparator<String>() {
-        //     @Override
-        //     public int compare(String o1, String o2) {
-        //         return Integer.valueOf(o1).compareTo(Integer.valueOf(o2));
-        //     }
-        // });
-
-        discount.setComparator(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return Double.valueOf(o1).compareTo(Double.valueOf(o2));
-            }
-        });
-        deposit.setComparator(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return Double.valueOf(o1).compareTo(Double.valueOf(o2));
-            }
-        });
-        capacity.setComparator(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return Integer.valueOf(o1).compareTo(Integer.valueOf(o2));
-            }
-        });
-        price.setComparator(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return Double.valueOf(o1).compareTo(Double.valueOf(o2));
-            }
-        });
-
-        type.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Room, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Room, String> t) {
-                if (room_Panel_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getRoom_id(),
-                        "room_type", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setRoom_type(t.getNewValue());
-                // room_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                else
-                    table.refresh();
-            }
-        });
-
-        discount.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Room, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Room, String> t) {
-                if (room_Panel_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getRoom_id(),
-                        "room_discount", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setRoom_discount(Double.valueOf(t.getNewValue()));
-                // room_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                else
-                    table.refresh();
-            }
-        });
-
-        deposit.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Room, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Room, String> t) {
-                if (room_Panel_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getRoom_id(),
-                        "room_deposit", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setRoom_deposit(Double.valueOf(t.getNewValue()));
-                // room_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                else
-                    table.refresh();
-            }
-        });
-
-        capacity.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Room, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Room, String> t) {
-                if (room_Panel_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getRoom_id(),
-                        "room_capacity", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setRoom_capacity(Integer.valueOf(t.getNewValue()));
-                // room_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                else
-                    table.refresh();
-            }
-        });
-        price.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Room, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Room, String> t) {
-                if (room_Panel_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getRoom_id(),
-                        "room_price", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setRoom_price(Double.valueOf(t.getNewValue()));
-                // room_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                else
-                    table.refresh();
-            }
-        });
-        status.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Room, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Room, String> t) {
-                if (room_Panel_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getRoom_id(),
-                        "room_status", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setRoom_status(t.getNewValue());
-                // room_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                else
-                    table.refresh();
-            }
-        });
-        principal.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Room, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Room, String> t) {
-                if (room_Panel_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getRoom_id(),
-                        "room_principal", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setRoom_principal(t.getNewValue());
-                // room_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                else
-                    table.refresh();
-            }
-        });
-
-        description.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Room, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Room, String> t) {
-                if (room_Panel_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getRoom_id(),
-                        "room_description", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setRoom_description(t.getNewValue());
-                // room_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                else
-                    table.refresh();
-            }
-        });
-
-        // 添加按钮
-        Button add = new Button("添加");
-        add.relocate(0, 0);
-        add.setPrefSize(100, 50);
-        add.setOnAction(new EventHandler<ActionEvent>() {
+        // 确定按钮
+        Button choose = new Button("确定");
+        choose.relocate(0, 0);
+        choose.setPrefSize(100, 50);
+        choose.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Room r = new Room();
-                r.setRoom_id(room_Panel_Dao.add_data());
-                ob.add(r);
-                table.refresh();
-                int row = ob.size() - 1;
-                table.requestFocus();
-                table.getSelectionModel().select(row);
-                table.getSelectionModel().focus(row);
-            }
-        });
+                try {
+                    System.out.println(table.getSelectionModel().getSelectedItem().getRoom_id());
+                    stage.close();
 
-        // 删除按钮
-        Button delete = new Button("删除");
-        delete.relocate(100, 0);
-        delete.setPrefSize(100, 50);
-        delete.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                if (table.getSelectionModel().getSelectedItem() != null) {
-                    room_Panel_Dao.delete_data(table.getSelectionModel().getSelectedItem().getRoom_id());
-                    ob.remove(table.getSelectionModel().getSelectedItem());
-                    table.refresh();
-                } else {
-                    Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("提示");
-                    alert.setHeaderText(null);
-                    alert.setContentText("请先选中要删除的行");
+                } catch (Exception e) {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("错误");
+                    alert.setContentText("请先选择一行数据");
                     alert.showAndWait();
                 }
+
+            }
+        });
+
+        // 返回按钮
+        Button back = new Button("返回");
+        back.relocate(100, 0);
+        back.setPrefSize(100, 50);
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                stage.close();
             }
         });
 
@@ -406,15 +210,15 @@ public class Choose_Room extends Application {
         // refresh.relocate(200, 0);
         // refresh.setPrefSize(100, 50);
         // refresh.setOnAction(new EventHandler<ActionEvent>() {
-        //     public void handle(ActionEvent event) {
-        //         ob.clear();
-        //         arr_Room.clear();
-        //         if (room_Panel_Dao.read_data(arr_Room)) {
-        //             for (int i = 0; i < arr_Room.size(); i++) {
-        //                 ob.add(arr_Room.get(i));
-        //             }
-        //         }
-        //     }
+        // public void handle(ActionEvent event) {
+        // ob.clear();
+        // arr_Room.clear();
+        // if (room_Panel_Dao.read_data(arr_Room)) {
+        // for (int i = 0; i < arr_Room.size(); i++) {
+        // ob.add(arr_Room.get(i));
+        // }
+        // }
+        // }
         // });
 
         // // 返回按钮
@@ -517,7 +321,7 @@ public class Choose_Room extends Application {
         description_Text.relocate(960, 25);
         description_Text.setPrefWidth(200);
 
-        //清空按钮
+        // 清空按钮
         Button clear = new Button("清空");
         clear.relocate(200, 0);
         clear.setPrefSize(100, 50);
@@ -570,21 +374,21 @@ public class Choose_Room extends Application {
         // });
 
         Pane pane = new Pane();// 新建pane
-        pane.getChildren().addAll(table, add, delete, search, id_label, id_Text, number_Label, number_Text,
+        pane.getChildren().addAll(table, choose, back, search, id_label, id_Text, number_Label, number_Text,
                 type_Label,
                 type_Text, discount_Label, discount_Text, deposit_Label, deposit_Text, capacity_Label, capacity_Text,
                 price_Label, price_Text, status_Label, status_Text, principal_Label, principal_Text, description_Label,
-                description_Text,clear);// 将控件添加到pane中
+                description_Text, clear);// 将控件添加到pane中
 
         stage.setScene(new Scene(pane, 1200, 700));
         stage.setTitle("房间管理面板");
-       // stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
-        //添加窗体大小改变的监听事件
+        // stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
+        // 添加窗体大小改变的监听事件
         stage.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth,
                     Number newSceneWidth) {
-                table.setPrefWidth((double) newSceneWidth-15);
+                table.setPrefWidth((double) newSceneWidth - 15);
             }
         });
         stage.heightProperty().addListener(new ChangeListener<Number>() {

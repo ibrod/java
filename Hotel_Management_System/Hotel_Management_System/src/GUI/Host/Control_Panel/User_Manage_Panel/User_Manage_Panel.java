@@ -69,11 +69,11 @@ public class User_Manage_Panel extends Application {
         }
     }
 
-    public void select(String user_id, String name, String gender, String phone, String id_card, String email) {
+    public void select(String user_id, String name, String gender, String phone, String id_card, String email,String type) {
         try {
             arr_User_Info.clear();
             User_Info r=new User_Info();
-            boolean[] br = { false, false, false, false, false,false};
+            boolean[] br = { false, false, false, false, false,false,false};
             if (!user_id.equals("")) {
                 r.setUser_id(Integer.parseInt(user_id));
                 br[0]=true;
@@ -98,6 +98,11 @@ public class User_Manage_Panel extends Application {
                 r.setEmail(email);
                 br[5]=true;
             }
+            if(!type.equals("")) {
+                r.setType(type);
+                br[6]=true;
+            }
+
             //System.out.println(br[0]+" "+br[1]+" "+br[2]+" "+br[3]+" "+br[4]+" "+br[5]);
             if (User_Info_Panel_Dao.select_data(arr_User_Info,r,br)) {
                 ob.clear();
@@ -109,6 +114,7 @@ public class User_Manage_Panel extends Application {
             Alert alert=new Alert(AlertType.ERROR);
             alert.setTitle("错误");
             alert.setContentText("输入的数据有误,请检查数据输入是否规范");
+            alert.showAndWait();
         }
 
     }
@@ -133,8 +139,10 @@ public class User_Manage_Panel extends Application {
         Id_card.setCellValueFactory(new PropertyValueFactory<User_Info, String>("Id_card"));
         TableColumn<User_Info, String> email = new TableColumn<User_Info, String>("邮箱");
         email.setCellValueFactory(new PropertyValueFactory<User_Info, String>("email"));
+        TableColumn<User_Info, String> type = new TableColumn<User_Info, String>("类型");
+        type.setCellValueFactory(new PropertyValueFactory<User_Info, String>("type"));
 
-        table.getColumns().addAll(id, name, gender, phone_number, Id_card, email);
+        table.getColumns().addAll(id, name, gender, phone_number, Id_card, email,type);
         table.setItems(ob);
 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);// 自适应列宽
@@ -148,7 +156,7 @@ public class User_Manage_Panel extends Application {
          phone_number.setCellFactory(TextFieldTableCell.<User_Info>forTableColumn());
          Id_card.setCellFactory(TextFieldTableCell.<User_Info>forTableColumn());
          email.setCellFactory(TextFieldTableCell.<User_Info>forTableColumn());
-
+         type.setCellFactory(TextFieldTableCell.<User_Info>forTableColumn());
 
 
         // id.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<User_Info, String>>() {
@@ -172,7 +180,7 @@ public class User_Manage_Panel extends Application {
         //         return Integer.valueOf(o1).compareTo(Integer.valueOf(o2));
         //     }
         // });
-
+        
 
         name.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<User_Info, String>>() {
             @Override
@@ -190,7 +198,7 @@ public class User_Manage_Panel extends Application {
             public void handle(TableColumn.CellEditEvent<User_Info, String> t) {
                 if (User_Info_Panel_Dao.update_by_id(
                         t.getTableView().getItems().get(t.getTablePosition().getRow()).getUser_id(), "gender", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setName(t.getNewValue());
+                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setGender(t.getNewValue());
                 // User_Info_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
                 else
                     table.refresh();
@@ -201,7 +209,7 @@ public class User_Manage_Panel extends Application {
             public void handle(TableColumn.CellEditEvent<User_Info, String> t) {
                 if (User_Info_Panel_Dao.update_by_id(
                         t.getTableView().getItems().get(t.getTablePosition().getRow()).getUser_id(), "phone", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setName(t.getNewValue());
+                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setPhone_number(t.getNewValue());
                 // User_Info_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
                 else
                     table.refresh();
@@ -212,7 +220,7 @@ public class User_Manage_Panel extends Application {
             public void handle(TableColumn.CellEditEvent<User_Info, String> t) {
                 if (User_Info_Panel_Dao.update_by_id(
                         t.getTableView().getItems().get(t.getTablePosition().getRow()).getUser_id(), "id_card", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setName(t.getNewValue());
+                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setId_card(t.getNewValue());
                 // User_Info_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
                 else
                     table.refresh();
@@ -223,12 +231,24 @@ public class User_Manage_Panel extends Application {
             public void handle(TableColumn.CellEditEvent<User_Info, String> t) {
                 if (User_Info_Panel_Dao.update_by_id(
                         t.getTableView().getItems().get(t.getTablePosition().getRow()).getUser_id(), "email", t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setName(t.getNewValue());
+                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setEmail(t.getNewValue());
                 // User_Info_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
                 else
                     table.refresh();
             }
         });
+        type.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<User_Info, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<User_Info, String> t) {
+                if (User_Info_Panel_Dao.update_by_id(
+                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getUser_id(), "type", t.getNewValue()))
+                    t.getTableView().getItems().get(t.getTablePosition().getRow()).setType(t.getNewValue());
+                // User_Info_Panel_Dao.update_data(t.getTableView().getItems().get(t.getTablePosition().getRow()));
+                else
+                    table.refresh();
+            }
+        });
+
 
         // 添加按钮
         Button add = new Button("添加");
@@ -238,6 +258,7 @@ public class User_Manage_Panel extends Application {
             public void handle(ActionEvent event) {
                 User_Info r = new User_Info();
                 r.setUser_id(User_Info_Panel_Dao.insert_by_id());
+                r.setType("临时");
                 ob.add(r);
                 table.refresh();
                 int row = ob.size() - 1;
@@ -321,6 +342,14 @@ public class User_Manage_Panel extends Application {
         email_text.relocate(850, 25);
         email_text.setPrefWidth(200);
 
+        //type_label
+        Label type_label = new Label("类型:");
+        type_label.relocate(1060, 5);
+
+        //type_text
+        TextField type_text=new TextField();
+        type_text.relocate(1060,25);
+        type_text.setPrefWidth(120);
         //清空按钮
         Button clear = new Button("清空");
         clear.relocate(200, 0);
@@ -333,6 +362,7 @@ public class User_Manage_Panel extends Application {
                 phone_text.clear();
                 id_card_text.clear();
                 email_text.clear();
+                type_text.clear();
             }
         });
 
@@ -342,13 +372,13 @@ public class User_Manage_Panel extends Application {
         search.setPrefSize(100, 50);
         search.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                select(id_Text.getText(), name_text.getText(), gender_text.getText(), phone_text.getText(), id_card_text.getText(), email_text.getText());
+                select(id_Text.getText(), name_text.getText(), gender_text.getText(), phone_text.getText(), id_card_text.getText(), email_text.getText(),type_text.getText());
                 table.refresh();
             }
         });
 
         Pane pane = new Pane();// 新建pane
-        pane.getChildren().addAll(table, add, delete, search, id_label, id_Text,clear, name_Label, name_text,gender_lable,gender_text,phone_label,phone_text,id_card_label,id_card_text,email_label,email_text);// 将控件添加到pane中
+        pane.getChildren().addAll(table, add, delete, search, id_label, id_Text,clear, name_Label, name_text,gender_lable,gender_text,phone_label,phone_text,id_card_label,id_card_text,email_label,email_text,type_label,type_text);// 将控件添加到pane中
 
         stage.setScene(new Scene(pane, 1200, 700));
         stage.setTitle("客户管理面板");

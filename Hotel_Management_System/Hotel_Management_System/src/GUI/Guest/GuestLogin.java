@@ -127,9 +127,10 @@ public class GuestLogin extends Application implements Wake_Up {
         login.setPrefWidth(250);
         login.setOnAction(event -> {
             if (verify_code_input.getText().equals("114514")) {// 仅用于测试
-                User_Info return_value = user_info_manage_dao.get_user_info(phone.getText());
+                phone_number = phone.getText(); 
+                User_Info return_value = user_info_manage_dao.get_user_info_send_by_user(phone_number);
                 if (return_value == null) {
-                    enter_update_info(phone.getText());
+                    enter_update_info(phone_number);
                     stage.hide();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -151,7 +152,7 @@ public class GuestLogin extends Application implements Wake_Up {
                 alert.setContentText("输入的验证码与向对应号码发送的验证码不匹配");
                 alert.showAndWait();
             } else {
-                User_Info return_value = user_info_manage_dao.get_user_info(phone_number);
+                User_Info return_value = user_info_manage_dao.get_user_info_send_by_user(phone_number);
                 if (return_value == null) {
                     enter_update_info(phone_number);
                     stage.hide();

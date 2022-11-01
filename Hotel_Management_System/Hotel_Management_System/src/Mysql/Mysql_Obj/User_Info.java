@@ -7,8 +7,36 @@ public class User_Info {
     String phone_number;
     String Id_card;
     String email;
+    String type;
     int status;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public User_Info(int user_id, String name, String gender, String phone_number, String id_card, String email,String type) {
+        this.user_id = user_id;
+        this.name = name;
+        this.gender = gender;
+        this.phone_number = phone_number;
+        Id_card = id_card;
+        this.email = email;
+        this.type=type;
+    }
+
+    public User_Info(String phone_number, String gender, String name, String Id_card, String email,String type) {
+        this.phone_number = phone_number;
+        this.gender = gender;
+        this.name = name;
+        this.Id_card = Id_card;
+        this.email = email;
+        this.type=type;
+        status = 0;
+    }
 
     public User_Info(int user_id, String name, String gender, String phone_number, String id_card, String email) {
         this.user_id = user_id;

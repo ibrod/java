@@ -6,7 +6,7 @@ import Mysql.Mysql_Obj.Check_In_Obj;
 
 public interface Check_In_Manage_Dao {
 
-    public boolean select_data(Vector<Check_In_Obj> arr_User,Check_In_Obj value,boolean[] is_added);
+    public boolean select_data(Vector<Check_In_Obj> arr_record,Check_In_Obj value,boolean[] is_added);
 
     public int add_data(String room_id,String id_card);
 
