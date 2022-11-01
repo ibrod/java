@@ -8,7 +8,7 @@ public interface Check_In_Manage_Dao {
 
     public boolean select_data(Vector<Check_In_Obj> arr_record,Check_In_Obj value,boolean[] is_added);
 
-    public int add_data(String room_id,String id_card);
+    public int add_data(String room_id,String user_id);
 
     public boolean delete_data(int id);
 

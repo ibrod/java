@@ -299,7 +299,7 @@ public class Choose_Room extends Application {
         status_Label.relocate(795, 30);
 
         // status_text
-        TextField status_Text = new TextField();
+        TextField status_Text = new TextField("空闲");
         status_Text.relocate(835, 25);
         status_Text.setPrefWidth(80);
 
