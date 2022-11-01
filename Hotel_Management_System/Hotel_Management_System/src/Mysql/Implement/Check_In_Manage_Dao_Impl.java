@@ -43,16 +43,16 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
                 sql_command += " and note=?";
             }
             if (is_added[8]) {
-                sql_command += " and r.room_number=?";
+                sql_command += " and room_number=?";
             }
             if (is_added[9]) {
-                sql_command += " and u.name=?";
+                sql_command += " and name=?";
             }
             if (is_added[10]) {
-                sql_command += " and u.id_card=?";
+                sql_command += " and id_card=?";
             }
             if (is_added[11]) {
-                sql_command += " and u.phone=?";
+                sql_command += " and phone=?";
             }
 
             // System.out.println(sql_command);
@@ -100,7 +100,7 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
             ResultSet rs = pstm.executeQuery();
             // 5.遍历结果集
             while (rs.next()) {
-                Check_In_Obj check_In_Obj = new Check_In_Obj(rs.getInt("check_in_id"), rs.getInt("user_id"), rs.getInt("room_id"), sql_command, sql_command, cnt, cnt, sql_command, sql_command, sql_command, sql_command, sql_command)
+                Check_In_Obj check_In_Obj = new Check_In_Obj(rs.getInt("check_in_id"), rs.getInt("user_id"), rs.getInt("room_id"), rs.getTimestamp("in_time").toString(), rs.getTimestamp("out_time").toString(), rs.getDouble("pledge"), rs.getDouble("payment"), rs.getString("note"), rs.getString("room_number"), rs.getString("name"), rs.getString("id_card"), rs.getString("phone"));
                 arr_User.add(check_In_Obj);
             }
             // 6.释放资源

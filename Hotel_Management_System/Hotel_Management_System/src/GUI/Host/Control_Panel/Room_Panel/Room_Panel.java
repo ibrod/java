@@ -1,4 +1,5 @@
 package GUI.Host.Control_Panel.Room_Panel;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -71,68 +72,69 @@ public class Room_Panel extends Application {
             String price, String status, String principal, String description) {
         try {
             arr_Room.clear();
-            Room r=new Room();
+            Room r = new Room();
             String sql_command = "select * from room where 1=1";
             boolean[] br = { false, false, false, false, false, false, false, false, false, false, false, false };
             if (!id.equals("")) {
                 sql_command += " and room_id = ?";
                 r.setRoom_id(Integer.parseInt(id));
-                br[0]=true;
+                br[0] = true;
             }
             if (!number.equals("")) {
                 sql_command += " and room_number = ?";
                 r.setRoom_number(Integer.parseInt(number));
-                br[1]=true;
+                br[1] = true;
             }
             if (!type.equals("")) {
                 sql_command += " and room_type = ?";
                 r.setRoom_type(type);
-                br[2]=true;
+                br[2] = true;
             }
             if (!discount.equals("")) {
                 sql_command += " and room_discount = ?";
                 r.setRoom_discount(Double.parseDouble(discount));
-                br[3]=true;
+                br[3] = true;
             }
             if (!deposit.equals("")) {
                 sql_command += " and room_deposit = ?";
                 r.setRoom_deposit(Double.parseDouble(deposit));
-                br[4]=true;
+                br[4] = true;
             }
             if (!capacity.equals("")) {
                 sql_command += " and room_capacity = ?";
                 r.setRoom_capacity(Integer.parseInt(capacity));
-                br[5]=true;
+                br[5] = true;
             }
             if (!price.equals("")) {
                 sql_command += " and room_price = ?";
                 r.setRoom_price(Double.parseDouble(price));
-                br[6]=true;
+                br[6] = true;
             }
             if (!status.equals("")) {
                 sql_command += " and room_status = ?";
                 r.setRoom_status(status);
-                br[7]=true;
+                br[7] = true;
             }
             if (!principal.equals("")) {
                 sql_command += " and room_principal = ?";
                 r.setRoom_principal(principal);
-                br[8]=true;
+                br[8] = true;
             }
             if (!description.equals("")) {
                 sql_command += " and room_description = ?";
                 r.setRoom_description(description);
-                br[9]=true;
+                br[9] = true;
             }
 
-            if (room_Panel_Dao.select_data(arr_Room, sql_command,r,br[0],br[1],br[2],br[3],br[4],br[5],br[6],br[7],br[8],br[9])) {
+            if (room_Panel_Dao.select_data(arr_Room, sql_command, r, br[0], br[1], br[2], br[3], br[4], br[5], br[6],
+                    br[7], br[8], br[9])) {
                 ob.clear();
                 for (int i = 0; i < arr_Room.size(); i++) {
                     ob.add(arr_Room.get(i));
                 }
             }
         } catch (Exception e) {
-            Alert alert=new Alert(AlertType.ERROR);
+            Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("错误");
             alert.setContentText("输入的数据有误,请检查数据输入是否规范");
         }
@@ -209,7 +211,6 @@ public class Room_Panel extends Application {
 
         description.setCellFactory(TextFieldTableCell.<Room>forTableColumn());
 
-
         number.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Room, String>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<Room, String> t) {
@@ -226,13 +227,32 @@ public class Room_Panel extends Application {
 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);// 自适应列宽
 
-        //使用自定义排序
+        // 使用自定义排序
         // id.setComparator(new Comparator<String>() {
-        //     @Override
-        //     public int compare(String o1, String o2) {
-        //         return Integer.valueOf(o1).compareTo(Integer.valueOf(o2));
-        //     }
+        // @Override
+        // public int compare(String o1, String o2) {
+        // return Integer.valueOf(o1).compareTo(Integer.valueOf(o2));
+        // }
         // });
+
+        // 给单元格绑定点击事件
+
+        // number.addEventHandler(null, null);
+
+
+        // number.getSelectionModel().selectedItemProperty()
+        //         .addListener((ChangeListener<? super Room>) new ChangeListener<Room>() {
+        //             @Override
+        //             public void changed(ObservableValue<? extends Room> arg0, Room old_str, Room new_str) {
+        //                 // getSelectedIndex方法可获得选中项的序号，getSelectedItem方法可获得选中项的对象
+        //                 // String desc = String.format(
+        //                 // table.getSelectionModel().getSelectedIndex(),
+        //                 // table.getSelectionModel().getSelectedItem().getRoom_capacity(),
+        //                 // table.getSelectionModel().getSelectedItem().getRoom_number());
+        //                 // label.setText(desc); // 在标签上显示当前选中的文本项
+        //                 System.out.println("sdadsadsad");
+        //             }
+        //         });
 
         discount.setComparator(new Comparator<String>() {
             @Override
@@ -406,15 +426,15 @@ public class Room_Panel extends Application {
         // refresh.relocate(200, 0);
         // refresh.setPrefSize(100, 50);
         // refresh.setOnAction(new EventHandler<ActionEvent>() {
-        //     public void handle(ActionEvent event) {
-        //         ob.clear();
-        //         arr_Room.clear();
-        //         if (room_Panel_Dao.read_data(arr_Room)) {
-        //             for (int i = 0; i < arr_Room.size(); i++) {
-        //                 ob.add(arr_Room.get(i));
-        //             }
-        //         }
-        //     }
+        // public void handle(ActionEvent event) {
+        // ob.clear();
+        // arr_Room.clear();
+        // if (room_Panel_Dao.read_data(arr_Room)) {
+        // for (int i = 0; i < arr_Room.size(); i++) {
+        // ob.add(arr_Room.get(i));
+        // }
+        // }
+        // }
         // });
 
         // // 返回按钮
@@ -517,7 +537,7 @@ public class Room_Panel extends Application {
         description_Text.relocate(960, 25);
         description_Text.setPrefWidth(200);
 
-        //清空按钮
+        // 清空按钮
         Button clear = new Button("清空");
         clear.relocate(200, 0);
         clear.setPrefSize(100, 50);
@@ -574,17 +594,17 @@ public class Room_Panel extends Application {
                 type_Label,
                 type_Text, discount_Label, discount_Text, deposit_Label, deposit_Text, capacity_Label, capacity_Text,
                 price_Label, price_Text, status_Label, status_Text, principal_Label, principal_Text, description_Label,
-                description_Text,clear);// 将控件添加到pane中
+                description_Text, clear);// 将控件添加到pane中
 
         stage.setScene(new Scene(pane, 1200, 700));
         stage.setTitle("房间管理面板");
-       // stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
-        //添加窗体大小改变的监听事件
+        // stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
+        // 添加窗体大小改变的监听事件
         stage.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth,
                     Number newSceneWidth) {
-                table.setPrefWidth((double) newSceneWidth-15);
+                table.setPrefWidth((double) newSceneWidth - 15);
             }
         });
         stage.heightProperty().addListener(new ChangeListener<Number>() {
