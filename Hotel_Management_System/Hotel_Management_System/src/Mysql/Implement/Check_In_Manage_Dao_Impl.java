@@ -1,5 +1,6 @@
 package Mysql.Implement;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -7,6 +8,7 @@ import java.util.Vector;
 
 import Mysql.Dao.Check_In_Manage_Dao;
 import Mysql.Mysql_Obj.Check_In_Obj;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Alert;
 
 public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_In_Manage_Dao {
@@ -69,10 +71,10 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
                 pstm.setInt(cnt++, value.getRoom_id());
             }
             if (is_added[3]) {
-                pstm.setTimestamp(cnt++, Timestamp.valueOf(value.getIn_time()));
+                pstm.setDate(cnt++, value.getIn_time());
             }
             if (is_added[4]) {
-                pstm.setTimestamp(cnt++, Timestamp.valueOf(value.getOut_time()));
+                pstm.setDate(cnt++, value.getOut_time());
             }
             if (is_added[5]) {
                 pstm.setDouble(cnt++, value.getPledge());
@@ -100,7 +102,11 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
             ResultSet rs = pstm.executeQuery();
             // 5.遍历结果集
             while (rs.next()) {
-                Check_In_Obj check_In_Obj = new Check_In_Obj(rs.getInt("check_in_id"), rs.getInt("user_id"), rs.getInt("room_id"), rs.getTimestamp("in_time").toString(), rs.getTimestamp("out_time").toString(), rs.getDouble("pledge"), rs.getDouble("payment"), rs.getString("note"), rs.getString("room_number"), rs.getString("name"), rs.getString("id_card"), rs.getString("phone"));
+                Check_In_Obj check_In_Obj = new Check_In_Obj(rs.getInt("check_in_id"), rs.getInt("user_id"),
+                        rs.getInt("room_id"), rs.getDate("in_time"),
+                        rs.getDate("out_time"), rs.getDouble("pledge"), rs.getDouble("payment"),
+                        rs.getString("note"), rs.getString("room_number"), rs.getString("name"),
+                        rs.getString("id_card"), rs.getString("phone"));
                 arr_User.add(check_In_Obj);
             }
             // 6.释放资源
@@ -119,7 +125,6 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
         }
         return false;
     }
-    
 
     @Override
     public int add_data(String room_id, String user_id) {
@@ -155,7 +160,26 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
     public boolean delete_data(int id) {
 
         try {
-            PreparedStatement pstm = conn.prepareStatement("delete from check_in where check_in_id=?");
+            PreparedStatement pstm = conn.prepareStatement("select room_id,user_id from check_in where check_in_id=?");
+            pstm.setInt(1, id);
+
+            ResultSet rs = pstm.executeQuery();
+            if(rs.next()){
+                int room_id = rs.getInt("room_id");
+                int user_id = rs.getInt("user_id");
+
+                //重置房间状态
+                PreparedStatement pstm2 = conn.prepareStatement("update room set status='空闲' where room_id=?");
+                pstm2.setInt(1,room_id);
+                pstm2.executeUpdate();
+
+                //删除临时账户
+                PreparedStatement pstm3 = conn.prepareStatement("delete from user where user_id=? and type='临时'");
+                pstm3.setInt(1,user_id);
+                pstm3.executeUpdate();
+            }
+
+            pstm = conn.prepareStatement("delete from check_in where check_in_id=?");
             pstm.setInt(1, id);
 
             int count = pstm.executeUpdate();
@@ -167,7 +191,7 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("数据库操作失败");
             alert.setHeaderText("数据库操作失败");
-            alert.setContentText("请检查互联网连接是否正常，或者数据输入是否合法!");
+            alert.setContentText("请检查互联网连接是否正常");
             alert.showAndWait();
         }
         return false;
