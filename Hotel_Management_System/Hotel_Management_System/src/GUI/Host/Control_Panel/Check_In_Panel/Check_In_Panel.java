@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Vector;
-
 import Mysql.Dao.Check_In_Manage_Dao;
 import Mysql.Dao.Room_Panel_Dao;
 import Mysql.Implement.Check_In_Manage_Dao_Impl;
@@ -30,6 +29,7 @@ import javafx.scene.AccessibleAttribute;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
@@ -384,6 +384,22 @@ public class Check_In_Panel extends Application {
         // }
         // });
 
+        // DatePicker in_time_picker = new DatePicker();
+        // in_time_picker.relocate(0, 0);
+        // in_time_picker.setPrefSize(100, 50);
+        // in_time_picker.setOnAction(new EventHandler<ActionEvent>() {
+        // public void handle(ActionEvent event) {
+        // ob.clear();
+        // arr_Check_In_Obj.clear();
+        // if (check_In_Manage_Dao.read_data(arr_Check_In_Obj,
+        // in_time_picker.getValue().toString())) {
+        // for (int i = 0; i < arr_Check_In_Obj.size(); i++) {
+        // ob.add(arr_Check_In_Obj.get(i));
+        // }
+        // }
+        // }
+        // });
+
         // id_label
         Label id_label = new Label("id");
         id_label.relocate(420, 5);
@@ -418,7 +434,7 @@ public class Check_In_Panel extends Application {
         // in_time_text
         TextField in_time_text = new TextField();
         in_time_text.relocate(740, 0);
-        in_time_text.setPrefWidth(150);
+        in_time_text.setPrefWidth(100);
 
         // out_time_label
         Label out_time_label = new Label("到期时间");
@@ -427,70 +443,70 @@ public class Check_In_Panel extends Application {
         // out_time_text
         TextField out_time_text = new TextField();
         out_time_text.relocate(740, 25);
-        out_time_text.setPrefWidth(150);
+        out_time_text.setPrefWidth(100);
 
         // pledge_label
         Label pledge_label = new Label("押金");
-        pledge_label.relocate(670, 30);
+        pledge_label.relocate(850, 30);
 
         // pledge_text
         TextField pledge_text = new TextField();
-        pledge_text.relocate(710, 25);
+        pledge_text.relocate(880, 25);
         pledge_text.setPrefWidth(80);
 
         // payment_label
         Label payment_label = new Label("付款");
-        payment_label.relocate(670, 30);
+        payment_label.relocate(850, 5);
 
         // payment_text
         TextField payment_text = new TextField();
-        payment_text.relocate(710, 25);
+        payment_text.relocate(880, 0);
         payment_text.setPrefWidth(80);
 
         // note_label
         Label note_label = new Label("备注");
-        note_label.relocate(795, 5);
+        note_label.relocate(970, 30);
 
         // note_text
         TextField note_text = new TextField();
-        note_text.relocate(835, 0);
+        note_text.relocate(1000, 25);
         note_text.setPrefWidth(80);
 
         // user_id_label
         Label user_id_label = new Label("用户ID");
-        user_id_label.relocate(795, 30);
+        user_id_label.relocate(410, 30);
 
         // user_id_text
         TextField user_id_text = new TextField();
-        user_id_text.relocate(835, 25);
+        user_id_text.relocate(450, 25);
         user_id_text.setPrefWidth(80);
 
         // name_label
         Label name_label = new Label("姓名");
-        name_label.relocate(420, 30);
+        name_label.relocate(970, 5);
 
         // name_text
         TextField name_text = new TextField();
-        name_text.relocate(450, 25);
+        name_text.relocate(1000, 0);
         name_text.setPrefWidth(80);
-
-        // id_card_label
-        Label id_card_label = new Label("身份证号");
-        id_card_label.relocate(920, 30);
-
-        // id_card_text
-        TextField id_card_text = new TextField();
-        id_card_text.relocate(960, 25);
-        id_card_text.setPrefWidth(200);
 
         // phone_label
         Label phone_label = new Label("手机号");
-        phone_label.relocate(920, 30);
+        phone_label.relocate(1090, 5);
 
         // phone_text
         TextField phone_text = new TextField();
-        phone_text.relocate(960, 25);
-        phone_text.setPrefWidth(200);
+        phone_text.relocate(1150, 0);
+        phone_text.setPrefWidth(150);
+
+        // id_card_label
+        Label id_card_label = new Label("身份证号");
+        id_card_label.relocate(1090, 30);
+
+        // id_card_text
+        TextField id_card_text = new TextField();
+        id_card_text.relocate(1150, 25);
+        id_card_text.setPrefWidth(150);
 
         // 添加按钮
         Button add = new Button("添加");
@@ -591,9 +607,9 @@ public class Check_In_Panel extends Application {
         pane.getChildren().addAll(table, add, delete, search, id_label, id_Text, clear, room_id_label, room_id_text,
                 room_number_label, room_number_Text, in_time_label, in_time_text, out_time_label, out_time_text,
                 pledge_label, pledge_text, note_label, note_text, user_id_label, user_id_text, name_label, name_text,
-                id_card_label, id_card_text, phone_label, phone_text,payment_label,payment_text);// 将控件添加到pane中
+                id_card_label, id_card_text, phone_label, phone_text, payment_label, payment_text);
 
-        stage.setScene(new Scene(pane, 1200, 700));
+        stage.setScene(new Scene(pane, 1350, 700));
         stage.setTitle("房间管理面板");
         // stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         // 添加窗体大小改变的监听事件
