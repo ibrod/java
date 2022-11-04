@@ -31,7 +31,7 @@ public class History_Dao_Impl extends Implement_Parent implements History_Dao {
                 sql_command += " and c.in_time>=?";
             }
             if (is_added[4]) {
-                sql_command += " and c.in_time<?";
+                sql_command += " and c.in_time<=?";
             }
             if (is_added[5]) {
                 sql_command += " and c.payment=?";
@@ -57,7 +57,7 @@ public class History_Dao_Impl extends Implement_Parent implements History_Dao {
 
             int cnt = 1;
             if (is_added[0]) {
-                pstm.setInt(cnt++, value.getCheck_in_id());
+                pstm.setInt(cnt++, value.getHistory_id());
             }
             if (is_added[1]) {
                 pstm.setInt(cnt++, value.getUser_id());

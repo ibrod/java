@@ -124,9 +124,4 @@ public class History {
     public void setNote(String note) {
         this.note = note;
     }
-
-    public int getCheck_in_id() {
-        return 0;
-    }
-    
 }
