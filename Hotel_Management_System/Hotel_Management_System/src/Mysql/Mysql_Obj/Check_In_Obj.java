@@ -1,17 +1,15 @@
 package Mysql.Mysql_Obj;
 
-import java.sql.Date;
-
 public class Check_In_Obj {
     int check_in_id;
     int user_id;
     int room_id;
-    Date in_time;
-    Date out_time;
+    String in_time;
+    String out_time;
     double pledge;
     double payment;
     String note;
-    String room_number;
+    int room_number;
     String name;
     String id_card;
     String phone_number;
@@ -28,8 +26,8 @@ public class Check_In_Obj {
         return phone_number;
     }
 
-    public Check_In_Obj(int check_in_id, int user_id, int room_id, Date in_time, Date out_time, double pledge,
-            double payment, String note, String room_number, String name, String id_card, String phone_number) {
+    public Check_In_Obj(int check_in_id, int user_id, int room_id, String in_time, String out_time, double pledge,
+            double payment, String note, int room_number, String name, String id_card, String phone_number) {
         this.check_in_id = check_in_id;
         this.user_id = user_id;
         this.room_id = room_id;
@@ -48,11 +46,11 @@ public class Check_In_Obj {
         this.phone_number = phone_number;
     }
 
-    public String getRoom_number() {
+    public int getRoom_number() {
         return room_number;
     }
 
-    public void setRoom_number(String room_number) {
+    public void setRoom_number(int room_number) {
         this.room_number = room_number;
     }
     
@@ -83,16 +81,16 @@ public class Check_In_Obj {
     public void setId_card(String id_card) {
         this.id_card = id_card;
     }
-    public Date getIn_time() {
+    public String getIn_time() {
         return in_time;
     }
-    public void setIn_time(Date in_time) {
+    public void setIn_time(String in_time) {
         this.in_time = in_time;
     }
-    public Date getOut_time() {
+    public String getOut_time() {
         return out_time;
     }
-    public void setOut_time(Date out_time) {
+    public void setOut_time(String out_time) {
         this.out_time = out_time;
     }
     public double getPledge() {

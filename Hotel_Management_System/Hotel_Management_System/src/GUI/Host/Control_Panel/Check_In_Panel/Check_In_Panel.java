@@ -60,91 +60,92 @@ public class Check_In_Panel extends Application {
     Vector<Check_In_Obj> arr_obj;
 
     public Check_In_Panel() {
-        // try {
-        // Check_In_Manage_Dao check_In_Manage_Dao = new Check_In_Manage_Dao_Impl();
-        // arr_Room = new Vector<Check_In_Obj>();
-        // if (room_Panel_Dao.read_data(arr_Room)) {
-        // for (int i = 0; i < arr_Room.size(); i++) {
-        // ob.add(arr_Room.get(i));
-        // }
-        // }
-        // } catch (Exception e) {
-        // throw (e);
-        // }
+        try {
+            check_In_Manage_Dao = new Check_In_Manage_Dao_Impl();
+            arr_obj = new Vector<Check_In_Obj>();
+            // select("", "", "", "", "", "", "", "", "", "", "", "");
+            // for (int i = 0; i < arr_obj.size(); i++) {
+            // ob.add(arr_obj.get(i));
+            // }
+        } catch (Exception e) {
+            throw (e);
+        }
     }
 
-    public void select(String id, String number, String type, String discount, String deposit, String capacity,
-            String price, String status, String principal, String description) {
-        // try {
-        // arr_Room.clear();
-        // Check_In_Obj r = new Check_In_Obj();
-        // String sql_command = "select * from Check_In_Obj where 1=1";
-        // boolean[] br = { false, false, false, false, false, false, false, false,
-        // false, false, false, false };
-        // if (!id.equals("")) {
-        // sql_command += " and room_id = ?";
-        // r.setRoom_id(Integer.parseInt(id));
-        // br[0] = true;
-        // }
-        // if (!number.equals("")) {
-        // sql_command += " and room_number = ?";
-        // r.setRoom_number(Integer.parseInt(number));
-        // br[1] = true;
-        // }
-        // if (!type.equals("")) {
-        // sql_command += " and room_type = ?";
-        // r.setRoom_type(type);
-        // br[2] = true;
-        // }
-        // if (!discount.equals("")) {
-        // sql_command += " and room_discount = ?";
-        // r.setRoom_discount(Double.parseDouble(discount));
-        // br[3] = true;
-        // }
-        // if (!deposit.equals("")) {
-        // sql_command += " and room_deposit = ?";
-        // r.setRoom_deposit(Double.parseDouble(deposit));
-        // br[4] = true;
-        // }
-        // if (!capacity.equals("")) {
-        // sql_command += " and room_capacity = ?";
-        // r.setRoom_capacity(Integer.parseInt(capacity));
-        // br[5] = true;
-        // }
-        // if (!price.equals("")) {
-        // sql_command += " and room_price = ?";
-        // r.setRoom_price(Double.parseDouble(price));
-        // br[6] = true;
-        // }
-        // if (!status.equals("")) {
-        // sql_command += " and room_status = ?";
-        // r.setRoom_status(status);
-        // br[7] = true;
-        // }
-        // if (!principal.equals("")) {
-        // sql_command += " and room_principal = ?";
-        // r.setRoom_principal(principal);
-        // br[8] = true;
-        // }
-        // if (!description.equals("")) {
-        // sql_command += " and room_description = ?";
-        // r.setRoom_description(description);
-        // br[9] = true;
-        // }
+    public void select(String id, String user_id, String name, String id_card, String phone, String room_id,
+            String room_number, String in_time, String out_time, String pledge,
+            String payment, String note) {
+        try {
+            arr_obj.clear();
+            Check_In_Obj r = new Check_In_Obj();
+            boolean[] br = { false, false, false, false, false, false, false, false, false,
+                    false, false, false, false };
+            if (!id.equals("")) {
+                r.setCheck_in_id(Integer.parseInt(id));
+                br[0] = true;
+            }
+            if (!user_id.equals("")) {
+                r.setUser_id(Integer.parseInt(user_id));
+                br[1] = true;
+            }
+            if (!room_id.equals("")) {
+                r.setRoom_id(Integer.parseInt(room_id));
+                br[2] = true;
+            }
+            if (!in_time.equals("")) {
+                r.setIn_time(in_time);
+                br[3] = true;
+            }
+            if (!out_time.equals("")) {
+                r.setOut_time(out_time);
+                br[4] = true;
+            }
+            if (!pledge.equals("")) {
+                r.setPledge(Double.parseDouble(pledge));
+                br[5] = true;
+            }
+            if (!payment.equals("")) {
+                r.setPayment(Double.parseDouble(payment));
+                br[6] = true;
+            }
+            if (!note.equals("")) {
+                r.setNote(note);
+                br[7] = true;
+            }
+            if (!room_number.equals("")) {
+                r.setRoom_number(Integer.parseInt(room_number));
+                br[8] = true;
+            }
+            if (!name.equals("")) {
+                r.setName(name);
+                br[9] = true;
+            }
+            if (!id_card.equals("")) {
+                r.setId_card(id_card);
+                br[10] = true;
+            }
+            if (!phone.equals("")) {
+                r.setPhone_number(phone);
+                br[11] = true;
+            }
+            // System.out.println(note);
 
-        // if (room_Panel_Dao.select_data(arr_Room, sql_command, r, br[0], br[1], br[2],
-        // br[3], br[4], br[5], br[6],
-        // br[7], br[8], br[9])) {
-        // ob.clear();
-        // for (int i = 0; i < arr_Room.size(); i++) {
-        // ob.add(arr_Room.get(i));
-        // }
-        // }
-        // } catch (Exception e) {
-        // Alert alert = new Alert(AlertType.ERROR);
-        // alert.setTitle("错误");
-        // alert.setContentText("输入的数据有误,请检查数据输入是否规范");
-        // }
+            if (check_In_Manage_Dao.select_data(arr_obj, r, br)) {
+                // System.out.println(arr_obj.size());
+                ob.clear();
+                for (int i = 0; i < arr_obj.size(); i++) {
+                    ob.add(arr_obj.get(i));
+                    // System.out.println(arr_obj.get(i).getUser_id()+" "+arr_obj.get(i).getRoom_id()+" "+arr_obj.get(i).getRoom_number());
+                    // System.out.println(arr_obj.get(i).getCheck_in_id()+" "+arr_obj.get(i).getName()+" "+arr_obj.get(i).getRoom_number()+" "+arr_obj.get(i).getIn_time()+" "+arr_obj.get(i).getOut_time()+" "+arr_obj.get(i).getPledge()+" "+arr_obj.get(i).getPayment()+" "+arr_obj.get(i).getNote()+" "+arr_obj.get(i).getRoom_id()+" "+arr_obj.get(i).getUser_id()+" "+arr_obj.get(i).getId_card()+" "+arr_obj.get(i).getPhone_number());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("错误");
+            alert.setContentText("输入的数据有误,请检查数据输入是否规范");
+            alert.showAndWait();
+        }
 
     }
 
@@ -165,7 +166,7 @@ public class Check_In_Panel extends Application {
         TableColumn<Check_In_Obj, String> id_card = new TableColumn<Check_In_Obj, String>("身份证号");
         id_card.setCellValueFactory(new PropertyValueFactory<Check_In_Obj, String>("id_card"));
         TableColumn<Check_In_Obj, String> phone = new TableColumn<Check_In_Obj, String>("手机号");
-        phone.setCellValueFactory(new PropertyValueFactory<Check_In_Obj, String>("phone"));
+        phone.setCellValueFactory(new PropertyValueFactory<Check_In_Obj, String>("phone_number"));
         TableColumn<Check_In_Obj, String> room_id = new TableColumn<Check_In_Obj, String>("房间ID");
         room_id.setCellValueFactory(new PropertyValueFactory<Check_In_Obj, String>("room_id"));
         TableColumn<Check_In_Obj, String> room_number = new TableColumn<Check_In_Obj, String>("房间号");
@@ -187,7 +188,7 @@ public class Check_In_Panel extends Application {
         table.setEditable(true);
 
         user_id.setCellValueFactory(
-                cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_number())));
+                cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getUser_id())));
         user_id.setCellFactory(TextFieldTableCell.<Check_In_Obj>forTableColumn());
 
         // name.setCellFactory(TextFieldTableCell.<Check_In_Obj>forTableColumn());
@@ -195,13 +196,8 @@ public class Check_In_Panel extends Application {
         // phone.setCellFactory(TextFieldTableCell.<Check_In_Obj>forTableColumn());
 
         room_id.setCellValueFactory(
-                cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_number())));
+                cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_id())));
         room_id.setCellFactory(TextFieldTableCell.<Check_In_Obj>forTableColumn());
-
-        // room_number.setCellValueFactory(
-        // cellData -> new
-        // ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_number())));
-        // room_number.setCellFactory(TextFieldTableCell.<Check_In_Obj>forTableColumn());
 
         in_time.setCellFactory(TextFieldTableCell.<Check_In_Obj>forTableColumn());
 
@@ -252,7 +248,7 @@ public class Check_In_Panel extends Application {
                         t.getTableView().getItems().get(t.getTablePosition().getRow()).getCheck_in_id(), "in_time",
                         t.getNewValue()))
                     t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setIn_time(Date.valueOf(t.getNewValue()));
+                            .setIn_time(t.getNewValue());
                 else
                     table.refresh();
             }
@@ -265,7 +261,7 @@ public class Check_In_Panel extends Application {
                         t.getTableView().getItems().get(t.getTablePosition().getRow()).getCheck_in_id(), "out_time",
                         t.getNewValue()))
                     t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setOut_time(Date.valueOf(t.getNewValue()));
+                            .setOut_time(t.getNewValue());
                 else
                     table.refresh();
             }
@@ -357,22 +353,6 @@ public class Check_In_Panel extends Application {
                 return Double.valueOf(o1).compareTo(Double.valueOf(o2));
             }
         });
-
-        // // 刷新按钮
-        // Button refresh = new Button("刷新");
-        // refresh.relocate(200, 0);
-        // refresh.setPrefSize(100, 50);
-        // refresh.setOnAction(new EventHandler<ActionEvent>() {
-        // public void handle(ActionEvent event) {
-        // ob.clear();
-        // arr_Room.clear();
-        // if (room_Panel_Dao.read_data(arr_Room)) {
-        // for (int i = 0; i < arr_Room.size(); i++) {
-        // ob.add(arr_Room.get(i));
-        // }
-        // }
-        // }
-        // });
 
         // // 返回按钮
         // Button back = new Button("返回");
@@ -572,12 +552,11 @@ public class Check_In_Panel extends Application {
         search.setPrefSize(100, 50);
         search.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                // select(id_Text.getText(), number_Text.getText(), type_Text.getText(),
-                // discount_Text.getText(),
-                // deposit_Text.getText(), capacity_Text.getText(), price_Text.getText(),
-                // status_Text.getText(),
-                // principal_Text.getText(), description_Text.getText());
-                // table.refresh();
+                select(id_Text.getText(), user_id_text.getText(), name_text.getText(), id_card_text.getText(),
+                        phone_text.getText(), room_id_text.getText(), room_number_Text.getText(),
+                        in_time_text.getText(), out_time_text.getText(), pledge_text.getText(),
+                        payment_text.getText(), note_text.getText());
+                table.refresh();
             }
         });
 
