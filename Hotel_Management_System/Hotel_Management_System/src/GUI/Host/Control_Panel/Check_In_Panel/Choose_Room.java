@@ -60,11 +60,7 @@ public class Choose_Room extends Application {
         try {
             room_Panel_Dao = new Room_Panel_Dao_Impl();
             arr_Room = new Vector<Room>();
-            if (room_Panel_Dao.read_data(arr_Room)) {
-                for (int i = 0; i < arr_Room.size(); i++) {
-                    ob.add(arr_Room.get(i));
-                }
-            }
+            select("", "","", "", "", "", "", "空闲", "", "",LocalDate.now().toString(),LocalDate.now().toString());
         } catch (Exception e) {
             throw (e);
         }
@@ -75,7 +71,7 @@ public class Choose_Room extends Application {
         try {
             arr_Room.clear();
             Room r = new Room();
-            String sql_command = "select * from room where 1=1";
+            String sql_command = "select r.* from room r left join check_in c  on r.room_id=c.room_id left join reservation b on r.room_id=b.room_id where (c.check_in_id is null or c.in_time>'"+end_time+"' or c.out_time<'"+start_time+"') and (b.reservation_id is null or b.book_time>'"+end_time+"' or b.end_time<'"+start_time+"')";
             boolean[] br = { false, false, false, false, false, false, false, false, false, false, false, false };
             if (!id.equals("")) {
                 sql_command += " and room_id = ?";
@@ -312,7 +308,7 @@ public class Choose_Room extends Application {
         // start_time_text
         DatePicker start_time_text = new DatePicker(LocalDate.now());
         start_time_text.relocate(970, 0);
-        start_time_text.setPrefWidth(100);
+        start_time_text.setPrefWidth(110);
 
         // end_time_label
         Label end_time_label = new Label("结束时间");
@@ -321,24 +317,24 @@ public class Choose_Room extends Application {
         // end_time_text
         DatePicker end_time_text = new DatePicker(LocalDate.now());
         end_time_text.relocate(970, 25);
-        end_time_text.setPrefWidth(100);
+        end_time_text.setPrefWidth(110);
 
         // principal_label
         Label principal_Label = new Label("负责人");
-        principal_Label.relocate(1100, 5);
+        principal_Label.relocate(1090, 5);
 
         // principal_text
         TextField principal_Text = new TextField();
-        principal_Text.relocate(1100, 0);
+        principal_Text.relocate(1140, 0);
         principal_Text.setPrefWidth(200);
 
         // description_label
         Label description_Label = new Label("描述");
-        description_Label.relocate(1100, 30);
+        description_Label.relocate(1090, 30);
 
         // description_text
         TextField description_Text = new TextField();
-        description_Text.relocate(1100, 25);
+        description_Text.relocate(1140, 25);
         description_Text.setPrefWidth(200);
 
         // 清空按钮
@@ -373,6 +369,13 @@ public class Choose_Room extends Application {
                 try {
                     st=start_time_text.getValue().toString();
                     ed=end_time_text.getValue().toString();
+                    if(st.compareTo(ed)>0){
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("提示");
+                        alert.setHeaderText("起始日期不能大于结束日期");
+                        alert.showAndWait();
+                        return;
+                    }
                 } catch (Exception e) {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("提示");
@@ -413,8 +416,8 @@ public class Choose_Room extends Application {
                 price_Label, price_Text, status_Label, status_Text, principal_Label, principal_Text, description_Label,
                 description_Text, clear, start_time_label, start_time_text, end_time_label, end_time_text);
 
-        stage.setScene(new Scene(pane, 1200, 700));
-        stage.setTitle("房间管理面板");
+        stage.setScene(new Scene(pane, 1350, 700));
+        stage.setTitle("请选择房间:");
         // stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         // 添加窗体大小改变的监听事件
         stage.widthProperty().addListener(new ChangeListener<Number>() {
