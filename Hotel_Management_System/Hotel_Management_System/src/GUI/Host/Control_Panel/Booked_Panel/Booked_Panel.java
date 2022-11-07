@@ -1,5 +1,4 @@
-package GUI.Host.Control_Panel.History_Panel;
-
+package GUI.Host.Control_Panel.Booked_Panel;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -9,14 +8,11 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Vector;
-import Mysql.Dao.History_Dao;
-import Mysql.Dao.History_Dao;
+import Mysql.Dao.Reservation_Dao;
 import Mysql.Dao.Room_Panel_Dao;
-import Mysql.Implement.Check_In_Manage_Dao_Impl;
-import Mysql.Implement.History_Dao_Impl;
+import Mysql.Implement.Reservation_Dao_Impl;
 import Mysql.Implement.Room_Panel_Dao_Impl;
-import Mysql.Mysql_Obj.History;
-import Mysql.Mysql_Obj.History;
+import Mysql.Mysql_Obj.Reservation;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
@@ -56,32 +52,35 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 
-public class History_Panel extends Application {
-    ObservableList<History> ob = FXCollections.observableArrayList();// 表格FXCollections
+public class Booked_Panel extends Application {
+    ObservableList<Reservation> ob = FXCollections.observableArrayList();// 表格FXCollections
 
-    History_Dao history_Dao;
-    Vector<History> arr_obj;
+    Reservation_Dao Reservation_Dao;
+    Vector<Reservation> arr_obj;
 
-    public History_Panel() {
+    public Booked_Panel() {
         try {
-            history_Dao = new History_Dao_Impl();
-            arr_obj = new Vector<History>();
-            select("", "", "", "", "", "", "", "", "", "", "");
+            Reservation_Dao = new Reservation_Dao_Impl();
+            arr_obj = new Vector<Reservation>();
+            // select("", "", "", "", "", "", "", "", "", "", "", "");
+            // for (int i = 0; i < arr_obj.size(); i++) {
+            // ob.add(arr_obj.get(i));
+            // }
         } catch (Exception e) {
             throw (e);
         }
     }
 
     public void select(String id, String user_id, String name, String id_card, String phone, String room_id,
-            String room_number, String in_time, String out_time,
+            String room_number, String in_time, String out_time, String pledge,
             String payment, String note) {
         try {
             arr_obj.clear();
-            History r = new History();
+            Reservation r = new Reservation();
             boolean[] br = { false, false, false, false, false, false, false, false, false,
                     false, false, false, false };
             if (!id.equals("")) {
-                r.setHistory_id(Integer.parseInt(id));
+                r.setReservation_id(Integer.parseInt(id));
                 br[0] = true;
             }
             if (!user_id.equals("")) {
@@ -102,44 +101,38 @@ public class History_Panel extends Application {
             }
             if (!payment.equals("")) {
                 r.setPayment(Double.parseDouble(payment));
-                br[5] = true;
+                br[6] = true;
             }
             if (!note.equals("")) {
                 r.setNote(note);
-                br[6] = true;
+                br[7] = true;
             }
             if (!room_number.equals("")) {
                 r.setRoom_number(Integer.parseInt(room_number));
-                br[7] = true;
+                br[8] = true;
             }
             if (!name.equals("")) {
                 r.setName(name);
-                br[8] = true;
+                br[9] = true;
             }
             if (!id_card.equals("")) {
                 r.setId_card(id_card);
-                br[9] = true;
+                br[10] = true;
             }
             if (!phone.equals("")) {
-                r.setPhone(phone);
-                br[10] = true;
+                r.setPhone_number(phone);
+                br[11] = true;
             }
             // System.out.println(note);
 
-            if (history_Dao.select_data(arr_obj, r, br)) {
+            if (Reservation_Dao.select_data(arr_obj, r, br)) {
                 // System.out.println(arr_obj.size());
                 ob.clear();
                 for (int i = 0; i < arr_obj.size(); i++) {
+                    // System.out.println(arr_obj.get(i));
                     ob.add(arr_obj.get(i));
-                    // System.out.println(arr_obj.get(i).getUser_id()+"
-                    // "+arr_obj.get(i).getRoom_id()+" "+arr_obj.get(i).getRoom_number());
-                    // System.out.println(arr_obj.get(i).getCheck_in_id()+"
-                    // "+arr_obj.get(i).getName()+" "+arr_obj.get(i).getRoom_number()+"
-                    // "+arr_obj.get(i).getIn_time()+" "+arr_obj.get(i).getOut_time()+"
-                    // "+arr_obj.get(i).getPledge()+" "+arr_obj.get(i).getPayment()+"
-                    // "+arr_obj.get(i).getNote()+" "+arr_obj.get(i).getRoom_id()+"
-                    // "+arr_obj.get(i).getUser_id()+" "+arr_obj.get(i).getId_card()+"
-                    // "+arr_obj.get(i).getPhone_number());
+                    // System.out.println(arr_obj.get(i).getUser_id()+" "+arr_obj.get(i).getRoom_id()+" "+arr_obj.get(i).getRoom_number());
+                    // System.out.println(arr_obj.get(i).getCheck_in_id()+" "+arr_obj.get(i).getName()+" "+arr_obj.get(i).getRoom_number()+" "+arr_obj.get(i).getIn_time()+" "+arr_obj.get(i).getOut_time()+" "+arr_obj.get(i).getPledge()+" "+arr_obj.get(i).getPayment()+" "+arr_obj.get(i).getNote()+" "+arr_obj.get(i).getRoom_id()+" "+arr_obj.get(i).getUser_id()+" "+arr_obj.get(i).getId_card()+" "+arr_obj.get(i).getPhone_number());
                 }
             }
         } catch (Exception e) {
@@ -155,71 +148,142 @@ public class History_Panel extends Application {
     public void start(Stage stage) {
 
         // 表格视图
-        TableView<History> table = new TableView<History>();
+        TableView<Reservation> table = new TableView<Reservation>();
         table.setPrefSize(1200, 650);
         table.relocate(0, 50);
 
         // 表头
-        TableColumn<History, String> id = new TableColumn<History, String>("id");
-        id.setCellValueFactory(new PropertyValueFactory<History, String>("history_id"));
-        TableColumn<History, String> user_id = new TableColumn<History, String>("用户id");
-        user_id.setCellValueFactory(new PropertyValueFactory<History, String>("user_id"));
-        TableColumn<History, String> name = new TableColumn<History, String>("姓名");
-        name.setCellValueFactory(new PropertyValueFactory<History, String>("name"));
-        TableColumn<History, String> id_card = new TableColumn<History, String>("身份证号");
-        id_card.setCellValueFactory(new PropertyValueFactory<History, String>("id_card"));
-        id_card.setPrefWidth(150);
-        TableColumn<History, String> phone = new TableColumn<History, String>("手机号");
-        phone.setCellValueFactory(new PropertyValueFactory<History, String>("phone"));
-        phone.setPrefWidth(120);
-        TableColumn<History, String> room_id = new TableColumn<History, String>("房间ID");
-        room_id.setCellValueFactory(new PropertyValueFactory<History, String>("room_id"));
-        TableColumn<History, String> room_number = new TableColumn<History, String>("房间号");
-        room_number.setCellValueFactory(new PropertyValueFactory<History, String>("room_number"));
-        TableColumn<History, String> in_time = new TableColumn<History, String>("入住时间");
-        in_time.setCellValueFactory(new PropertyValueFactory<History, String>("in_time"));
-        TableColumn<History, String> out_time = new TableColumn<History, String>("离开时间");
-        out_time.setCellValueFactory(new PropertyValueFactory<History, String>("out_time"));
-        TableColumn<History, String> payment = new TableColumn<History, String>("支付金额");
-        payment.setCellValueFactory(new PropertyValueFactory<History, String>("payment"));
-        TableColumn<History, String> note = new TableColumn<History, String>("备注");
-        note.setCellValueFactory(new PropertyValueFactory<History, String>("note"));
-        note.setPrefWidth(400);
+        TableColumn<Reservation, String> id = new TableColumn<Reservation, String>("id");
+        id.setCellValueFactory(new PropertyValueFactory<Reservation, String>("reservation_id"));
+        TableColumn<Reservation, String> user_id = new TableColumn<Reservation, String>("用户id");
+        user_id.setCellValueFactory(new PropertyValueFactory<Reservation, String>("user_id"));
+        TableColumn<Reservation, String> name = new TableColumn<Reservation, String>("姓名");
+        name.setCellValueFactory(new PropertyValueFactory<Reservation, String>("name"));
+        TableColumn<Reservation, String> id_card = new TableColumn<Reservation, String>("身份证号");
+        id_card.setCellValueFactory(new PropertyValueFactory<Reservation, String>("id_card"));
+        TableColumn<Reservation, String> phone = new TableColumn<Reservation, String>("手机号");
+        phone.setCellValueFactory(new PropertyValueFactory<Reservation, String>("phone_number"));
+        TableColumn<Reservation, String> room_id = new TableColumn<Reservation, String>("房间ID");
+        room_id.setCellValueFactory(new PropertyValueFactory<Reservation, String>("room_id"));
+        TableColumn<Reservation, String> room_number = new TableColumn<Reservation, String>("房间号");
+        room_number.setCellValueFactory(new PropertyValueFactory<Reservation, String>("room_number"));
+        TableColumn<Reservation, String> in_time = new TableColumn<Reservation, String>("入住时间");
+        in_time.setCellValueFactory(new PropertyValueFactory<Reservation, String>("in_time"));
+        TableColumn<Reservation, String> out_time = new TableColumn<Reservation, String>("到期时间");
+        out_time.setCellValueFactory(new PropertyValueFactory<Reservation, String>("out_time"));
+        TableColumn<Reservation, String> payment = new TableColumn<Reservation, String>("支付金额");
+        payment.setCellValueFactory(new PropertyValueFactory<Reservation, String>("payment"));
+        TableColumn<Reservation, String> note = new TableColumn<Reservation, String>("备注");
+        note.setCellValueFactory(new PropertyValueFactory<Reservation, String>("note"));
         table.getColumns().addAll(id, user_id, name, id_card, phone, room_id, room_number, in_time, out_time,
                 payment, note);
-
         table.setItems(ob);
 
-        // table.setEditable(true);
+        table.setEditable(true);
 
         user_id.setCellValueFactory(
                 cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getUser_id())));
-        user_id.setCellFactory(TextFieldTableCell.<History>forTableColumn());
+        user_id.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
 
-        // name.setCellFactory(TextFieldTableCell.<History>forTableColumn());
-        // id_card.setCellFactory(TextFieldTableCell.<History>forTableColumn());
-        // phone.setCellFactory(TextFieldTableCell.<History>forTableColumn());
+        // name.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
+        // id_card.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
+        // phone.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
 
         room_id.setCellValueFactory(
                 cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getRoom_id())));
-        room_id.setCellFactory(TextFieldTableCell.<History>forTableColumn());
+        room_id.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
 
-        in_time.setCellFactory(TextFieldTableCell.<History>forTableColumn());
+        in_time.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
 
-        out_time.setCellFactory(TextFieldTableCell.<History>forTableColumn());
-
-        // pledge.setCellValueFactory(
-        //         cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getPledge())));
-        // pledge.setCellFactory(TextFieldTableCell.<History>forTableColumn());
+        out_time.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
 
         payment.setCellValueFactory(
                 cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getPayment())));
-        payment.setCellFactory(TextFieldTableCell.<History>forTableColumn());
+        payment.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
 
-        note.setCellFactory(TextFieldTableCell.<History>forTableColumn());
+        note.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
 
-        // table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);// 自适应列宽
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);// 自适应列宽
 
+        user_id.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Reservation, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
+                if (Reservation_Dao.update_data(
+                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "user_id",
+                        t.getNewValue()))
+                    t.getTableView().getItems().get(t.getTablePosition().getRow())
+                            .setUser_id(Integer.valueOf(t.getNewValue()));
+                else
+                    table.refresh();
+            }
+        });
+
+        room_id.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Reservation, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
+                if (Reservation_Dao.update_data(
+                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "room_id",
+                        t.getNewValue()))
+                    t.getTableView().getItems().get(t.getTablePosition().getRow())
+                            .setRoom_id(Integer.valueOf(t.getNewValue()));
+                else
+                    table.refresh();
+            }
+        });
+
+        in_time.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Reservation, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
+                if (Reservation_Dao.update_data(
+                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "in_time",
+                        t.getNewValue()))
+                    t.getTableView().getItems().get(t.getTablePosition().getRow())
+                            .setIn_time(t.getNewValue());
+                else
+                    table.refresh();
+            }
+        });
+
+        out_time.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Reservation, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
+                if (Reservation_Dao.update_data(
+                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "out_time",
+                        t.getNewValue()))
+                    t.getTableView().getItems().get(t.getTablePosition().getRow())
+                            .setOut_time(t.getNewValue());
+                else
+                    table.refresh();
+            }
+        });
+
+
+
+        payment.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Reservation, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
+                if (Reservation_Dao.update_data(
+                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "payment",
+                        t.getNewValue()))
+                    t.getTableView().getItems().get(t.getTablePosition().getRow())
+                            .setPayment(Double.valueOf(t.getNewValue()));
+                else
+                    table.refresh();
+            }
+        });
+
+        note.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Reservation, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
+                if (Reservation_Dao.update_data(
+                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "note",
+                        t.getNewValue()))
+                    t.getTableView().getItems().get(t.getTablePosition().getRow())
+                            .setNote(t.getNewValue());
+                else
+                    table.refresh();
+            }
+        });
 
         // 使用自定义排序
         user_id.setComparator(new Comparator<String>() {
@@ -241,7 +305,7 @@ public class History_Panel extends Application {
         in_time.setComparator(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                return Date.valueOf(o1).compareTo(Date.valueOf(o2));
+                return Timestamp.valueOf(o1).compareTo(Timestamp.valueOf(o2));
             }
         });
 
@@ -249,7 +313,7 @@ public class History_Panel extends Application {
         out_time.setComparator(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                return Date.valueOf(o1).compareTo(Date.valueOf(o2));
+                return Timestamp.valueOf(o1).compareTo(Timestamp.valueOf(o2));
             }
         });
 
@@ -278,7 +342,7 @@ public class History_Panel extends Application {
         // public void handle(ActionEvent event) {
         // ob.clear();
         // arr_Check_In_Obj.clear();
-        // if (History_Dao.read_data(arr_Check_In_Obj,
+        // if (Reservation_Dao.read_data(arr_Check_In_Obj,
         // in_time_picker.getValue().toString())) {
         // for (int i = 0; i < arr_Check_In_Obj.size(); i++) {
         // ob.add(arr_Check_In_Obj.get(i));
@@ -315,25 +379,16 @@ public class History_Panel extends Application {
         room_number_Text.setPrefWidth(80);
 
         // in_time_label
-        Label in_time_label = new Label("起始时间");
+        Label in_time_label = new Label("入住时间");
         in_time_label.relocate(680, 5);
 
-        // // in_time_text
-        // TextField in_time_text = new TextField();
-        // in_time_text.relocate(740, 0);
-        // in_time_text.setPrefWidth(100);
-
+        // in_time_text
         DatePicker in_time_text = new DatePicker();
         in_time_text.relocate(735, 0);
         in_time_text.setPrefWidth(110);
-        // in_time_text.setOnAction(new EventHandler<ActionEvent>() {
-        //     public void handle(ActionEvent event) {
-        //         in_time_text.setText(in_time_picker.getValue().toString());
-        //     }
-        // });
 
         // out_time_label
-        Label out_time_label = new Label("结束时间");
+        Label out_time_label = new Label("到期时间");
         out_time_label.relocate(680, 30);
 
         // out_time_text
@@ -341,14 +396,14 @@ public class History_Panel extends Application {
         out_time_text.relocate(735, 25);
         out_time_text.setPrefWidth(110);
 
-        // // pledge_label
-        // Label pledge_label = new Label("押金");
-        // pledge_label.relocate(850, 30);
+        // pledge_label
+        Label pledge_label = new Label("押金");
+        pledge_label.relocate(850, 30);
 
-        // // pledge_text
-        // TextField pledge_text = new TextField();
-        // pledge_text.relocate(880, 25);
-        // pledge_text.setPrefWidth(80);
+        // pledge_text
+        TextField pledge_text = new TextField();
+        pledge_text.relocate(880, 25);
+        pledge_text.setPrefWidth(80);
 
         // payment_label
         Label payment_label = new Label("付款");
@@ -361,12 +416,12 @@ public class History_Panel extends Application {
 
         // note_label
         Label note_label = new Label("备注");
-        note_label.relocate(850, 30);
+        note_label.relocate(970, 30);
 
         // note_text
         TextField note_text = new TextField();
-        note_text.relocate(880, 25);
-        note_text.setPrefWidth(200);
+        note_text.relocate(1000, 25);
+        note_text.setPrefWidth(80);
 
         // user_id_label
         Label user_id_label = new Label("用户ID");
@@ -410,7 +465,7 @@ public class History_Panel extends Application {
         add.setPrefSize(100, 50);
         add.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                // History r = new History();
+                // Reservation r = new Reservation();
                 // r.setRoom_id(room_Panel_Dao.add_data());
                 // ob.add(r);
                 // table.refresh();
@@ -428,7 +483,7 @@ public class History_Panel extends Application {
         delete.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (table.getSelectionModel().getSelectedItem() != null) {
-                    history_Dao.delete_data(table.getSelectionModel().getSelectedItem().getHistory_id());
+                    Reservation_Dao.delete_data(table.getSelectionModel().getSelectedItem().getRoom_id());
                     ob.remove(table.getSelectionModel().getSelectedItem());
                     table.refresh();
                 } else {
@@ -452,6 +507,7 @@ public class History_Panel extends Application {
                 room_number_Text.setText("");
                 in_time_text.setValue(null);
                 out_time_text.setValue(null);
+                pledge_text.setText("");
                 note_text.setText("");
                 user_id_text.setText("");
                 name_text.setText("");
@@ -469,7 +525,7 @@ public class History_Panel extends Application {
             public void handle(ActionEvent event) {
                 select(id_Text.getText(), user_id_text.getText(), name_text.getText(), id_card_text.getText(),
                         phone_text.getText(), room_id_text.getText(), room_number_Text.getText(),
-                        in_time_text.getValue()== null ? "":in_time_text.getValue().toString(),out_time_text.getValue()==null ? "": out_time_text.getValue().toString(),
+                        in_time_text.getValue()== null ? "":in_time_text.getValue().toString(),out_time_text.getValue()==null ? "": out_time_text.getValue().toString(), pledge_text.getText(),
                         payment_text.getText(), note_text.getText());
                 table.refresh();
             }
@@ -481,11 +537,11 @@ public class History_Panel extends Application {
         // label.setStyle("-fx-font-size: 20px; -fx-text-fill: #ff0000;");
 
         // table.getSelectionModel().selectedItemProperty()
-        // .addListener((ChangeListener<? super History>) new
-        // ChangeListener<History>() {
+        // .addListener((ChangeListener<? super Reservation>) new
+        // ChangeListener<Reservation>() {
         // @Override
-        // public void changed(ObservableValue<? extends History> arg0,
-        // History old_str, History
+        // public void changed(ObservableValue<? extends Reservation> arg0,
+        // Reservation old_str, Reservation
         // new_str) {
         // // getSelectedIndex方法可获得选中项的序号，getSelectedItem方法可获得选中项的对象
         // // String desc = String.format(
@@ -500,7 +556,7 @@ public class History_Panel extends Application {
         Pane pane = new Pane();// 新建pane
         pane.getChildren().addAll(table, add, delete, search, id_label, id_Text, clear, room_id_label, room_id_text,
                 room_number_label, room_number_Text, in_time_label, in_time_text, out_time_label, out_time_text,
-               note_label, note_text, user_id_label, user_id_text, name_label, name_text,
+                pledge_label, pledge_text, note_label, note_text, user_id_label, user_id_text, name_label, name_text,
                 id_card_label, id_card_text, phone_label, phone_text, payment_label, payment_text);
 
         stage.setScene(new Scene(pane, 1350, 700));

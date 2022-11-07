@@ -173,7 +173,7 @@ public class Check_In_Panel extends Application {
         room_number.setCellValueFactory(new PropertyValueFactory<Check_In_Obj, String>("room_number"));
         TableColumn<Check_In_Obj, String> in_time = new TableColumn<Check_In_Obj, String>("入住时间");
         in_time.setCellValueFactory(new PropertyValueFactory<Check_In_Obj, String>("in_time"));
-        TableColumn<Check_In_Obj, String> out_time = new TableColumn<Check_In_Obj, String>("离开时间");
+        TableColumn<Check_In_Obj, String> out_time = new TableColumn<Check_In_Obj, String>("到期时间");
         out_time.setCellValueFactory(new PropertyValueFactory<Check_In_Obj, String>("out_time"));
         TableColumn<Check_In_Obj, String> pledge = new TableColumn<Check_In_Obj, String>("押金");
         pledge.setCellValueFactory(new PropertyValueFactory<Check_In_Obj, String>("pledge"));
@@ -412,18 +412,18 @@ public class Check_In_Panel extends Application {
         in_time_label.relocate(680, 5);
 
         // in_time_text
-        TextField in_time_text = new TextField();
-        in_time_text.relocate(740, 0);
-        in_time_text.setPrefWidth(100);
+        DatePicker in_time_text = new DatePicker();
+        in_time_text.relocate(735, 0);
+        in_time_text.setPrefWidth(110);
 
         // out_time_label
         Label out_time_label = new Label("到期时间");
         out_time_label.relocate(680, 30);
 
         // out_time_text
-        TextField out_time_text = new TextField();
-        out_time_text.relocate(740, 25);
-        out_time_text.setPrefWidth(100);
+        DatePicker out_time_text = new DatePicker();
+        out_time_text.relocate(735, 25);
+        out_time_text.setPrefWidth(110);
 
         // pledge_label
         Label pledge_label = new Label("押金");
@@ -534,8 +534,8 @@ public class Check_In_Panel extends Application {
                 id_Text.setText("");
                 room_id_text.setText("");
                 room_number_Text.setText("");
-                in_time_text.setText("");
-                out_time_text.setText("");
+                in_time_text.setValue(null);
+                out_time_text.setValue(null);
                 pledge_text.setText("");
                 note_text.setText("");
                 user_id_text.setText("");
@@ -554,7 +554,7 @@ public class Check_In_Panel extends Application {
             public void handle(ActionEvent event) {
                 select(id_Text.getText(), user_id_text.getText(), name_text.getText(), id_card_text.getText(),
                         phone_text.getText(), room_id_text.getText(), room_number_Text.getText(),
-                        in_time_text.getText(), out_time_text.getText(), pledge_text.getText(),
+                        in_time_text.getValue()== null ? "":in_time_text.getValue().toString(),out_time_text.getValue()==null ? "": out_time_text.getValue().toString(), pledge_text.getText(),
                         payment_text.getText(), note_text.getText());
                 table.refresh();
             }

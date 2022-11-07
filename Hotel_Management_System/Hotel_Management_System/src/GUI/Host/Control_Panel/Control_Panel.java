@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import GUI.Host.Control_Panel.Admin_Panel.Admin_Panel;
+import GUI.Host.Control_Panel.History_Panel.History_Panel;
 import GUI.Host.Control_Panel.Room_Panel.Room_Panel;
 import GUI.Host.Control_Panel.User_Manage_Panel.User_Manage_Panel;
 
@@ -147,7 +148,7 @@ public class Control_Panel extends Application {
             }
         });
 
-        // 历史记录查询
+        // 历史记录管理
         Button history_record = new Button("历史记录管理");
         history_record.relocate(170, 200);
         history_record.setPrefWidth(100);
@@ -155,7 +156,7 @@ public class Control_Panel extends Application {
         history_record.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // new History_Record().start(new Stage());
+                new History_Panel().start(new Stage());
             }
         });
 

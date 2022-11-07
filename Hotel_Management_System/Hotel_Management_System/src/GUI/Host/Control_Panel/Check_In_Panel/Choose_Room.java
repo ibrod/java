@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
@@ -26,6 +27,7 @@ import javafx.scene.AccessibleAttribute;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
@@ -69,7 +71,7 @@ public class Choose_Room extends Application {
     }
 
     public void select(String id, String number, String type, String discount, String deposit, String capacity,
-            String price, String status, String principal, String description) {
+            String price, String status, String principal, String description,String start_time,String end_time) {
         try {
             arr_Room.clear();
             Room r = new Room();
@@ -303,22 +305,40 @@ public class Choose_Room extends Application {
         status_Text.relocate(835, 25);
         status_Text.setPrefWidth(80);
 
+        // start_time_label
+        Label start_time_label = new Label("起始日期");
+        start_time_label.relocate(920, 5);
+
+        // start_time_text
+        DatePicker start_time_text = new DatePicker(LocalDate.now());
+        start_time_text.relocate(970, 0);
+        start_time_text.setPrefWidth(100);
+
+        // end_time_label
+        Label end_time_label = new Label("结束时间");
+        end_time_label.relocate(920, 30);
+
+        // end_time_text
+        DatePicker end_time_text = new DatePicker(LocalDate.now());
+        end_time_text.relocate(970, 25);
+        end_time_text.setPrefWidth(100);
+
         // principal_label
         Label principal_Label = new Label("负责人");
-        principal_Label.relocate(920, 5);
+        principal_Label.relocate(1100, 5);
 
         // principal_text
         TextField principal_Text = new TextField();
-        principal_Text.relocate(960, 0);
+        principal_Text.relocate(1100, 0);
         principal_Text.setPrefWidth(200);
 
         // description_label
         Label description_Label = new Label("描述");
-        description_Label.relocate(920, 30);
+        description_Label.relocate(1100, 30);
 
         // description_text
         TextField description_Text = new TextField();
-        description_Text.relocate(960, 25);
+        description_Text.relocate(1100, 25);
         description_Text.setPrefWidth(200);
 
         // 清空按钮
@@ -337,6 +357,8 @@ public class Choose_Room extends Application {
                 status_Text.setText("");
                 principal_Text.setText("");
                 description_Text.setText("");
+                start_time_text.setValue(LocalDate.now());
+                end_time_text.setValue(LocalDate.now());
             }
         });
 
@@ -346,9 +368,20 @@ public class Choose_Room extends Application {
         search.setPrefSize(100, 50);
         search.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                String st=LocalDate.now().toString();
+                String ed=LocalDate.now().toString();
+                try {
+                    st=start_time_text.getValue().toString();
+                    ed=end_time_text.getValue().toString();
+                } catch (Exception e) {
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("提示");
+                    alert.setHeaderText("日期为空或格式错误");
+                    alert.setContentText("请重新输入");
+                }
                 select(id_Text.getText(), number_Text.getText(), type_Text.getText(), discount_Text.getText(),
                         deposit_Text.getText(), capacity_Text.getText(), price_Text.getText(), status_Text.getText(),
-                        principal_Text.getText(), description_Text.getText());
+                        principal_Text.getText(), description_Text.getText(),st,ed);
                 table.refresh();
             }
         });
@@ -378,7 +411,7 @@ public class Choose_Room extends Application {
                 type_Label,
                 type_Text, discount_Label, discount_Text, deposit_Label, deposit_Text, capacity_Label, capacity_Text,
                 price_Label, price_Text, status_Label, status_Text, principal_Label, principal_Text, description_Label,
-                description_Text, clear);// 将控件添加到pane中
+                description_Text, clear, start_time_label, start_time_text, end_time_label, end_time_text);
 
         stage.setScene(new Scene(pane, 1200, 700));
         stage.setTitle("房间管理面板");
