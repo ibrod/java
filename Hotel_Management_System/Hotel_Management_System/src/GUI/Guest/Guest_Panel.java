@@ -2,8 +2,6 @@ package GUI.Guest;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import GUI.Guest.GuestLogin;
-import GUI.Host.HostLogin;
 import GUI.Selector.OptionSelector;
 import Mysql.Mysql_Obj.User_Info;
 

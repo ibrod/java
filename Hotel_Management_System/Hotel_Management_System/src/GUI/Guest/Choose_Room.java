@@ -1,67 +1,36 @@
 package GUI.Guest;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.Vector;
-
-import Mysql.Dao.Check_In_Manage_Dao;
 import Mysql.Dao.Reservation_Dao;
 import Mysql.Dao.Room_Panel_Dao;
 import Mysql.Dao.User_Info_Manage_Dao;
-import Mysql.Implement.Check_In_Manage_Dao_Impl;
 import Mysql.Implement.Reservation_Dao_Impl;
 import Mysql.Implement.Room_Panel_Dao_Impl;
 import Mysql.Implement.User_Info_Manage_Dao_Impl;
-import Mysql.Mysql_Obj.Check_In_Obj;
 import Mysql.Mysql_Obj.Reservation;
 import Mysql.Mysql_Obj.Room;
 import Mysql.Mysql_Obj.User_Info;
-import Tools.Wake_Up.Wake_Up;
 import javafx.application.Application;
-import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.AccessibleAttribute;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import javafx.util.converter.IntegerStringConverter;
 
 public class Choose_Room extends Application {
     ObservableList<Room> ob = FXCollections.observableArrayList();// 表格FXCollections
@@ -326,6 +295,7 @@ public class Choose_Room extends Application {
         DatePicker start_time_text = new DatePicker(LocalDate.now());
         start_time_text.relocate(970, 0);
         start_time_text.setPrefWidth(110);
+        start_time_text.setEditable(false);
 
         // end_time_label
         Label end_time_label = new Label("结束时间");
@@ -335,6 +305,7 @@ public class Choose_Room extends Application {
         DatePicker end_time_text = new DatePicker(LocalDate.now());
         end_time_text.relocate(970, 25);
         end_time_text.setPrefWidth(110);
+        end_time_text.setEditable(false);
 
         // principal_label
         Label principal_Label = new Label("负责人");
@@ -455,7 +426,6 @@ public class Choose_Room extends Application {
                     reservation_Dao.update_data(id, "room_id",String.valueOf(table.getSelectionModel().getSelectedItem().getRoom_id()));
                     reservation_Dao.update_data(id, "book_time", String.valueOf(start_time_text.getValue().toString()));
                     reservation_Dao.update_data(id, "end_time", String.valueOf(end_time_text.getValue().toString()));
-                    reservation_Dao.update_data(id, "note", "证件号"+user_Info.getId_card()+"\r");
                     try {
                         new Order_Panel(user_Info.getPhone_number()).start(new Stage());
                     } catch (Exception e) {

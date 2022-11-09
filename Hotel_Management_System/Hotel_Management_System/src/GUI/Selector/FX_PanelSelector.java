@@ -38,7 +38,7 @@ public class FX_PanelSelector extends Application {
         panelSelector.start_selecting();
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    // public static void main(String[] args) {
+    //     launch(args);
+    // }
 }

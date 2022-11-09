@@ -3,12 +3,9 @@ package Mysql.Implement;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.Vector;
-
 import Mysql.Dao.Check_In_Manage_Dao;
 import Mysql.Mysql_Obj.Check_In_Obj;
-import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Alert;
 
 public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_In_Manage_Dao {

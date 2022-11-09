@@ -1,22 +1,12 @@
 package GUI.Host.Control_Panel.Booked_Panel;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Vector;
 import Mysql.Dao.Reservation_Dao;
-import Mysql.Dao.Room_Panel_Dao;
 import Mysql.Implement.Reservation_Dao_Impl;
-import Mysql.Implement.Room_Panel_Dao_Impl;
 import Mysql.Mysql_Obj.Reservation;
 import javafx.application.Application;
-import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -24,34 +14,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.AccessibleAttribute;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import javafx.util.converter.IntegerStringConverter;
 
 public class Booked_Panel extends Application {
     ObservableList<Reservation> ob = FXCollections.observableArrayList();// 表格FXCollections

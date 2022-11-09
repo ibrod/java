@@ -168,6 +168,28 @@ public class Reservation_Dao_Impl extends Implement_Parent implements Reservatio
     }
 
     @Override
+    public boolean delete_data_by_user(int id) {
+
+        try {
+            PreparedStatement pstm = conn.prepareStatement("delete from reservation where user_id=?");
+            pstm.setInt(1, id);
+
+            int count = pstm.executeUpdate();
+            pstm.close();
+
+            if (count == 1)
+                return true;
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("数据库操作失败");
+            alert.setHeaderText("数据库操作失败");
+            alert.setContentText("请检查互联网连接是否正常");
+            alert.showAndWait();
+        }
+        return false;
+    }
+
+    @Override
     public boolean update_data(int reservation_id, String field, String value) {
         try {
             PreparedStatement pstm = conn.prepareStatement("update reservation set " + field + "=? where reservation_id=?");

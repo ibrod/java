@@ -2,11 +2,8 @@ package GUI.Guest;
 
 import java.util.Vector;
 
-import GUI.Host.Control_Panel.Check_In_Panel.Check_In_Panel;
-import Mysql.Dao.Check_In_Manage_Dao;
 import Mysql.Dao.Reservation_Dao;
 import Mysql.Dao.User_Info_Manage_Dao;
-import Mysql.Implement.Check_In_Manage_Dao_Impl;
 import Mysql.Implement.Reservation_Dao_Impl;
 import Mysql.Implement.User_Info_Manage_Dao_Impl;
 import Mysql.Mysql_Obj.Check_In_Obj;
@@ -17,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -118,6 +114,7 @@ public class Order_Panel extends Application {
             Choose_Room choose_Room=new Choose_Room(user_info);
             try {
                 choose_Room.start(new Stage());
+                stage.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -129,14 +126,15 @@ public class Order_Panel extends Application {
         cancel_order.setStyle("-fx-font-size: 15px");
         cancel_order.setPrefWidth(150);
         cancel_order.setOnAction(event -> {
-            // check_in_dao.delete_data(user_info.getUser_id());
-            // refresh();
+            reservation_Dao = new Reservation_Dao_Impl();
+            reservation_Dao.delete_data_by_user(user_info.getUser_id());
+            refresh(no_order,order,room_number,check_in_time,check_out_time,order_room,cancel_order);
         });
 
 
         Pane pane = new Pane();// 新建pane
         pane.getChildren().addAll(no_order, order, room_number, check_in_time, check_out_time, order_room, cancel_order);// 将控件添加到pane中
-        stage.setScene(new Scene(pane, 400, 220));
+        stage.setScene(new Scene(pane, 400, 175));
         stage.setTitle("客户预定面板");
         stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         stage.show();

@@ -5,9 +5,11 @@ import java.util.Vector;
 import Mysql.Mysql_Obj.Reservation;
 
 public interface Reservation_Dao {
-    public boolean select_data(Vector<Reservation> arr_record,Reservation value,boolean[] is_added);
+    public boolean select_data(Vector<Reservation> arr_record, Reservation value, boolean[] is_added);
 
     public int add_data();
+
+    public boolean delete_data_by_user(int id);
 
     public boolean delete_data(int id);
 
