@@ -1,10 +1,5 @@
 package GUI.Host.Control_Panel.Check_In_Panel;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
@@ -14,6 +9,7 @@ import Mysql.Dao.Room_Panel_Dao;
 import Mysql.Implement.Check_In_Manage_Dao_Impl;
 import Mysql.Implement.Room_Panel_Dao_Impl;
 import Mysql.Mysql_Obj.Check_In_Obj;
+import Tools.Wake_Up.Wake_Up;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
@@ -53,20 +49,17 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 
-public class Check_In_Panel extends Application {
+public class Check_In_Panel extends Application implements Wake_Up {
     ObservableList<Check_In_Obj> ob = FXCollections.observableArrayList();// 表格FXCollections
-
+    Stage stage;
     Check_In_Manage_Dao check_In_Manage_Dao;
     Vector<Check_In_Obj> arr_obj;
-
+    Check_In_Obj new_check_In_Obj;
     public Check_In_Panel() {
         try {
             check_In_Manage_Dao = new Check_In_Manage_Dao_Impl();
             arr_obj = new Vector<Check_In_Obj>();
-            // select("", "", "", "", "", "", "", "", "", "", "", "");
-            // for (int i = 0; i < arr_obj.size(); i++) {
-            // ob.add(arr_obj.get(i));
-            // }
+            select("", "", "", "", "", "", "", "", "", "", "", "");
         } catch (Exception e) {
             throw (e);
         }
@@ -149,8 +142,15 @@ public class Check_In_Panel extends Application {
 
     }
 
-    public void start(Stage stage) {
+    private void add_room(){
+        Choose_Room choose_Room = new Choose_Room();
+        choose_Room.check_In_Panel=this;
+        choose_Room.start(new Stage());
+        stage.hide();
+    }
 
+    public void start(Stage stage) {
+        this.stage = stage;
         // 表格视图
         TableView<Check_In_Obj> table = new TableView<Check_In_Obj>();
         table.setPrefSize(1200, 650);
@@ -494,14 +494,7 @@ public class Check_In_Panel extends Application {
         add.setPrefSize(100, 50);
         add.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                // Check_In_Obj r = new Check_In_Obj();
-                // r.setRoom_id(room_Panel_Dao.add_data());
-                // ob.add(r);
-                // table.refresh();
-                // int row = ob.size() - 1;
-                // table.requestFocus();
-                // table.getSelectionModel().select(row);
-                // table.getSelectionModel().focus(row);
+                add_room();
             }
         });
 
@@ -512,7 +505,7 @@ public class Check_In_Panel extends Application {
         delete.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (table.getSelectionModel().getSelectedItem() != null) {
-                    check_In_Manage_Dao.delete_data(table.getSelectionModel().getSelectedItem().getRoom_id());
+                    check_In_Manage_Dao.delete_data(table.getSelectionModel().getSelectedItem().getCheck_in_id());
                     ob.remove(table.getSelectionModel().getSelectedItem());
                     table.refresh();
                 } else {
@@ -612,5 +605,12 @@ public class Check_In_Panel extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void wake_up() {
+       check_In_Manage_Dao.add_data(new_check_In_Obj);
+       select("", "", "", "", "", "", "", "", "", "", "", "");
+       stage.show();
     }
 }

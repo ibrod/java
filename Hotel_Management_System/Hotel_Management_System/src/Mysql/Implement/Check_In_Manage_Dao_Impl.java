@@ -12,7 +12,7 @@ import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Alert;
 
 public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_In_Manage_Dao {
-
+    
     @Override
     public boolean select_data(Vector<Check_In_Obj> arr_obj, Check_In_Obj value, boolean[] is_added) {
         try {
@@ -57,7 +57,7 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
                 sql_command += " and u.phone=?";
             }
 
-            System.out.println(sql_command);
+            // System.out.println(sql_command);
             PreparedStatement pstm = conn.prepareStatement(sql_command);
 
             int cnt = 1;
@@ -103,8 +103,8 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
             // 5.遍历结果集
             while (rs.next()) {
                 Check_In_Obj check_In_Obj = new Check_In_Obj(rs.getInt("check_in_id"), rs.getInt("user_id"),
-                        rs.getInt("room_id"), rs.getDate("in_time").toString(),
-                        rs.getDate("out_time").toString(), rs.getDouble("pledge"), rs.getDouble("payment"),
+                        rs.getInt("room_id"), rs.getDate("in_time")==null?"":rs.getDate("in_time").toString(),
+                        rs.getDate("out_time")==null?"":rs.getDate("out_time").toString(), rs.getDouble("pledge"), rs.getDouble("payment"),
                         rs.getString("note"), rs.getInt("room_number"), rs.getString("name"),
                         rs.getString("id_card"), rs.getString("phone"));
                 arr_obj.add(check_In_Obj);
@@ -120,20 +120,22 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("数据库操作失败");
             alert.setHeaderText("数据库操作失败");
-            alert.setContentText("请检查互联网连接是否正常!");
+            alert.setContentText("请检查网络和筛选条件是否合法");
             alert.showAndWait();
         }
         return false;
     }
 
     @Override
-    public int add_data(String room_id, String user_id) {
+    public int add_data(Check_In_Obj value) {
         try {
             int id = -1;
-            PreparedStatement pstm = conn.prepareStatement("insert into check_in(user_id,room_id) values(?,?)",
+            PreparedStatement pstm = conn.prepareStatement("insert into check_in(user_id,room_id,in_time,out_time) values(?,?,?,?)",
                     PreparedStatement.RETURN_GENERATED_KEYS);
-            pstm.setString(1, user_id);
-            pstm.setString(2, room_id);
+            pstm.setInt(1, value.getUser_id());
+            pstm.setInt(2, value.getRoom_id());
+            pstm.setDate(3,Date.valueOf(value.getIn_time()) );
+            pstm.setDate(4,Date.valueOf(value.getOut_time()));
             pstm.executeUpdate();
 
             ResultSet rs = pstm.getGeneratedKeys();
@@ -150,7 +152,7 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("数据库操作失败");
             alert.setHeaderText("数据库操作失败");
-            alert.setContentText("请检查互联网连接是否正常，或者数据输入是否合法!");
+            alert.setContentText("请检查用户和房间必须是唯一的合法值或网络连接问题");
             alert.showAndWait();
         }
         return -1;
@@ -169,14 +171,14 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
                 int user_id = rs.getInt("user_id");
 
                 // 重置房间状态
-                PreparedStatement pstm2 = conn.prepareStatement("update room set status='空闲' where room_id=?");
+                PreparedStatement pstm2 = conn.prepareStatement("update room set room_status='空闲' where room_id=?");
                 pstm2.setInt(1, room_id);
                 pstm2.executeUpdate();
 
-                // 删除临时账户
-                PreparedStatement pstm3 = conn.prepareStatement("delete from user where user_id=? and type='临时'");
-                pstm3.setInt(1, user_id);
-                pstm3.executeUpdate();
+                // // 删除临时账户
+                // PreparedStatement pstm3 = conn.prepareStatement("delete from user where user_id=? and type='临时'");
+                // pstm3.setInt(1, user_id);
+                // pstm3.executeUpdate();
             }
 
             pstm = conn.prepareStatement("delete from check_in where check_in_id=?");
@@ -184,10 +186,21 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
 
             int count = pstm.executeUpdate();
             pstm.close();
+            
+            PreparedStatement ptsm4=conn.prepareStatement("insert into history(user_id,room_id,in_time,out_time,payment,note) valuse(?,?,?,?,?)");
+            // ptsm4.setInt(1, value.getUser_id());
+            // ptsm4.setInt(2, room_id);
+            // ptsm4.setDate(3, Date.valueOf(value.getIn_time()));
+            // ptsm4.setDate(4, Date.valueOf(value.getOut_time()));
+            // ptsm4.setDouble(5, value.getPayment());
+            // ptsm4.setString(6, value.getNote());
+            ptsm4.executeUpdate();
+            ptsm4.close();
 
             if (count == 1)
                 return true;
         } catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("数据库操作失败");
             alert.setHeaderText("数据库操作失败");

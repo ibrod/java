@@ -10,8 +10,13 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
 import Mysql.Dao.Room_Panel_Dao;
+import Mysql.Dao.User_Info_Manage_Dao;
 import Mysql.Implement.Room_Panel_Dao_Impl;
+import Mysql.Implement.User_Info_Manage_Dao_Impl;
+import Mysql.Mysql_Obj.Check_In_Obj;
 import Mysql.Mysql_Obj.Room;
+import Mysql.Mysql_Obj.User_Info;
+import Tools.Wake_Up.Wake_Up;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
@@ -42,8 +47,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -52,74 +59,77 @@ import javafx.util.converter.IntegerStringConverter;
 
 public class Choose_Room extends Application {
     ObservableList<Room> ob = FXCollections.observableArrayList();// 表格FXCollections
-
+    public Check_In_Panel check_In_Panel;
     Room_Panel_Dao room_Panel_Dao;
     Vector<Room> arr_Room;
+    User_Info_Manage_Dao u = new User_Info_Manage_Dao_Impl();
 
     public Choose_Room() {
         try {
             room_Panel_Dao = new Room_Panel_Dao_Impl();
             arr_Room = new Vector<Room>();
-            select("", "","", "", "", "", "", "空闲", "", "",LocalDate.now().toString(),LocalDate.now().toString());
+            select("", "", "", "", "", "", "", "空闲", "", "", LocalDate.now().toString(), LocalDate.now().toString());
         } catch (Exception e) {
             throw (e);
         }
     }
 
     public void select(String id, String number, String type, String discount, String deposit, String capacity,
-            String price, String status, String principal, String description,String start_time,String end_time) {
+            String price, String status, String principal, String description, String start_time, String end_time) {
         try {
             arr_Room.clear();
             Room r = new Room();
-            String sql_command = "select r.* from room r left join check_in c  on r.room_id=c.room_id left join reservation b on r.room_id=b.room_id where (c.check_in_id is null or c.in_time>'"+end_time+"' or c.out_time<'"+start_time+"') and (b.reservation_id is null or b.book_time>'"+end_time+"' or b.end_time<'"+start_time+"')";
+            String sql_command = "select r.* from room r left join check_in c  on r.room_id=c.room_id left join reservation b on r.room_id=b.room_id where (c.check_in_id is null or c.in_time>'"
+                    + end_time + "' or c.out_time<'" + start_time + "') and (b.reservation_id is null or b.book_time>'"
+                    + end_time + "' or b.end_time<'" + start_time + "')";
             boolean[] br = { false, false, false, false, false, false, false, false, false, false, false, false };
             if (!id.equals("")) {
-                sql_command += " and room_id = ?";
+                sql_command += " and r.room_id = ?";
                 r.setRoom_id(Integer.parseInt(id));
                 br[0] = true;
             }
             if (!number.equals("")) {
-                sql_command += " and room_number = ?";
+                sql_command += " and r.room_number = ?";
                 r.setRoom_number(Integer.parseInt(number));
                 br[1] = true;
             }
             if (!type.equals("")) {
-                sql_command += " and room_type = ?";
+                sql_command += " and r.room_type = ?";
                 r.setRoom_type(type);
                 br[2] = true;
             }
             if (!discount.equals("")) {
-                sql_command += " and room_discount = ?";
+                sql_command += " and r.room_discount = ?";
                 r.setRoom_discount(Double.parseDouble(discount));
                 br[3] = true;
             }
             if (!deposit.equals("")) {
-                sql_command += " and room_deposit = ?";
+                sql_command += " and r.room_deposit = ?";
                 r.setRoom_deposit(Double.parseDouble(deposit));
                 br[4] = true;
             }
             if (!capacity.equals("")) {
-                sql_command += " and room_capacity = ?";
+                sql_command += " and r.room_capacity = ?";
                 r.setRoom_capacity(Integer.parseInt(capacity));
                 br[5] = true;
             }
             if (!price.equals("")) {
-                sql_command += " and room_price = ?";
+                sql_command += " and r.room_price = ?";
                 r.setRoom_price(Double.parseDouble(price));
                 br[6] = true;
             }
             if (!status.equals("")) {
-                sql_command += " and room_status = ?";
+                sql_command += " and r.room_status = ?";
                 r.setRoom_status(status);
                 br[7] = true;
             }
             if (!principal.equals("")) {
-                sql_command += " and room_principal = ?";
+                sql_command += " and r.room_principal = ?";
                 r.setRoom_principal(principal);
                 br[8] = true;
             }
             if (!description.equals("")) {
-                sql_command += " and room_description = ?";
+                sql_command += " and r.room_description = ?";
                 r.setRoom_description(description);
                 br[9] = true;
             }
@@ -173,32 +183,13 @@ public class Choose_Room extends Application {
         // 自适应
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        // 确定按钮
-        Button choose = new Button("确定");
-        choose.relocate(0, 0);
-        choose.setPrefSize(100, 50);
-        choose.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                try {
-                    System.out.println(table.getSelectionModel().getSelectedItem().getRoom_id());
-                    stage.close();
-
-                } catch (Exception e) {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("错误");
-                    alert.setContentText("请先选择一行数据");
-                    alert.showAndWait();
-                }
-
-            }
-        });
-
         // 返回按钮
         Button back = new Button("返回");
         back.relocate(100, 0);
         back.setPrefSize(100, 50);
         back.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                check_In_Panel.stage.show();
                 stage.close();
             }
         });
@@ -326,7 +317,7 @@ public class Choose_Room extends Application {
         // principal_text
         TextField principal_Text = new TextField();
         principal_Text.relocate(1140, 0);
-        principal_Text.setPrefWidth(200);
+        principal_Text.setPrefWidth(100);
 
         // description_label
         Label description_Label = new Label("描述");
@@ -335,7 +326,22 @@ public class Choose_Room extends Application {
         // description_text
         TextField description_Text = new TextField();
         description_Text.relocate(1140, 25);
-        description_Text.setPrefWidth(200);
+        description_Text.setPrefWidth(100);
+
+        // user_id_label
+        Label user_id_label = new Label("请填写用户id(必填):");
+        user_id_label.relocate(1250, 0);
+        // 设置字体为红色
+        user_id_label.setTextFill(Color.RED);
+
+        // user_id_text
+        TextField user_id_text = new TextField();
+        user_id_text.relocate(1250, 20);
+        user_id_text.setPrefWidth(120);
+
+        // 设置为特殊样式
+        user_id_text.setStyle(
+                "-fx-border-color: red;-fx-border-width: 2px;-fx-border-radius: 5px;-fx-border-style: dashed;-fx-border-insets: 1px;");
 
         // 清空按钮
         Button clear = new Button("清空");
@@ -353,6 +359,7 @@ public class Choose_Room extends Application {
                 status_Text.setText("");
                 principal_Text.setText("");
                 description_Text.setText("");
+                user_id_text.setText("");
                 start_time_text.setValue(LocalDate.now());
                 end_time_text.setValue(LocalDate.now());
             }
@@ -364,12 +371,12 @@ public class Choose_Room extends Application {
         search.setPrefSize(100, 50);
         search.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                String st=LocalDate.now().toString();
-                String ed=LocalDate.now().toString();
+                String st = LocalDate.now().toString();
+                String ed = LocalDate.now().toString();
                 try {
-                    st=start_time_text.getValue().toString();
-                    ed=end_time_text.getValue().toString();
-                    if(st.compareTo(ed)>0){
+                    st = start_time_text.getValue().toString();
+                    ed = end_time_text.getValue().toString();
+                    if (st.compareTo(ed) > 0) {
                         Alert alert = new Alert(AlertType.INFORMATION);
                         alert.setTitle("提示");
                         alert.setHeaderText("起始日期不能大于结束日期");
@@ -384,8 +391,63 @@ public class Choose_Room extends Application {
                 }
                 select(id_Text.getText(), number_Text.getText(), type_Text.getText(), discount_Text.getText(),
                         deposit_Text.getText(), capacity_Text.getText(), price_Text.getText(), status_Text.getText(),
-                        principal_Text.getText(), description_Text.getText(),st,ed);
+                        principal_Text.getText(), description_Text.getText(), st, ed);
                 table.refresh();
+            }
+        });
+        // 确定按钮
+        Button choose = new Button("确定");
+        choose.relocate(0, 0);
+        choose.setPrefSize(100, 50);
+        choose.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                try {
+                    // System.out.println(table.getSelectionModel().getSelectedItem().getRoom_id());
+                    if (start_time_text.getValue() == null || end_time_text.getValue() == null) {
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("提示");
+                        alert.setHeaderText("日期为空或格式错误");
+                        alert.setContentText("请重新输入");
+                        alert.showAndWait();
+                        return;
+                    }
+                    if (start_time_text.getValue().toString().compareTo(end_time_text.getValue().toString()) > 0) {
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("提示");
+                        alert.setHeaderText("起始日期不能大于结束日期");
+                        alert.showAndWait();
+                        return;
+                    }
+                    Vector<User_Info> arr_user = new Vector<User_Info>();
+                    User_Info usf = new User_Info();
+                    usf.setUser_id(Integer.valueOf(user_id_text.getText()));
+                    boolean[] bl = { false, false, false, false, false, false, false, false, false, false, false,
+                            false };
+                    u.select_data(arr_user, usf, bl);
+                    if (arr_user.size() == 0) {
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("提示");
+                        alert.setHeaderText("用户不存在");
+                        alert.setContentText("请重新输入");
+                        alert.showAndWait();
+                        return;
+                    } else {
+                        check_In_Panel.new_check_In_Obj = new Check_In_Obj();
+                        check_In_Panel.new_check_In_Obj
+                                .setRoom_id(table.getSelectionModel().getSelectedItem().getRoom_id());
+                        check_In_Panel.new_check_In_Obj.setUser_id(Integer.valueOf(user_id_text.getText()));
+                    }
+                    check_In_Panel.new_check_In_Obj.setIn_time(start_time_text.getValue().toString());
+                    check_In_Panel.new_check_In_Obj.setOut_time(end_time_text.getValue().toString());
+                    check_In_Panel.wake_up();
+                    stage.close();
+                } catch (Exception e) {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("错误");
+                    alert.setContentText("请先选择一行数据,并填写好用户id");
+                    alert.showAndWait();
+                }
+
             }
         });
 
@@ -414,9 +476,10 @@ public class Choose_Room extends Application {
                 type_Label,
                 type_Text, discount_Label, discount_Text, deposit_Label, deposit_Text, capacity_Label, capacity_Text,
                 price_Label, price_Text, status_Label, status_Text, principal_Label, principal_Text, description_Label,
-                description_Text, clear, start_time_label, start_time_text, end_time_label, end_time_text);
+                description_Text, clear, start_time_label, start_time_text, end_time_label, end_time_text,
+                user_id_label, user_id_text);
 
-        stage.setScene(new Scene(pane, 1350, 700));
+        stage.setScene(new Scene(pane, 1400, 700));
         stage.setTitle("请选择房间:");
         // stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         // 添加窗体大小改变的监听事件
