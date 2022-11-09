@@ -1,4 +1,5 @@
 package GUI.Host.Control_Panel.Booked_Panel;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -62,7 +63,7 @@ public class Booked_Panel extends Application {
         try {
             Reservation_Dao = new Reservation_Dao_Impl();
             arr_obj = new Vector<Reservation>();
-            // select("", "", "", "", "", "", "", "", "", "", "", "");
+            select("", "", "", "", "", "", "", "", "", "", "");
             // for (int i = 0; i < arr_obj.size(); i++) {
             // ob.add(arr_obj.get(i));
             // }
@@ -72,7 +73,7 @@ public class Booked_Panel extends Application {
     }
 
     public void select(String id, String user_id, String name, String id_card, String phone, String room_id,
-            String room_number, String in_time, String out_time, String pledge,
+            String room_number, String in_time, String out_time,
             String payment, String note) {
         try {
             arr_obj.clear();
@@ -101,27 +102,27 @@ public class Booked_Panel extends Application {
             }
             if (!payment.equals("")) {
                 r.setPayment(Double.parseDouble(payment));
-                br[6] = true;
+                br[5] = true;
             }
             if (!note.equals("")) {
                 r.setNote(note);
-                br[7] = true;
+                br[6] = true;
             }
             if (!room_number.equals("")) {
                 r.setRoom_number(Integer.parseInt(room_number));
-                br[8] = true;
+                br[7] = true;
             }
             if (!name.equals("")) {
                 r.setName(name);
-                br[9] = true;
+                br[8] = true;
             }
             if (!id_card.equals("")) {
                 r.setId_card(id_card);
-                br[10] = true;
+                br[9] = true;
             }
             if (!phone.equals("")) {
                 r.setPhone_number(phone);
-                br[11] = true;
+                br[10] = true;
             }
             // System.out.println(note);
 
@@ -131,8 +132,15 @@ public class Booked_Panel extends Application {
                 for (int i = 0; i < arr_obj.size(); i++) {
                     // System.out.println(arr_obj.get(i));
                     ob.add(arr_obj.get(i));
-                    // System.out.println(arr_obj.get(i).getUser_id()+" "+arr_obj.get(i).getRoom_id()+" "+arr_obj.get(i).getRoom_number());
-                    // System.out.println(arr_obj.get(i).getCheck_in_id()+" "+arr_obj.get(i).getName()+" "+arr_obj.get(i).getRoom_number()+" "+arr_obj.get(i).getIn_time()+" "+arr_obj.get(i).getOut_time()+" "+arr_obj.get(i).getPledge()+" "+arr_obj.get(i).getPayment()+" "+arr_obj.get(i).getNote()+" "+arr_obj.get(i).getRoom_id()+" "+arr_obj.get(i).getUser_id()+" "+arr_obj.get(i).getId_card()+" "+arr_obj.get(i).getPhone_number());
+                    // System.out.println(arr_obj.get(i).getUser_id()+"
+                    // "+arr_obj.get(i).getRoom_id()+" "+arr_obj.get(i).getRoom_number());
+                    // System.out.println(arr_obj.get(i).getCheck_in_id()+"
+                    // "+arr_obj.get(i).getName()+" "+arr_obj.get(i).getRoom_number()+"
+                    // "+arr_obj.get(i).getIn_time()+" "+arr_obj.get(i).getOut_time()+"
+                    // "+arr_obj.get(i).getPledge()+" "+arr_obj.get(i).getPayment()+"
+                    // "+arr_obj.get(i).getNote()+" "+arr_obj.get(i).getRoom_id()+"
+                    // "+arr_obj.get(i).getUser_id()+" "+arr_obj.get(i).getId_card()+"
+                    // "+arr_obj.get(i).getPhone_number());
                 }
             }
         } catch (Exception e) {
@@ -181,6 +189,105 @@ public class Booked_Panel extends Application {
 
         table.setEditable(true);
 
+        // id_label
+        Label id_label = new Label("id");
+        id_label.relocate(420, 5);
+
+        // id_text
+        TextField id_Text = new TextField();
+        id_Text.relocate(450, 0);
+        id_Text.setPrefWidth(80);
+
+        // room_id_label
+        Label room_id_label = new Label("房间id");
+        room_id_label.relocate(540, 5);
+
+        // room_id_text
+        TextField room_id_text = new TextField();
+        room_id_text.relocate(590, 0);
+        room_id_text.setPrefWidth(80);
+
+        // room_number_label
+        Label room_number_label = new Label("房间号");
+        room_number_label.relocate(540, 30);
+
+        // room_number_Text
+        TextField room_number_Text = new TextField();
+        room_number_Text.relocate(590, 25);
+        room_number_Text.setPrefWidth(80);
+
+        // in_time_label
+        Label in_time_label = new Label("入住时间");
+        in_time_label.relocate(680, 5);
+
+        // in_time_text
+        DatePicker in_time_text = new DatePicker();
+        in_time_text.relocate(735, 0);
+        in_time_text.setPrefWidth(110);
+
+        // out_time_label
+        Label out_time_label = new Label("到期时间");
+        out_time_label.relocate(680, 30);
+
+        // out_time_text
+        DatePicker out_time_text = new DatePicker();
+        out_time_text.relocate(735, 25);
+        out_time_text.setPrefWidth(110);
+
+        // payment_label
+        Label payment_label = new Label("付款");
+        payment_label.relocate(850, 5);
+
+        // payment_text
+        TextField payment_text = new TextField();
+        payment_text.relocate(880, 0);
+        payment_text.setPrefWidth(80);
+
+        // note_label
+        Label note_label = new Label("备注");
+        note_label.relocate(850, 30);
+
+        // note_text
+        TextField note_text = new TextField();
+        note_text.relocate(880, 25);
+        note_text.setPrefWidth(200);
+
+        // user_id_label
+        Label user_id_label = new Label("用户ID");
+        user_id_label.relocate(410, 30);
+
+        // user_id_text
+        TextField user_id_text = new TextField();
+        user_id_text.relocate(450, 25);
+        user_id_text.setPrefWidth(80);
+
+        // name_label
+        Label name_label = new Label("姓名");
+        name_label.relocate(970, 5);
+
+        // name_text
+        TextField name_text = new TextField();
+        name_text.relocate(1000, 0);
+        name_text.setPrefWidth(80);
+
+        // phone_label
+        Label phone_label = new Label("手机号");
+        phone_label.relocate(1090, 5);
+
+        // phone_text
+        TextField phone_text = new TextField();
+        phone_text.relocate(1150, 0);
+        phone_text.setPrefWidth(150);
+
+        // id_card_label
+        Label id_card_label = new Label("身份证号");
+        id_card_label.relocate(1090, 30);
+
+        // id_card_text
+        TextField id_card_text = new TextField();
+        id_card_text.relocate(1150, 25);
+        id_card_text.setPrefWidth(150);
+
         user_id.setCellValueFactory(
                 cellData -> new ReadOnlyStringWrapper(String.valueOf(cellData.getValue().getUser_id())));
         user_id.setCellFactory(TextFieldTableCell.<Reservation>forTableColumn());
@@ -210,10 +317,14 @@ public class Booked_Panel extends Application {
             public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
                 if (Reservation_Dao.update_data(
                         t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "user_id",
-                        t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setUser_id(Integer.valueOf(t.getNewValue()));
-                else
+                        t.getNewValue())) {
+                    select(id_Text.getText(), user_id_text.getText(), name_text.getText(), id_card_text.getText(),
+                            phone_text.getText(), room_id_text.getText(), room_number_Text.getText(),
+                            in_time_text.getValue() == null ? "" : in_time_text.getValue().toString(),
+                            out_time_text.getValue() == null ? "" : out_time_text.getValue().toString(),
+                            payment_text.getText(), note_text.getText());
+                    table.refresh();
+                } else
                     table.refresh();
             }
         });
@@ -223,10 +334,14 @@ public class Booked_Panel extends Application {
             public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
                 if (Reservation_Dao.update_data(
                         t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "room_id",
-                        t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setRoom_id(Integer.valueOf(t.getNewValue()));
-                else
+                        t.getNewValue())) {
+                    select(id_Text.getText(), user_id_text.getText(), name_text.getText(), id_card_text.getText(),
+                            phone_text.getText(), room_id_text.getText(), room_number_Text.getText(),
+                            in_time_text.getValue() == null ? "" : in_time_text.getValue().toString(),
+                            out_time_text.getValue() == null ? "" : out_time_text.getValue().toString(),
+                            payment_text.getText(), note_text.getText());
+                    table.refresh();
+                } else
                     table.refresh();
             }
         });
@@ -235,11 +350,15 @@ public class Booked_Panel extends Application {
             @Override
             public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
                 if (Reservation_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "in_time",
-                        t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setIn_time(t.getNewValue());
-                else
+                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "book_time",
+                        t.getNewValue())) {
+                    select(id_Text.getText(), user_id_text.getText(), name_text.getText(), id_card_text.getText(),
+                            phone_text.getText(), room_id_text.getText(), room_number_Text.getText(),
+                            in_time_text.getValue() == null ? "" : in_time_text.getValue().toString(),
+                            out_time_text.getValue() == null ? "" : out_time_text.getValue().toString(),
+                            payment_text.getText(), note_text.getText());
+                    table.refresh();
+                } else
                     table.refresh();
             }
         });
@@ -248,26 +367,32 @@ public class Booked_Panel extends Application {
             @Override
             public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
                 if (Reservation_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "out_time",
-                        t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setOut_time(t.getNewValue());
-                else
+                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "end_time",
+                        t.getNewValue())) {
+                    select(id_Text.getText(), user_id_text.getText(), name_text.getText(), id_card_text.getText(),
+                            phone_text.getText(), room_id_text.getText(), room_number_Text.getText(),
+                            in_time_text.getValue() == null ? "" : in_time_text.getValue().toString(),
+                            out_time_text.getValue() == null ? "" : out_time_text.getValue().toString(),
+                            payment_text.getText(), note_text.getText());
+                    table.refresh();
+                } else
                     table.refresh();
             }
         });
-
-
 
         payment.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Reservation, String>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
                 if (Reservation_Dao.update_data(
-                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "payment",
-                        t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setPayment(Double.valueOf(t.getNewValue()));
-                else
+                        t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "paid",
+                        t.getNewValue())) {
+                    select(id_Text.getText(), user_id_text.getText(), name_text.getText(), id_card_text.getText(),
+                            phone_text.getText(), room_id_text.getText(), room_number_Text.getText(),
+                            in_time_text.getValue() == null ? "" : in_time_text.getValue().toString(),
+                            out_time_text.getValue() == null ? "" : out_time_text.getValue().toString(),
+                            payment_text.getText(), note_text.getText());
+                    table.refresh();
+                } else
                     table.refresh();
             }
         });
@@ -277,10 +402,14 @@ public class Booked_Panel extends Application {
             public void handle(TableColumn.CellEditEvent<Reservation, String> t) {
                 if (Reservation_Dao.update_data(
                         t.getTableView().getItems().get(t.getTablePosition().getRow()).getReservation_id(), "note",
-                        t.getNewValue()))
-                    t.getTableView().getItems().get(t.getTablePosition().getRow())
-                            .setNote(t.getNewValue());
-                else
+                        t.getNewValue())) {
+                    select(id_Text.getText(), user_id_text.getText(), name_text.getText(), id_card_text.getText(),
+                            phone_text.getText(), room_id_text.getText(), room_number_Text.getText(),
+                            in_time_text.getValue() == null ? "" : in_time_text.getValue().toString(),
+                            out_time_text.getValue() == null ? "" : out_time_text.getValue().toString(),
+                            payment_text.getText(), note_text.getText());
+                    table.refresh();
+                } else
                     table.refresh();
             }
         });
@@ -351,128 +480,20 @@ public class Booked_Panel extends Application {
         // }
         // });
 
-        // id_label
-        Label id_label = new Label("id");
-        id_label.relocate(420, 5);
-
-        // id_text
-        TextField id_Text = new TextField();
-        id_Text.relocate(450, 0);
-        id_Text.setPrefWidth(80);
-
-        // room_id_label
-        Label room_id_label = new Label("房间id");
-        room_id_label.relocate(540, 5);
-
-        // room_id_text
-        TextField room_id_text = new TextField();
-        room_id_text.relocate(590, 0);
-        room_id_text.setPrefWidth(80);
-
-        // room_number_label
-        Label room_number_label = new Label("房间号");
-        room_number_label.relocate(540, 30);
-
-        // room_number_Text
-        TextField room_number_Text = new TextField();
-        room_number_Text.relocate(590, 25);
-        room_number_Text.setPrefWidth(80);
-
-        // in_time_label
-        Label in_time_label = new Label("入住时间");
-        in_time_label.relocate(680, 5);
-
-        // in_time_text
-        DatePicker in_time_text = new DatePicker();
-        in_time_text.relocate(735, 0);
-        in_time_text.setPrefWidth(110);
-
-        // out_time_label
-        Label out_time_label = new Label("到期时间");
-        out_time_label.relocate(680, 30);
-
-        // out_time_text
-        DatePicker out_time_text = new DatePicker();
-        out_time_text.relocate(735, 25);
-        out_time_text.setPrefWidth(110);
-
-        // pledge_label
-        Label pledge_label = new Label("押金");
-        pledge_label.relocate(850, 30);
-
-        // pledge_text
-        TextField pledge_text = new TextField();
-        pledge_text.relocate(880, 25);
-        pledge_text.setPrefWidth(80);
-
-        // payment_label
-        Label payment_label = new Label("付款");
-        payment_label.relocate(850, 5);
-
-        // payment_text
-        TextField payment_text = new TextField();
-        payment_text.relocate(880, 0);
-        payment_text.setPrefWidth(80);
-
-        // note_label
-        Label note_label = new Label("备注");
-        note_label.relocate(970, 30);
-
-        // note_text
-        TextField note_text = new TextField();
-        note_text.relocate(1000, 25);
-        note_text.setPrefWidth(80);
-
-        // user_id_label
-        Label user_id_label = new Label("用户ID");
-        user_id_label.relocate(410, 30);
-
-        // user_id_text
-        TextField user_id_text = new TextField();
-        user_id_text.relocate(450, 25);
-        user_id_text.setPrefWidth(80);
-
-        // name_label
-        Label name_label = new Label("姓名");
-        name_label.relocate(970, 5);
-
-        // name_text
-        TextField name_text = new TextField();
-        name_text.relocate(1000, 0);
-        name_text.setPrefWidth(80);
-
-        // phone_label
-        Label phone_label = new Label("手机号");
-        phone_label.relocate(1090, 5);
-
-        // phone_text
-        TextField phone_text = new TextField();
-        phone_text.relocate(1150, 0);
-        phone_text.setPrefWidth(150);
-
-        // id_card_label
-        Label id_card_label = new Label("身份证号");
-        id_card_label.relocate(1090, 30);
-
-        // id_card_text
-        TextField id_card_text = new TextField();
-        id_card_text.relocate(1150, 25);
-        id_card_text.setPrefWidth(150);
-
         // 添加按钮
         Button add = new Button("添加");
         add.relocate(0, 0);
         add.setPrefSize(100, 50);
         add.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                // Reservation r = new Reservation();
-                // r.setRoom_id(room_Panel_Dao.add_data());
-                // ob.add(r);
-                // table.refresh();
-                // int row = ob.size() - 1;
-                // table.requestFocus();
-                // table.getSelectionModel().select(row);
-                // table.getSelectionModel().focus(row);
+                Reservation r = new Reservation();
+                r.setReservation_id(Reservation_Dao.add_data());
+                ob.add(r);
+                table.refresh();
+                int row = ob.size() - 1;
+                table.requestFocus();
+                table.getSelectionModel().select(row);
+                table.getSelectionModel().focus(row);
             }
         });
 
@@ -483,7 +504,7 @@ public class Booked_Panel extends Application {
         delete.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (table.getSelectionModel().getSelectedItem() != null) {
-                    Reservation_Dao.delete_data(table.getSelectionModel().getSelectedItem().getRoom_id());
+                    Reservation_Dao.delete_data(table.getSelectionModel().getSelectedItem().getReservation_id());
                     ob.remove(table.getSelectionModel().getSelectedItem());
                     table.refresh();
                 } else {
@@ -507,7 +528,6 @@ public class Booked_Panel extends Application {
                 room_number_Text.setText("");
                 in_time_text.setValue(null);
                 out_time_text.setValue(null);
-                pledge_text.setText("");
                 note_text.setText("");
                 user_id_text.setText("");
                 name_text.setText("");
@@ -525,7 +545,8 @@ public class Booked_Panel extends Application {
             public void handle(ActionEvent event) {
                 select(id_Text.getText(), user_id_text.getText(), name_text.getText(), id_card_text.getText(),
                         phone_text.getText(), room_id_text.getText(), room_number_Text.getText(),
-                        in_time_text.getValue()== null ? "":in_time_text.getValue().toString(),out_time_text.getValue()==null ? "": out_time_text.getValue().toString(), pledge_text.getText(),
+                        in_time_text.getValue() == null ? "" : in_time_text.getValue().toString(),
+                        out_time_text.getValue() == null ? "" : out_time_text.getValue().toString(),
                         payment_text.getText(), note_text.getText());
                 table.refresh();
             }
@@ -556,7 +577,7 @@ public class Booked_Panel extends Application {
         Pane pane = new Pane();// 新建pane
         pane.getChildren().addAll(table, add, delete, search, id_label, id_Text, clear, room_id_label, room_id_text,
                 room_number_label, room_number_Text, in_time_label, in_time_text, out_time_label, out_time_text,
-                pledge_label, pledge_text, note_label, note_text, user_id_label, user_id_text, name_label, name_text,
+                note_label, note_text, user_id_label, user_id_text, name_label, name_text,
                 id_card_label, id_card_text, phone_label, phone_text, payment_label, payment_text);
 
         stage.setScene(new Scene(pane, 1350, 700));

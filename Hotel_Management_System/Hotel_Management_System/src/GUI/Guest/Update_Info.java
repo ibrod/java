@@ -1,7 +1,5 @@
 package GUI.Guest;
 
-import java.security.AllPermission;
-
 import Mysql.Dao.User_Info_Manage_Dao;
 import Mysql.Implement.User_Info_Manage_Dao_Impl;
 import Mysql.Mysql_Obj.User_Info;
@@ -17,15 +15,18 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Update_Info extends Application{
+public class Update_Info extends Application {
 
     User_Info user_info = new User_Info("", "", "", "", "");
     Wake_Up wake_Up;
-  
 
     public Update_Info(User_Info user_info, Wake_Up wake_Up) {
         this.user_info = user_info;
         this.wake_Up = wake_Up;
+    }
+
+    public Update_Info(User_Info user_info) {
+        this.user_info = user_info;
     }
 
     public Update_Info() {
@@ -63,7 +64,7 @@ public class Update_Info extends Application{
         TextField id_input = new TextField();
         id_input.relocate(120, 130);
         id_input.setPrefWidth(300);
-        //设置最多只能输入18位
+        // 设置最多只能输入18位
         id_input.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() > 18) {
                 id_input.setText(oldValue);
@@ -121,7 +122,9 @@ public class Update_Info extends Application{
                 alert.showAndWait();
                 stage.close();
                 user_info.setStatus(1);
-                wake_Up.wake_up();
+                if (wake_Up != null) {
+                    wake_Up.wake_up();
+                }
             }
         });
 
@@ -133,14 +136,16 @@ public class Update_Info extends Application{
         // 绑定事件
         back.setOnAction(e -> {
             stage.close();
-            wake_Up.wake_up();
+            if(wake_Up != null){
+                wake_Up.wake_up();
+            }
         });
 
         Pane pane = new Pane();// 新建pane
         pane.getChildren().addAll(phone, name, gender, id, email, phone_input, name_input, id_input, email_input,
                 male, female, update, back);
         stage.setScene(new Scene(pane, 460, 350));
-        stage.setTitle("客户登录界面");
+        stage.setTitle("信息更新界面");
         stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         stage.show();
     }

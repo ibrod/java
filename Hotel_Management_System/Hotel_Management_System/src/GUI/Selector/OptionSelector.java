@@ -9,7 +9,7 @@ public abstract class OptionSelector {
         String options1;
         String options2;
         String title;
-        Stage stage;
+        protected Stage stage;
 
         public OptionSelector(String title, String options1, String options2, Stage stage) {
                 this.title = title;

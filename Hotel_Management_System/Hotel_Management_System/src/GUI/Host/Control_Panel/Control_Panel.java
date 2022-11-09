@@ -22,6 +22,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import GUI.Host.Control_Panel.Admin_Panel.Admin_Panel;
+import GUI.Host.Control_Panel.Booked_Panel.Booked_Panel;
+import GUI.Host.Control_Panel.Check_In_Panel.Check_In_Panel;
 import GUI.Host.Control_Panel.History_Panel.History_Panel;
 import GUI.Host.Control_Panel.Room_Panel.Room_Panel;
 import GUI.Host.Control_Panel.User_Manage_Panel.User_Manage_Panel;
@@ -106,7 +108,7 @@ public class Control_Panel extends Application {
         book_record.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // new Book_Record().start(new Stage());
+                new Booked_Panel().start(new Stage());
             }
         });
 
@@ -130,7 +132,7 @@ public class Control_Panel extends Application {
         check_in_record.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // new Check_In_Record().start(new Stage());
+                 new Check_In_Panel().start(new Stage());
             }
         });
 
@@ -160,16 +162,15 @@ public class Control_Panel extends Application {
             }
         });
 
-        // 开启服务器模式按钮
-        Button server_bButton = new Button("开启服务模式");
-        server_bButton.relocate(40, 260);
-        server_bButton.setPrefWidth(100);
-        server_bButton.setPrefHeight(30);
-        server_bButton.setOnAction(new EventHandler<ActionEvent>() {
+        // 退出
+        Button exit_button = new Button("退出");
+        exit_button.relocate(170, 260);
+        exit_button.setPrefWidth(100);
+        exit_button.setPrefHeight(30);
+        exit_button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // new Server_Mode().start(new Stage());
-
+                System.exit(0);
             }
         });
 
@@ -212,7 +213,7 @@ public class Control_Panel extends Application {
 
         // 返回按钮
         Button back = new Button("返回");
-        back.relocate(170, 260);
+        back.relocate(40, 260);
         back.setPrefWidth(100);
         back.setPrefHeight(30);
         back.setOnAction(new EventHandler<ActionEvent>() {
@@ -231,7 +232,7 @@ public class Control_Panel extends Application {
 
         Pane pane = new Pane();// 新建pane
         pane.getChildren().addAll(time, room_manage, customer_manage, admin_manage, back, room_num, room_booked,
-                customer_num, admin_num, server_bButton, book_record, check_in_record, history_record, occupied);
+                customer_num, admin_num, exit_button, book_record, check_in_record, history_record, occupied);
         stage.setScene(new Scene(pane, 500, 350));// 设置场景
         stage.setTitle("酒店管理面板");
         stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮

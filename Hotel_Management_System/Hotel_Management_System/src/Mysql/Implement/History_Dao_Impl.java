@@ -52,7 +52,7 @@ public class History_Dao_Impl extends Implement_Parent implements History_Dao {
                 sql_command += " and u.phone=?";
             }
 
-            System.out.println(sql_command);
+            //System.out.println(sql_command);
             PreparedStatement pstm = conn.prepareStatement(sql_command);
 
             int cnt = 1;

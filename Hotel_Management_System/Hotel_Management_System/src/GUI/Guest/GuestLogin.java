@@ -12,9 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -127,7 +125,7 @@ public class GuestLogin extends Application implements Wake_Up {
         login.setPrefWidth(250);
         login.setOnAction(event -> {
             if (verify_code_input.getText().equals("114514")) {// 仅用于测试
-                phone_number = phone.getText(); 
+                phone_number = phone.getText();
                 User_Info return_value = user_info_manage_dao.get_user_info_send_by_user(phone_number);
                 if (return_value == null) {
                     enter_update_info(phone_number);
@@ -138,6 +136,11 @@ public class GuestLogin extends Application implements Wake_Up {
                     alert.setHeaderText("登录成功");
                     alert.setContentText("欢迎回来，" + return_value.getName());
                     alert.showAndWait();
+                    try {
+                        new Guest_Panel(phone_number).start(new Stage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     stage.close();
                 }
             } else if (sms_code == null) {
@@ -162,6 +165,11 @@ public class GuestLogin extends Application implements Wake_Up {
                     alert.setHeaderText("登录成功");
                     alert.setContentText("欢迎回来，" + return_value.getName());
                     alert.showAndWait();
+                    try {
+                        new Guest_Panel(phone_number).start(new Stage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     stage.close();
                 }
             }

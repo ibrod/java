@@ -504,7 +504,7 @@ public class History_Panel extends Application {
                 id_card_label, id_card_text, phone_label, phone_text, payment_label, payment_text);
 
         stage.setScene(new Scene(pane, 1350, 700));
-        stage.setTitle("房间管理面板");
+        stage.setTitle("历史记录");
         // stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         // 添加窗体大小改变的监听事件
         stage.widthProperty().addListener(new ChangeListener<Number>() {

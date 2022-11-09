@@ -51,7 +51,7 @@ public class Reservation_Dao_Impl extends Implement_Parent implements Reservatio
                 sql_command += " and u.phone=?";
             }
 
-            System.out.println(sql_command);
+            // System.out.println(sql_command);
             PreparedStatement pstm = conn.prepareStatement(sql_command);
 
             int cnt = 1;
@@ -94,7 +94,7 @@ public class Reservation_Dao_Impl extends Implement_Parent implements Reservatio
             // 5.遍历结果集
             while (rs.next()) {
                 Reservation Reservation = new Reservation(rs.getInt("reservation_id"), rs.getInt("user_id"),
-                        rs.getInt("room_id"), rs.getDate("book_time").toString(),
+                        rs.getInt("room_id"),rs.getDate("book_time")==null?null:rs.getDate("book_time").toString(),rs.getDate("end_time")==null?null:
                         rs.getDate("end_time").toString(), rs.getDouble("paid"),
                         rs.getString("note"), rs.getInt("room_number"), rs.getString("name"),
                         rs.getString("id_card"), rs.getString("phone"));
@@ -118,13 +118,11 @@ public class Reservation_Dao_Impl extends Implement_Parent implements Reservatio
     }
 
     @Override
-    public int add_data(String room_id, String user_id) {
+    public int add_data() {
         try {
             int id = -1;
-            PreparedStatement pstm = conn.prepareStatement("insert into check_in(user_id,room_id) values(?,?)",
+            PreparedStatement pstm = conn.prepareStatement("insert into reservation() values()",
                     PreparedStatement.RETURN_GENERATED_KEYS);
-            pstm.setString(1, user_id);
-            pstm.setString(2, room_id);
             pstm.executeUpdate();
 
             ResultSet rs = pstm.getGeneratedKeys();
@@ -151,26 +149,7 @@ public class Reservation_Dao_Impl extends Implement_Parent implements Reservatio
     public boolean delete_data(int id) {
 
         try {
-            PreparedStatement pstm = conn.prepareStatement("select room_id,user_id from check_in where check_in_id=?");
-            pstm.setInt(1, id);
-
-            ResultSet rs = pstm.executeQuery();
-            if (rs.next()) {
-                int room_id = rs.getInt("room_id");
-                int user_id = rs.getInt("user_id");
-
-                // 重置房间状态
-                PreparedStatement pstm2 = conn.prepareStatement("update room set status='空闲' where room_id=?");
-                pstm2.setInt(1, room_id);
-                pstm2.executeUpdate();
-
-                // 删除临时账户
-                PreparedStatement pstm3 = conn.prepareStatement("delete from user where user_id=? and type='临时'");
-                pstm3.setInt(1, user_id);
-                pstm3.executeUpdate();
-            }
-
-            pstm = conn.prepareStatement("delete from check_in where check_in_id=?");
+            PreparedStatement pstm = conn.prepareStatement("delete from reservation where reservation_id=?");
             pstm.setInt(1, id);
 
             int count = pstm.executeUpdate();
@@ -189,11 +168,11 @@ public class Reservation_Dao_Impl extends Implement_Parent implements Reservatio
     }
 
     @Override
-    public boolean update_data(int check_in_id, String field, String value) {
+    public boolean update_data(int reservation_id, String field, String value) {
         try {
-            PreparedStatement pstm = conn.prepareStatement("update check_in set " + field + "=? where check_in_id=?");
+            PreparedStatement pstm = conn.prepareStatement("update reservation set " + field + "=? where reservation_id=?");
             pstm.setString(1, value);
-            pstm.setInt(2, check_in_id);
+            pstm.setInt(2, reservation_id);
 
             int count = pstm.executeUpdate();
 
