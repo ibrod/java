@@ -9,11 +9,17 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
+
+import Mysql.Dao.Check_In_Manage_Dao;
+import Mysql.Dao.Reservation_Dao;
 import Mysql.Dao.Room_Panel_Dao;
 import Mysql.Dao.User_Info_Manage_Dao;
+import Mysql.Implement.Check_In_Manage_Dao_Impl;
+import Mysql.Implement.Reservation_Dao_Impl;
 import Mysql.Implement.Room_Panel_Dao_Impl;
 import Mysql.Implement.User_Info_Manage_Dao_Impl;
 import Mysql.Mysql_Obj.Check_In_Obj;
+import Mysql.Mysql_Obj.Reservation;
 import Mysql.Mysql_Obj.Room;
 import Mysql.Mysql_Obj.User_Info;
 import Tools.Wake_Up.Wake_Up;
@@ -62,6 +68,21 @@ public class Choose_Room extends Application {
     Room_Panel_Dao room_Panel_Dao;
     Vector<Room> arr_Room;
     User_Info_Manage_Dao u = new User_Info_Manage_Dao_Impl();
+    Reservation_Dao reservation_Dao=new Reservation_Dao_Impl();
+    Reservation reservation;
+    User_Info user_Info;
+
+    public Choose_Room(User_Info user_info) {
+        try {
+            this.user_Info = user_info;
+            room_Panel_Dao = new Room_Panel_Dao_Impl();
+            arr_Room = new Vector<Room>();
+            select("", "", "", "", "", "", "", "空闲", "", "", LocalDate.now().toString(), LocalDate.now().toString());
+        } catch (Exception e) {
+            throw (e);
+        }
+    }
+
 
     public Choose_Room() {
         try {
@@ -188,6 +209,11 @@ public class Choose_Room extends Application {
         back.setPrefSize(100, 50);
         back.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                try {
+                    new Order_Panel(user_Info.getPhone_number()).start(new Stage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 stage.close();
             }
         });
@@ -289,6 +315,8 @@ public class Choose_Room extends Application {
         TextField status_Text = new TextField("空闲");
         status_Text.relocate(835, 25);
         status_Text.setPrefWidth(80);
+        status_Text.setEditable(false);
+        status_Text.setDisable(true);
 
         // start_time_label
         Label start_time_label = new Label("起始日期");
@@ -331,11 +359,13 @@ public class Choose_Room extends Application {
         user_id_label.relocate(1250, 0);
         // 设置字体为红色
         user_id_label.setTextFill(Color.RED);
+        user_id_label.setVisible(false);
 
         // user_id_text
-        TextField user_id_text = new TextField();
+        TextField user_id_text = new TextField(String.valueOf(user_Info.getUser_id()));
         user_id_text.relocate(1250, 20);
         user_id_text.setPrefWidth(120);
+        user_id_text.setVisible(false);
 
         // 设置为特殊样式
         user_id_text.setStyle(
@@ -354,7 +384,6 @@ public class Choose_Room extends Application {
                 deposit_Text.setText("");
                 capacity_Text.setText("");
                 price_Text.setText("");
-                status_Text.setText("");
                 principal_Text.setText("");
                 description_Text.setText("");
                 user_id_text.setText("");
@@ -416,19 +445,21 @@ public class Choose_Room extends Application {
                         alert.showAndWait();
                         return;
                     }
-                    Vector<User_Info> arr_user = new Vector<User_Info>();
-                    User_Info usf = new User_Info();
-                    usf.setUser_id(Integer.valueOf(user_id_text.getText()));
-                    boolean[] bl = { false, false, false, false, false, false, false, false, false, false, false,
-                            false };
-                    u.select_data(arr_user, usf, bl);
-                    if (arr_user.size() == 0) {
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        alert.setTitle("提示");
-                        alert.setHeaderText("用户不存在");
-                        alert.setContentText("请重新输入");
-                        alert.showAndWait();
-                        return;
+                    reservation=new Reservation();
+                    reservation.setRoom_id(table.getSelectionModel().getSelectedItem().getRoom_id());
+                    reservation.setIn_time(start_time_text.getValue().toString());
+                    reservation.setOut_time(end_time_text.getValue().toString());
+                    reservation.setUser_id(Integer.valueOf(user_id_text.getText()));
+                    int id=reservation_Dao.add_data();
+                    reservation_Dao.update_data(id, "user_id",String.valueOf(user_Info.getUser_id()));
+                    reservation_Dao.update_data(id, "room_id",String.valueOf(table.getSelectionModel().getSelectedItem().getRoom_id()));
+                    reservation_Dao.update_data(id, "book_time", String.valueOf(start_time_text.getValue().toString()));
+                    reservation_Dao.update_data(id, "end_time", String.valueOf(end_time_text.getValue().toString()));
+                    reservation_Dao.update_data(id, "note", "证件号"+user_Info.getId_card()+"\r");
+                    try {
+                        new Order_Panel(user_Info.getPhone_number()).start(new Stage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     stage.close();
                 } catch (Exception e) {
@@ -469,7 +500,7 @@ public class Choose_Room extends Application {
                 description_Text, clear, start_time_label, start_time_text, end_time_label, end_time_text,
                 user_id_label, user_id_text);
 
-        stage.setScene(new Scene(pane, 1400, 700));
+        stage.setScene(new Scene(pane, 1300, 700));
         stage.setTitle("请选择房间:");
         // stage.resizableProperty().setValue(Boolean.FALSE);// 禁用最大化按钮
         // 添加窗体大小改变的监听事件

@@ -21,9 +21,9 @@ class PanelSelector extends OptionSelector {
 
     @Override
     public void option1Click() {
-        HostLogin hostLogin = new HostLogin();
         try {
-            new Choose_Room().start(new Stage());
+            new Order_Panel(phone).start(new Stage());
+            stage.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
