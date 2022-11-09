@@ -70,9 +70,9 @@ public class Order_Panel extends Application {
             order_room.setDisable(true);
             cancel_order.setDisable(false);
             reservation=reservation_arr.get(0);
-            room_number.setText(String.valueOf(reservation.getRoom_number()));
-            check_in_time.setText(reservation.getIn_time());
-            check_out_time.setText(reservation.getOut_time());
+            room_number.setText("房间号:"+String.valueOf(reservation.getRoom_number()));
+            check_in_time.setText("入住时间:"+reservation.getIn_time());
+            check_out_time.setText("到期时间:"+reservation.getOut_time());
         }
     }
 
