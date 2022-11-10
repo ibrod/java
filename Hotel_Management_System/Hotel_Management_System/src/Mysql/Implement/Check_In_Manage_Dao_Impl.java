@@ -138,6 +138,10 @@ public class Check_In_Manage_Dao_Impl extends Implement_Parent implements Check_
             pstm.executeUpdate();
 
             ResultSet rs = pstm.getGeneratedKeys();
+            PreparedStatement pstm2=conn.prepareStatement("update room set room_status='入住' where room_id=?");
+            pstm2.setInt(1, value.getRoom_id());
+
+            pstm2.executeUpdate();
 
             if (rs.next()) {
                 id = rs.getInt(1);

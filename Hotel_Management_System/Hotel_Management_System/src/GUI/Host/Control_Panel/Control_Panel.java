@@ -52,10 +52,10 @@ class Refresh_Control_Panel_Obj implements Runnable {
         while (true) {
             control_panel_obj = control_panel_dao.query();
             room_num.setText("剩余房间数：" + control_panel_obj.getSurplus());
-            room_booked.setText("已被预订房间数：" + control_panel_obj.getOccupied());
+            room_booked.setText("已被入住间数：" + control_panel_obj.getOccupied());
             customer_num.setText("用户账号总数：" + control_panel_obj.getUser_num());
             admin_num.setText("管理员账号总数：" + control_panel_obj.getAdmin_num());
-            occupied.setText("已被入住房间数："+control_panel_obj.getBooked());
+            occupied.setText("已被预定房间数："+control_panel_obj.getBooked());
             // System.out.println("刷新了一次");
             try {
                 Thread.sleep(3000);

@@ -409,6 +409,13 @@ public class Choose_Room extends Application {
                         alert.showAndWait();
                         return;
                     }
+                    if(start_time_text.getValue().compareTo(LocalDate.now())<0){
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("提示");
+                        alert.setHeaderText("起始日期不能小于当前日期");
+                        alert.showAndWait();
+                        return;
+                    }
                     if (start_time_text.getValue().toString().compareTo(end_time_text.getValue().toString()) > 0) {
                         Alert alert = new Alert(AlertType.INFORMATION);
                         alert.setTitle("提示");
