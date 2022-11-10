@@ -1,6 +1,6 @@
 package GUI.Host;
 
- //import Tools.Graphical_CAPTCHA.Get_Picture;
+//  import Tools.Graphical_CAPTCHA.Get_Picture;
 // import Tools.Graphical_CAPTCHA2.Get_Picture;
 import Tools.Graphical_CAPTCHA3.Get_Picture;
 
@@ -58,6 +58,7 @@ public class HostLogin extends Application {
         refresh_verify_code();
 
         // 图片控件
+        Image image = new Image(verify_code_pic_path);
         ImageView imageView = new ImageView(new Image(verify_code_pic_path));
         imageView.relocate(280, 130);
         imageView.setFitWidth(100);
