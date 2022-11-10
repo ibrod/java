@@ -10,6 +10,7 @@ import Tools.HttpUtils;
 public class Get_Picture {
 
 	public static Boolean get(StringBuffer verify_code_pic_path, StringBuffer verify_code_text) {
+		// System.out.println("获取图片验证码");
 		String host = "http://ali-make-mark.showapi.com";
 		String path = "/make-mark-img";
 		String method = "GET";
