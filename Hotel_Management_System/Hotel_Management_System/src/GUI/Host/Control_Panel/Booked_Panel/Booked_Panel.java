@@ -138,6 +138,7 @@ public class Booked_Panel extends Application {
         // 表头
         TableColumn<Reservation, String> id = new TableColumn<Reservation, String>("id");
         id.setCellValueFactory(new PropertyValueFactory<Reservation, String>("reservation_id"));
+        // id.setVisible(false);
         TableColumn<Reservation, String> user_id = new TableColumn<Reservation, String>("用户id");
         user_id.setCellValueFactory(new PropertyValueFactory<Reservation, String>("user_id"));
         TableColumn<Reservation, String> name = new TableColumn<Reservation, String>("姓名");

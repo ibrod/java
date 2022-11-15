@@ -134,6 +134,7 @@ public class History_Panel extends Application {
         // 表头
         TableColumn<History, String> id = new TableColumn<History, String>("id");
         id.setCellValueFactory(new PropertyValueFactory<History, String>("history_id"));
+        // id.setVisible(false);
         TableColumn<History, String> user_id = new TableColumn<History, String>("用户id");
         user_id.setCellValueFactory(new PropertyValueFactory<History, String>("user_id"));
         TableColumn<History, String> name = new TableColumn<History, String>("姓名");
@@ -159,7 +160,6 @@ public class History_Panel extends Application {
         note.setPrefWidth(400);
         table.getColumns().addAll(id, user_id, name, id_card, phone, room_id, room_number, in_time, out_time,
                 payment, note);
-
         table.setItems(ob);
 
         // table.setEditable(true);

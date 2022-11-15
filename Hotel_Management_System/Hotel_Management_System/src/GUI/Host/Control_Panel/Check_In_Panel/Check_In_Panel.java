@@ -139,6 +139,7 @@ public class Check_In_Panel extends Application implements Wake_Up {
         // 表头
         TableColumn<Check_In_Obj, String> id = new TableColumn<Check_In_Obj, String>("id");
         id.setCellValueFactory(new PropertyValueFactory<Check_In_Obj, String>("check_in_id"));
+        // id.setVisible(false);
         TableColumn<Check_In_Obj, String> user_id = new TableColumn<Check_In_Obj, String>("用户id");
         user_id.setCellValueFactory(new PropertyValueFactory<Check_In_Obj, String>("user_id"));
         TableColumn<Check_In_Obj, String> name = new TableColumn<Check_In_Obj, String>("姓名");
