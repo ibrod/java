@@ -134,7 +134,6 @@ public class Booked_Panel extends Application {
         TableView<Reservation> table = new TableView<Reservation>();
         table.setPrefSize(1200, 650);
         table.relocate(0, 50);
-
         // 表头
         TableColumn<Reservation, String> id = new TableColumn<Reservation, String>("id");
         id.setCellValueFactory(new PropertyValueFactory<Reservation, String>("reservation_id"));
