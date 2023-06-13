@@ -1,6 +1,6 @@
 package Phone;
 
-public class SmartPhone implements Phone {
+public class SmartPhone extends Phone implements SurfInternet, TakePhoto, PlayVideo {
 
     @Override
     public void sendSMS() {

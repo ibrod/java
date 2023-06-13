@@ -1,5 +1,5 @@
 package Phone;
-public interface Phone{
-    public void sendSMS();
-    public void makeCall();
+public abstract class Phone{
+    public abstract void sendSMS();
+    public abstract void makeCall();
 }

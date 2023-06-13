@@ -1,6 +1,6 @@
 package Phone;
 
-public class CommonPhone implements Phone{
+public class CommonPhone extends Phone implements PlayAudio{
 
     @Override
     public void sendSMS() {
