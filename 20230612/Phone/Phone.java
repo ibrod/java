@@ -1,5 +1,9 @@
 package Phone;
-public abstract class Phone{
-    public abstract void sendSMS();
-    public abstract void makeCall();
+public  class Phone{
+    public  void sendSMS(){
+        System.out.println("sendSMS");
+    }
+    public  void makeCall(){
+        System.out.println("makeCall");
+    }
 }

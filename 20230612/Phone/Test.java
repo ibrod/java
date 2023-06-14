@@ -24,5 +24,8 @@ public class Test {
         // phone.playAudio();
         CommonPhone commonPhone = (CommonPhone)phone;
         commonPhone.playAudio();
+
+        PlayAudio playAudio = (PlayAudio)phone;
+        playAudio.playAudio();
     }
 }
