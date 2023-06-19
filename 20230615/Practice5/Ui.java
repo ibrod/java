@@ -9,6 +9,7 @@ public class Ui {
         System.out.println("欢迎使用用户管理系统");
         int choice = 0;
         while (choice != 7) {
+            System.out.println();
             System.out.println("--------------------");
             System.out.println("当前用户数：" + userSystem.getUserCount());
             System.out.println("请选择功能");
@@ -104,19 +105,21 @@ public class Ui {
             for(Character character: user.getCharacters()){
                 System.out.println("角色名：" + character.getName() + "，角色ID：" + character.getId());
             }
+            System.out.println();
+            System.out.println("请选择功能");
             System.out.println("1.增加用户角色 2.删除用户角色 3.退出用户角色管理");
             System.out.print(">>>");
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    System.out.println("请输入用户角色信息");
+                    System.out.println("请输入用户角色信息(格式:角色名 角色ID)");
                     System.out.print(">>>");
                     characterName = scanner.next();
                     characterId = scanner.nextInt();
                     user.addCharacter(new Character(characterName, characterId));
                     break;
                 case 2:
-                    System.out.println("请输入要删除的用户角色信息");
+                    System.out.println("请输入要删除的用户角色信息(格式:角色名 角色ID)");
                     System.out.print(">>>");
                     characterName = scanner.next();
                     characterId = scanner.nextInt();

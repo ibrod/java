@@ -7,6 +7,7 @@ public class Student {
     private String name;
     private List<Double> courses;
     private List<String> coursesName;
+    
     Student(String name) {
         this.name = name;
         this.courses = new ArrayList<Double>();
