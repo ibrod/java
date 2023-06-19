@@ -8,9 +8,9 @@ import Car.Sedan;
 import Util.Pair;
 
 public class ManagementSystem {
-    HashMap<String, Pair<Bus, Integer>> busInventory = new HashMap<String, Pair<Bus, Integer>>();
-    HashMap<String, Pair<Sedan, Integer>> sedanInventory = new HashMap<String, Pair<Sedan, Integer>>();
-    // <Id,Pair<Cars,Inventory>>
+    HashMap<String, Pair<Bus, Vector<String>>> busInventory = new HashMap<String, Pair<Bus, Vector<String>>>();
+    HashMap<String, Pair<Sedan, Vector<String>>> sedanInventory = new HashMap<String, Pair<Sedan, Vector<String>>>();
+    // <Id,Pair<Cars,Vector<车牌号>>>
     Vector<OrderItem> busOrders = new Vector<OrderItem>();
     Vector<OrderItem> sedanOrders = new Vector<OrderItem>();
     Double money = 0.0;
@@ -18,49 +18,47 @@ public class ManagementSystem {
     public ManagementSystem() {
     }
 
-    public ManagementSystem(HashMap<String, Pair<Bus, Integer>> busInventory,
-            HashMap<String, Pair<Sedan, Integer>> sedanInventory, Vector<OrderItem> busOrders,
-            Vector<OrderItem> sedanOrders, Double money) {
-        this.busInventory = busInventory;
-        this.sedanInventory = sedanInventory;
-        this.busOrders = busOrders;
-        this.sedanOrders = sedanOrders;
-        this.money = money;
-    }
-
-    public void addBus(Bus bus, Integer num) {
+    public void addBus(Bus bus, Vector<String> vectorOfBUs) {
         if (busInventory.containsKey(bus.getId())) {
-            Pair<Bus, Integer> p = busInventory.get(bus.getId());
-            p.second += num;
+            Pair<Bus, Vector<String>> p = busInventory.get(bus.getId());
+            p.second.addAll(vectorOfBUs);
             busInventory.put(bus.getId(), p);
         } else {
-            Pair<Bus, Integer> p = new Pair<Bus, Integer>(bus, num);
+            Pair<Bus, Vector<String>> p = new Pair<Bus, Vector<String>>(bus, vectorOfBUs);
             busInventory.put(bus.getId(), p);
         }
     }
 
-    public void addSedan(Sedan sedan, Integer num) {
+    public void addSedan(Sedan sedan, Vector<String> vectorOfSedan) {
         if (sedanInventory.containsKey(sedan.getId())) {
-            Pair<Sedan, Integer> p = sedanInventory.get(sedan.getId());
-            p.second += num;
+            Pair<Sedan, Vector<String>> p = sedanInventory.get(sedan.getId());
+            p.second.addAll(vectorOfSedan);
             sedanInventory.put(sedan.getId(), p);
         } else {
-            Pair<Sedan, Integer> p = new Pair<Sedan, Integer>(sedan, num);
+            Pair<Sedan, Vector<String>> p = new Pair<Sedan, Vector<String>>(sedan, vectorOfSedan);
             sedanInventory.put(sedan.getId(), p);
         }
     }
 
     public String rentBus(String id, Integer num, Integer days) {
         if (busInventory.containsKey(id)) {
-            Pair<Bus, Integer> p = busInventory.get(id);
-            if (p.second >= num) {
-                p.second -= num;
+            Pair<Bus, Vector<String>> p = busInventory.get(id);
+            if (p.second.size() >= num) {
                 busInventory.put(id, p);
-                Double money = p.first.getRent(days)*num;
+                Double money = p.first.getRent(days) * num;
                 OrderItem order = new OrderItem(id, p.first.getBrand(), num, days, money);
+                for (int i = 0; i < num; i++) {
+                    // 高效删除末尾元素
+                    order.license.add(p.second.get(p.second.size() - 1));
+                    p.second.remove(p.second.size() - 1);
+                }
                 busOrders.add(order);
                 this.money += money;
-                return "租车成功,总共花费" + money + "元";
+                String msg="租车成功,总共花费" + money + "元,车辆具体信息如下";
+                for (String license : order.license) {
+                    msg+="\n车牌号:"+license;
+                }
+                return msg;
             } else {
                 return "库存不足";
             }
@@ -71,15 +69,23 @@ public class ManagementSystem {
 
     public String rentSedan(String id, Integer num, Integer days) {
         if (sedanInventory.containsKey(id)) {
-            Pair<Sedan, Integer> p = sedanInventory.get(id);
-            if (p.second >= num) {
-                p.second -= num;
+            Pair<Sedan, Vector<String>> p = sedanInventory.get(id);
+            if (p.second.size() >= num) {
                 sedanInventory.put(id, p);
-                Double money = p.first.getRent(days)*num;
+                Double money = p.first.getRent(days) * num;
                 OrderItem order = new OrderItem(id, p.first.getBrand(), num, days, money);
+                for (int i = 0; i < num; i++) {
+                    // 高效删除末尾元素
+                    order.license.add(p.second.get(p.second.size() - 1));
+                    p.second.remove(p.second.size() - 1);
+                }
                 sedanOrders.add(order);
                 this.money += money;
-                return "租车成功,总共花费" + money + "元";
+                String msg="租车成功,总共花费" + money + "元,车辆具体信息如下";
+                for (String license : order.license) {
+                    msg+="\n车牌号:"+license;
+                }
+                return msg;
             } else {
                 return "库存不足";
             }
@@ -95,8 +101,11 @@ public class ManagementSystem {
     public String getBusInventoryInfo() {
         String info = "";
         for (String id : busInventory.keySet()) {
-            Pair<Bus, Integer> p = busInventory.get(id);
-            info += p.first.getInfo() + "库存:" + p.second + "\n";
+            Pair<Bus, Vector<String>> p = busInventory.get(id);
+            info += p.first.getInfo() + "库存:" + p.second.size() + ",具体车辆信息如下:\n";
+            for (String license : p.second) {
+                info += "车牌号:" + license + "\n";
+            }
         }
         return info;
     }
@@ -104,8 +113,11 @@ public class ManagementSystem {
     public String getSedanInventoryInfo() {
         String info = "";
         for (String id : sedanInventory.keySet()) {
-            Pair<Sedan, Integer> p = sedanInventory.get(id);
-            info += p.first.getInfo() + "库存:" + p.second + "\n";
+            Pair<Sedan, Vector<String>> p = sedanInventory.get(id);
+            info += p.first.getInfo() + "库存:" + p.second.size() + ",具体车辆信息如下:\n";
+            for (String license : p.second) {
+                info += "车牌号:" + license + "\n";
+            }
         }
         return info;
     }
@@ -126,19 +138,19 @@ public class ManagementSystem {
         return info;
     }
 
-    public HashMap<String, Pair<Bus, Integer>> getBusInventory() {
+    public HashMap<String, Pair<Bus, Vector<String>>> getBusInventory() {
         return busInventory;
     }
 
-    public void setBusInventory(HashMap<String, Pair<Bus, Integer>> busInventory) {
+    public void setBusInventory(HashMap<String, Pair<Bus, Vector<String>>> busInventory) {
         this.busInventory = busInventory;
     }
 
-    public HashMap<String, Pair<Sedan, Integer>> getSedanInventory() {
+    public HashMap<String, Pair<Sedan, Vector<String>>> getSedanInventory() {
         return sedanInventory;
     }
 
-    public void setSedanInventory(HashMap<String, Pair<Sedan, Integer>> sedanInventory) {
+    public void setSedanInventory(HashMap<String, Pair<Sedan, Vector<String>>> sedanInventory) {
         this.sedanInventory = sedanInventory;
     }
 

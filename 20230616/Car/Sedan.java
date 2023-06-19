@@ -23,7 +23,7 @@ public class Sedan extends Cars {
 
     @Override
     public String getInfo() {
-        String info = "车辆类型:" + this.carType + "   ID号:" + this.id + "   品牌:" + this.brand + "    日租金:" + this.rent + "   轿车类型:"
+        String info = "车辆类型:" + this.carType + "   ID车型号:" + this.id + "   品牌:" + this.brand + "    日租金:" + this.rent + "   轿车类型:"
                 + this.type + "   折扣:";
         for (Pair<Integer, Double> p : this.discount) {
             info += "\n" + p.first + "天   " + p.second + "折";

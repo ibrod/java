@@ -23,7 +23,7 @@ public class Bus extends Cars {
 
     @Override
     public String getInfo() {
-        String info = "车辆类型:" + this.carType + "   ID号:" + this.id + "   品牌:" + this.brand + "   日租金:" + this.rent + "   座位数:"
+        String info = "车辆类型:" + this.carType + "   ID车型号:" + this.id + "   品牌:" + this.brand + "   日租金:" + this.rent + "   座位数:"
                 + this.name + "   折扣:";
         for (Pair<Integer, Double> p : this.discount) {
             info += "\n" + p.first + "天   " + p.second + "折";

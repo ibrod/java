@@ -9,8 +9,8 @@ import ManagementSystem.ManagementSystem;
 public class Test {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        System.out.println("欢迎来到汽车租赁系统");
-        System.out.println("1.添加轿车 2.添加客车 3.租赁轿车 4.租赁客车 5.查询总营收 6.查看库存车辆信息 7.产看订单 8.退出");
+        // System.out.println("欢迎来到汽车租赁系统");
+        // System.out.println("1.添加轿车 2.添加客车 3.租赁轿车 4.租赁客车 5.查询总营收 6.查看库存车辆信息 7.产看订单 8.退出");
         ManagementSystem ms = new ManagementSystem();
         String id;
         String brand;
@@ -30,19 +30,26 @@ public class Test {
             System.out.println("-------------------------");
             switch (op) {
                 case 1:
-                    System.out.print("请输入轿车ID:");
+                    System.out.print("请输入ID型号:");
                     id = input.next();
                     System.out.print("请输入轿车品牌:");
                     brand = input.next();
+                    System.out.print("请输入轿车类型:");
+                    type = input.next();
                     System.out.print("请输入轿车日租金:");
                     rent = input.nextDouble();
                     System.out.print("请输入库存:");
                     Inventory = input.nextInt();
-                    System.out.print("请输入轿车类型:");
-                    type = input.next();
+                    System.out.println("请输入轿车具体信息(车牌号),一共" + Inventory + "行:");
+                    Vector<String> license = new Vector<String>();
+                    for (int i = 0; i < Inventory; i++) {
+                        System.out.print("请输入第" + (i + 1) + "个车牌号:");
+                        String l = input.next();
+                        license.add(l);
+                    }
                     System.out.print("请输入轿车折扣数:");
                     n = input.nextInt();
-                    System.out.println("请输入轿车折扣信息:(一共"+n+"行,每行两个数，分别表示租赁天数和折扣):");
+                    System.out.println("请输入轿车折扣信息:(一共" + n + "行,每行两个数，分别表示租赁天数和折扣):");
                     Vector<Pair<Integer, Double>> discount = new Vector<Pair<Integer, Double>>();
                     for (int i = 0; i < n; i++) {
                         System.out.print("请输入第" + (i + 1) + "个折扣信息:");
@@ -52,22 +59,29 @@ public class Test {
                         discount.add(p);
                     }
                     Sedan sedan = new Sedan("轿车", id, brand, rent, type, discount);
-                    ms.addSedan(sedan, Inventory);
+                    ms.addSedan(sedan, license);
                     break;
                 case 2:
-                    System.out.print("请输入客车ID:");
+                    System.out.print("请输入ID型号:");
                     id = input.next();
                     System.out.print("请输入客车品牌:");
                     brand = input.next();
+                    System.out.print("请输入客车座位数:");
+                    String name = input.next();
                     System.out.print("请输入客车日租金:");
                     rent = input.nextDouble();
                     System.out.print("请输入库存:");
                     Inventory = input.nextInt();
-                    System.out.print("请输入客车座位数:");
-                    String name = input.next();
+                    System.out.println("请输入客车具体信息(车牌号),一共" + Inventory + "行:");
+                    Vector<String> license2 = new Vector<String>();
+                    for (int i = 0; i < Inventory; i++) {
+                        System.out.print("请输入第" + (i + 1) + "个车牌号:");
+                        String l = input.next();
+                        license2.add(l);
+                    }
                     System.out.print("请输入客车折扣数:");
                     n = input.nextInt();
-                    System.out.println("请输入客车折扣信息(一共"+n+"行,每行两个数，分别表示租赁天数和折扣):");
+                    System.out.println("请输入客车折扣信息(一共" + n + "行,每行两个数，分别表示租赁天数和折扣):");
                     discount = new Vector<Pair<Integer, Double>>();
                     for (int i = 0; i < n; i++) {
                         System.out.print("请输入第" + (i + 1) + "个折扣信息:");
@@ -77,10 +91,10 @@ public class Test {
                         discount.add(p);
                     }
                     Bus bus = new Bus("客车", id, brand, rent, name, discount);
-                    ms.addBus(bus, Inventory);
+                    ms.addBus(bus, license2);
                     break;
                 case 3:
-                    System.out.print("请输入轿车ID:");
+                    System.out.print("请输入ID型号:");
                     id = input.next();
                     System.out.print("请输入租赁数量:");
                     Integer num = input.nextInt();
@@ -90,7 +104,7 @@ public class Test {
                     System.out.println(info);
                     break;
                 case 4:
-                    System.out.print("请输入客车ID:");
+                    System.out.print("请输入ID型号:");
                     id = input.next();
                     System.out.print("请输入租赁数量:");
                     num = input.nextInt();
