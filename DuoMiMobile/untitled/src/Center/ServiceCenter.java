@@ -85,7 +85,7 @@ public class ServiceCenter {
 
         while (true){
             System.out.println("1.本月账单查询\t2.套餐余量查询\t3.打印消费详单\t4.套餐变更\t5.办理退网");
-            System.out.print("输入1-5选择功能，输入其他返回上一级");
+            System.out.print("输入1-5选择功能，输入其他返回上一级:");
             input = sc.nextLine();
             if (!InputValidator.isValidInt(input, 1, 5)) {
                 return;
@@ -151,7 +151,7 @@ public class ServiceCenter {
                                 continue;
                             }
                             numCard.get(phoneNum).setSerPackage(new TalkPackage());
-                            numCard.get(phoneNum).setMoney(numCard.get(phoneNum).getMoney()-58);
+                            numCard.get(phoneNum).setMoney(numCard.get(phoneNum).getMoney()-numCard.get(phoneNum).getSerPackage().getConsumAmount());
                             consumInfos.get(phoneNum).add(new ConsumInfo("套餐扣费",58));
                             break;
                         case "2":
